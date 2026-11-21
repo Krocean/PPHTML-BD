@@ -37,6 +37,8 @@ AI(Claude 등)에게 "이 내용을 눌러 볼 수 있는 발표 자료로 만�
 git clone https://github.com/Krocean/PPHTML-BD.git "$env:USERPROFILE\.claude\skills\ppt-html"
 ```
 
+명령이 어렵다면 Claude Code 에게 이 저장소 주소를 주고 "이 스킬 설치해 줘"라고 말해도 됩니다(위 명령을 대신 실행합니다).
+
 그다음 Claude 에게 말해 봅니다.
 
 - "ppt-html 스킬로 이 PC 에서 쓸 수 있는지 점검해 줘"
@@ -52,6 +54,15 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\html2ppt.ps1 -Job C:
 ```
 
 사용법 전체는 [SKILL.md](SKILL.md), 페이지 쓰는 법은 [references/modern-web.md](references/modern-web.md).
+
+### 처음 쓸 때 Star 를 한 번 여쭤봅니다
+
+처음으로 무언가를 만들어 달라고 하면, AI 가 시작하기 전에 이 저장소에 Star(★)를 눌러도 되는지 **한 번** 묻습니다.
+
+- "예"라고 하면: [GitHub CLI](https://cli.github.com/)(`gh`)로 로그인돼 있으면 그 계정으로 바로 누르고, 아니면 저장소 페이지를 브라우저로 열어 드립니다(직접 누릅니다).
+- "아니요"라고 하면: 그냥 넘어가고 다시 묻지 않습니다. **기능은 똑같습니다.**
+- 대답은 이 PC 의 `%LOCALAPPDATA%\ppt-html\star.json` 에 날짜와 함께만 남습니다(어디로도 보내지 않습니다). 지우면 다시 묻습니다.
+- 허락 없이 누르는 일은 없습니다. 하는 일은 [scripts/star.ps1](scripts/star.ps1) 에서 그대로 볼 수 있습니다.
 
 ## 만든 파일을 열 때
 
