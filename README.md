@@ -5,7 +5,7 @@
 
 **PowerPoint 슬라이드 위에서, 요즘 웹 페이지가 그대로 돌아가게 만드는 오픈소스입니다.**
 스크롤, 애니메이션, 유리 효과, 3D, 캔버스, 입력 양식, 화면 전환 — 브라우저에서 되는 것이 슬라이드 쇼 안에서도 됩니다.
-AI(Claude 등)에게 "이 내용을 눌러 볼 수 있는 발표 자료로 만들어 줘"라고 말하면, 예쁘고 살아 있는 `.pptm` 이 나옵니다.
+AI(Claude, GPT, Gemini)에게 "이 내용을 눌러 볼 수 있는 발표 자료로 만들어 줘"라고 말하면, 예쁘고 살아 있는 `.pptm` 이 나옵니다.
 
 > 누구나 PowerPoint 를 AI 로 쉽게, 예쁘게 쓸 수 있도록. 함께 키워 가는 프로젝트입니다.
 
@@ -56,16 +56,24 @@ AI(Claude 등)에게 "이 내용을 눌러 볼 수 있는 발표 자료로 만�
 
 - Windows 10 / 11 PC. Mac 은 아직 안 됩니다.
 - PowerPoint 데스크톱 앱(Microsoft 365 또는 Office 2013 이상). 웹 PowerPoint 로는 만들 수 없습니다.
-- Claude Code(Claude 데스크톱 앱의 Code 탭, 또는 터미널의 `claude`). claude.ai 채팅창에 zip 을 올리는 방식으로는 동작하지 않습니다. 채팅창 쪽 환경에는 Windows 와 PowerPoint 가 없기 때문입니다.
+- 스킬을 쓸 수 있는 AI 에이전트 중 하나.
+
+| AI | 쓰는 프로그램 |
+|---|---|
+| Claude | Claude Code (Claude 데스크톱 앱의 Code 탭, 또는 터미널의 `claude`) |
+| GPT | OpenAI Codex (Codex 앱, 또는 터미널의 `codex`) |
+| Gemini | Gemini CLI (터미널의 `gemini`) |
+
+claude.ai·ChatGPT·Gemini 의 웹 채팅창에서는 동작하지 않습니다. 그쪽 환경에는 Windows 와 PowerPoint 가 없기 때문입니다.
 - Microsoft Edge 는 Windows 에 기본으로 들어 있습니다. 그 밖에 따로 설치할 프로그램은 없고, 만들 때 인터넷도 필요 없습니다.
 
 ## 설치
 
-세 방법 중 하나만 하면 됩니다.
+두 방법 중 하나만 하면 됩니다.
 
-### 방법 1. Claude Code 에게 맡기기 (가장 쉬움)
+### 방법 1. AI 에게 맡기기 (가장 쉬움)
 
-Claude Code 를 열고 이렇게 말합니다.
+쓰는 AI(Claude Code, Codex, Gemini CLI)를 열고 이렇게 말합니다.
 
 ```text
 https://github.com/Krocean/PPHTML-BD 이 스킬 설치해 줘
@@ -73,29 +81,23 @@ https://github.com/Krocean/PPHTML-BD 이 스킬 설치해 줘
 
 ### 방법 2. 명령 한 줄
 
-PowerShell 에 붙여 넣습니다(git 이 있어야 합니다).
+쓰는 AI 에 맞는 줄을 PowerShell 에 붙여 넣습니다(git 이 있어야 합니다). 여러 AI 를 쓰면 해당하는 줄을 모두 실행합니다.
+
+Claude Code:
 
 ```powershell
 git clone https://github.com/Krocean/PPHTML-BD.git "$env:USERPROFILE\.claude\skills\ppt-html"
 ```
 
-### 방법 3. 직접 내려받기 (명령 없이)
+Codex(GPT) · Gemini CLI (둘 다 이 폴더를 읽습니다):
 
-1. 이 페이지 위쪽의 초록색 **Code** 단추 → **Download ZIP** 을 누릅니다.
-2. 받은 zip 파일을 마우스 오른쪽 단추로 눌러 **속성**을 열고, 아래쪽 '보안'의 **차단 해제**에 체크한 뒤 확인을 누릅니다(항목이 없으면 넘어갑니다).
-3. 압축을 풀면 `PPHTML-BD-main` 폴더가 나옵니다. 이 폴더 이름을 `ppt-html` 로 바꿉니다.
-4. 파일 탐색기 주소창에 `%USERPROFILE%\.claude\skills` 를 넣고 Enter 를 누릅니다. 없는 폴더라고 나오면 `%USERPROFILE%\.claude` 로 가서 `skills` 폴더를 새로 만듭니다.
-5. `ppt-html` 폴더를 그 안으로 옮깁니다. 아래처럼 되면 맞습니다.
-
-```text
-C:\Users\(내 이름)\.claude\skills\ppt-html\SKILL.md
+```powershell
+git clone https://github.com/Krocean/PPHTML-BD.git "$env:USERPROFILE\.agents\skills\ppt-html"
 ```
-
-`ppt-html\PPHTML-BD-main\SKILL.md` 처럼 폴더가 한 겹 더 들어가 있으면 Claude 가 스킬을 찾지 못합니다. 압축을 풀 때 폴더가 두 번 생기는 경우가 많으니 확인해 주세요.
 
 ### 설치 확인
 
-Claude Code 를 다시 시작하고 이렇게 말합니다.
+쓰는 AI 를 다시 시작하고 이렇게 말합니다.
 
 ```text
 ppt-html 스킬로 이 PC 에서 쓸 수 있는지 점검해 줘
@@ -138,11 +140,11 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\html2ppt.ps1 -Job C:
 | 상황 | 이렇게 해 보세요 |
 |---|---|
 | Mac 이에요 | 아직 안 됩니다(추가 예정). Windows PC 에서 만든 웹 버전 `.html` 은 Mac 에서도 열립니다. |
-| claude.ai 채팅창에 올렸는데 안 돼요 | Claude Code 에서만 동작합니다. 위 "필요한 것"을 봐 주세요. |
-| Claude 가 스킬을 모르는 것 같아요 | `...\.claude\skills\ppt-html\SKILL.md` 위치가 맞는지 보고, Claude Code 를 다시 시작합니다. |
+| 웹 채팅창(claude.ai, ChatGPT, Gemini)에서 안 돼요 | Claude Code, Codex, Gemini CLI 에서만 동작합니다. 위 "필요한 것"을 봐 주세요. |
+| AI 가 스킬을 모르는 것 같아요 | `SKILL.md` 가 이 위치에 있는지 봅니다. Claude Code 는 `%USERPROFILE%\.claude\skills\ppt-html\SKILL.md`, Codex·Gemini CLI 는 `%USERPROFILE%\.agents\skills\ppt-html\SKILL.md`. 그다음 그 AI 를 다시 시작합니다. |
 | HTML 이 안 움직이고 그림만 보여요 | 슬라이드 쇼(F5)인지, 노란 줄의 [콘텐츠 사용]을 눌렀는지 봅니다. 메일·메신저로 받은 파일이면 속성에서 [차단 해제]를 합니다. |
 | 회사 PC 라 매크로가 막혀 있어요 | 회사 정책은 풀 수 없습니다. 함께 만들어지는 웹 버전 `.html` 을 쓰세요. |
-| 그래도 안 돼요 | [이슈](https://github.com/Krocean/PPHTML-BD/issues) → "PC 실행 결과"에 점검 결과를 붙여 주세요. Claude 에게 "ppt-html 스킬로 전체 점검해 줘"라고 하면 나옵니다. 사용자 이름·경로는 지워 주세요. |
+| 그래도 안 돼요 | [이슈](https://github.com/Krocean/PPHTML-BD/issues) → "PC 실행 결과"에 점검 결과를 붙여 주세요. AI 에게 "ppt-html 스킬로 전체 점검해 줘"라고 하면 나옵니다. 사용자 이름·경로는 지워 주세요. |
 
 ## 지금 상태 (정직하게)
 
@@ -181,4 +183,4 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\html2ppt.ps1 -Job C:
 
 On first use, the assistant asks once whether it may star this repository (`scripts/star.ps1`). It stars only after a clear yes, and everything works the same if you say no.
 
-It is packaged as a Claude Code skill (`SKILL.md`) but the PowerShell scripts work on their own. Docs are in Korean for now; translations are welcome. MIT licensed.
+It is an Agent Skill (`SKILL.md`) for Claude Code (install to `%USERPROFILE%\.claude\skills\ppt-html`), OpenAI Codex and Gemini CLI (both read `%USERPROFILE%\.agents\skills\ppt-html`); web chat apps cannot run it. The PowerShell scripts also work on their own. Docs are in Korean for now; translations are welcome. MIT licensed.

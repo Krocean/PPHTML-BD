@@ -3,7 +3,7 @@ param(
   [switch]$NoFonts       # leave the font pack out (3.5 MB smaller; PCs without the Noto Korean fonts then fall back to system fonts)
 )
 # Packs the skill for handing to other people: ppt-html.zip (the skill folder, ready to unzip into
-# %USERPROFILE%\.claude\skills) and a short install note next to it. Nothing of this PC goes into the zip:
+# %USERPROFILE%\.claude\skills or %USERPROFILE%\.agents\skills) and a short install note next to it. Nothing of this PC goes into the zip:
 # only the files of the skill folder.
 # Exit codes: 0 done; 1 error.
 $ErrorActionPreference = 'Stop'
@@ -52,7 +52,7 @@ try {
   if ($note) { Say $note }
   foreach ($x in $skipped) { Say "WARNING: not packed, because PowerShell may not read it on this PC (security software): $x" }
   Say ''
-  Say 'To install on another PC: unzip so that %USERPROFILE%\.claude\skills\ppt-html\SKILL.md exists, then run scripts\doctor.ps1 there.'
+  Say 'To install on another PC: unzip so that %USERPROFILE%\.claude\skills\ppt-html\SKILL.md (Claude Code) or %USERPROFILE%\.agents\skills\ppt-html\SKILL.md (Codex, Gemini CLI) exists, then run scripts\doctor.ps1 there.'
 } catch {
   $exit = 1
   Say "FAILED: $($_.Exception.Message)"
