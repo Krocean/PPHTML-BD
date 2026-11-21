@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>시장</title>
+<link rel="stylesheet" href="../kit/theme-cobalt.css">
+<link rel="stylesheet" href="../kit/kit.css">
+<style>
+  .tiers { position: absolute; left: 64px; top: 236px; width: 500px; height: 420px; }
+  .tier { position: absolute; bottom: 0; left: 50%; border-radius: 50%; cursor: pointer; text-align: center; }
+  .tier span { position: absolute; left: 0; right: 0; top: 20px; font-size: 13px; font-weight: var(--ph-strong-weight); color: var(--ph-ink2); }
+  .t1 { width: 420px; height: 420px; margin-left: -210px; background: var(--ph-hover2); }
+  .t2 { width: 284px; height: 284px; margin-left: -142px; background: var(--ph-accent-soft); }
+  .t3 { width: 150px; height: 150px; margin-left: -75px; background: var(--ph-accent); }
+  .t2 span { color: var(--ph-accent-deep); }
+  .t3 span { color: var(--ph-accent-ink); top: 54px; line-height: 1.4; }
+  .tier.is-on { box-shadow: 0 0 0 3px var(--ph-ink); }
+  .info { position: absolute; left: 620px; top: 236px; width: 596px; height: 420px; padding: 28px 30px; }
+  .info .big { margin-top: 8px; font-size: 76px; line-height: 1.12; white-space: nowrap; }
+  .info .big small { font-size: 24px; font-family: var(--ph-body); color: var(--ph-ink2); margin-left: 6px; letter-spacing: 0; }
+  .info .say { margin-top: 6px; font-size: 15.5px; line-height: 1.7; color: var(--ph-ink2); height: 54px; }
+  .calc { position: relative; height: 44px; line-height: 44px; border-top: 1px solid var(--ph-line); font-size: 14.5px; color: var(--ph-ink2); }
+  .calc b { position: absolute; right: 0; top: 0; color: var(--ph-ink); }
+  .info .src { position: absolute; left: 30px; right: 30px; bottom: 20px; font-size: 12px; color: var(--ph-ink3); }
+</style>
+</head>
+<body>
+<div class="ph-page">
+  <div class="ph-label ph-rise"><i></i>시장</div>
+  <h1 class="ph-h1 ph-rise ph-d1 ph-mt8">먼저 <em>수도권 빵집 2,400곳</em>부터 시작합니다</h1>
+</div>
+
+<div class="tiers">
+  <div class="tier t1 ph-hot"><span>전체 시장</span></div>
+  <div class="tier t2 ph-hot"><span>닿을 수 있는 시장</span></div>
+  <div class="tier t3 ph-hot"><span>3년 안에<br>잡을 시장</span></div>
+</div>
+
+<div class="ph-card info">
+  <div class="ph-label" id="name"></div>
+  <div class="big ph-num"><span id="n"></span><small id="u"></small></div>
+  <p class="say" id="say"></p>
+  <div id="calc"></div>
+  <div class="src">예시 숫자입니다. 내 자료에서는 이 자리에 출처와 기준 연도를 적습니다.</div>
+</div>
+
+<script src="../kit/kit.js"></script>
+<script src="../kit/kit-deck.js"></script>
+<script>
+/* 바꿀 곳: TIERS (바깥 원부터 안쪽 원 순서). 숫자는 "몇 곳 x 얼마 x 몇 달"처럼 아래에서 위로 셈한 것을 calc 에 그대로 적습니다.
+   듣는 사람은 큰 숫자보다 그 숫자가 어떻게 나왔는지를 봅니다. */
+var TIERS = [
+  { name: "전체 시장 · 전국", n: 324, digits: 0, u: "억 원 / 년", say: "전국의 빵집이 모두 쓴다고 했을 때 한 해 요금입니다.", calc: [["전국 빵집", "18,000곳"], ["한 곳이 내는 요금", "월 15만 원"], ["한 해", "× 12개월"]] },
+  { name: "닿을 수 있는 시장 · 개인 빵집", n: 130, digits: 0, u: "억 원 / 년", say: "직접 굽고 계산대 판매 기록이 남는 개인 빵집만 셉니다.", calc: [["조건에 맞는 빵집", "7,200곳"], ["한 곳이 내는 요금", "월 15만 원"], ["한 해", "× 12개월"]] },
+  { name: "3년 안에 잡을 시장 · 수도권", n: 14.4, digits: 1, u: "억 원 / 년", say: "수도권 세 개 구에서 시작해 세 곳 중 한 곳이 쓰는 것이 목표입니다.", calc: [["수도권 개인 빵집", "2,400곳"], ["쓰는 비율", "셋 중 하나 · 800곳"], ["한 곳이 내는 요금", "월 15만 원 × 12개월"]] }
+];
+var tiers = PH.$$(".tier");
+
+PH.nav({ brand: "반죽", links: [["문제", 1], ["시장", 2], ["경쟁", 3], ["팀", 4], ["투자", 5]], page: 2 });
+PH.ring();
+PH.deck();
+
+function show(i) {
+  var t = TIERS[i], box = PH.$("#calc");
+  tiers.forEach(function (el, k) { PH.toggle(el, "is-on", k === i); });
+  PH.$("#name").textContent = t.name; PH.$("#u").textContent = t.u; PH.$("#say").textContent = t.say;
+  PH.countUp(PH.$("#n"), t.n, t.digits, 420);
+  box.textContent = "";
+  t.calc.forEach(function (c) { var row = PH.make("div", "calc", c[0], box); PH.make("b", "", c[1], row); });
+}
+tiers.forEach(function (el, k) { PH.on(el, "click", function (e) { e.stopPropagation(); show(k); }); });
+PH.onShow(function () { show(2); });
+</script>
+</body>
+</html>

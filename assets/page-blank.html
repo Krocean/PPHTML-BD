@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko" class="ph-free">
+<head>
+<meta charset="utf-8">
+<title>{{TITLE}}</title>
+<link rel="stylesheet" href="../kit/theme-cobalt.css">
+<link rel="stylesheet" href="../kit/kit.css">
+<style>
+  /* 빈 웹 페이지입니다. 정해진 틀이 없습니다: 요즘 브라우저(Edge)에서 되는 것은 슬라이드 쇼 안에서도 됩니다.
+     grid · 컨테이너 쿼리 · :has() · 중첩 · backdrop-filter · 혼합 모드 · 3D · 스크롤 연동 애니메이션 · View Transitions ·
+     canvas · WebGL · SVG · <dialog> · popover · 입력창 · 동영상 · ES 모듈(한 파일 안) · 가져온 라이브러리(로컬 파일).
+     - 보이는 창은 1280 x 720 CSS px 입니다(16:9 슬라이드 전체일 때). 발표 화면이 몇 인치든 그 크기의 브라우저 창으로 보입니다.
+       한 화면에 맞춰도 되고, 더 길게 써서 슬라이드 안에서 스크롤하게 해도 됩니다.
+     - 디자인 값은 var(--ph-bg) var(--ph-ink) var(--ph-accent) var(--ph-display) var(--ph-radius) ... (테마 파일)에서 가져다 써도 되고,
+       이 장만의 색과 글꼴을 여기서 직접 정해도 됩니다. design.md 가 있으면 그 약속을 지킵니다.
+     - <html class="ph-free"> 가 키트의 고정 틀을 끕니다. 키트 부품(ph-card, PH.bars ...)은 쓰고 싶을 때만 씁니다. */
+  body { margin: 0; min-height: 100vh; display: grid; place-content: center; gap: 12px; padding: 64px; background: var(--ph-bg); color: var(--ph-ink); font-family: var(--ph-body); }
+  .kicker { margin: 0; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--ph-accent); }
+  h1 { margin: 0; font-family: var(--ph-display); font-weight: var(--ph-display-weight); letter-spacing: var(--ph-display-tracking); font-size: clamp(40px, 6vw, 84px); line-height: 1.1; }
+</style>
+</head>
+<body>
+  <p class="kicker">{{LABEL}}</p>
+  <h1>{{TITLE}}</h1>
+  <!-- 여기서부터 자유롭게. 이 파일의 <style> 과 <body> 는 통째로 바꿔도 됩니다. -->
+
+<script src="../kit/kit.js"></script>
+<script src="../kit/kit-deck.js"></script>
+<script>
+/* 발표 도구(길게 눌러 장 고르기 · 글자 고치기 · 펜). 평소엔 안 보이고 오른쪽 아래 구석에서 나옵니다. 필요 없으면 이 줄과 위 두 줄을 지웁니다. */
+PH.deck();
+
+/* 슬라이드 쇼와 이어지는 것 (키트 없이도 항상 있음):
+   pptHtml.next() / pptHtml.prev() / pptHtml.gotoSlide(3)      슬라이드 넘기기
+   window.addEventListener("pptshow", fn) / "ppthide"            이 장이 화면에 나올 때 / 나갈 때
+   pptHtml.saveState(text) / pptHtml.loadState()                  발표 자료 안에 남길 값
+   ← → Esc 와 (스크롤할 것이 없을 때) 휠 · Space · PageDown 은 슬라이드 쇼로 갑니다. 이 장이 직접 쓰려면 pptHtml.keepKeys = true. */
+</script>
+</body>
+</html>

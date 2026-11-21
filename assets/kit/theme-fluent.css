@@ -1,0 +1,46 @@
+/* ppt-html design kit - theme "fluent": Fluent 2 (Microsoft): neutral greys, brand blue, soft small shadows; Segoe UI + Noto Sans KR.
+   Values: @fluentui/tokens (MIT), webLightTheme. Unofficial; product and company names belong to their owners.
+   Link ONE theme file before kit.css. To match a company style, copy this file and change the values
+   (keep every name; each is defined exactly once, here). */
+:root {
+  --ph-bg: #FAFAFA;
+  --ph-bg2: #F5F5F5;
+  --ph-surface: #FFFFFF;
+  --ph-ink: #242424;
+  --ph-ink2: #616161;
+  --ph-ink3: #707070;
+  --ph-line: #E0E0E0;
+  --ph-accent: #0F6CBD;
+  --ph-accent-ink: #FFFFFF;
+  --ph-accent-soft: #EBF3FC;
+  --ph-accent-deep: #115EA3;
+  --ph-good: #0E700E;
+  --ph-good-soft: #F1FAF1;
+  --ph-bad: #BC2F32;
+  --ph-bad-soft: #FDF6F6;
+  --ph-warn: #C43501;
+  --ph-warn-soft: #FDF6F3;
+  --ph-c1: #0F6CBD;
+  --ph-c2: #02494C;
+  --ph-c3: #835B00;
+  --ph-c4: #341A51;
+  --ph-c5: #6E0811;
+  --ph-c6: #707070;
+  --ph-hover: rgba(36,36,36,0.05);
+  --ph-hover2: rgba(36,36,36,0.08);
+  --ph-press: #0F6CBD;
+  --ph-press-ink: #FFFFFF;
+  --ph-display: "Segoe UI Variable Display", "Segoe UI", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --ph-display-weight: 600;
+  --ph-display-tracking: -0.01em;
+  --ph-body: "Segoe UI Variable Text", "Segoe UI", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --ph-strong-weight: 600;
+  --ph-label-tracking: 0.04em;
+  --ph-label-case: none;
+  --ph-radius: 8px;
+  --ph-radius-s: 4px;
+  --ph-radius-btn: 4px;
+  --ph-card-border: 0 solid transparent;
+  --ph-shadow: 0 0 2px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.14);
+  --ph-shadow-pop: 0 0 2px rgba(0,0,0,0.12), 0 8px 16px rgba(0,0,0,0.14);
+}

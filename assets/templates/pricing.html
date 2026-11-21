@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>가격</title>
+<link rel="stylesheet" href="../kit/theme-cobalt.css">
+<link rel="stylesheet" href="../kit/kit.css">
+<style>
+  .head { position: relative; height: 100px; }
+  .head .ph-seg { position: absolute; right: 0; top: 40px; }
+  .plans { margin-top: 20px; }
+  .plan { height: 350px; padding: 26px 26px; cursor: pointer; }
+  .plan.is-on { box-shadow: 0 0 0 2px var(--ph-accent); }
+  .plan .ph-badge { position: absolute; right: 22px; top: 24px; }
+  .plan .price { margin-top: 12px; font-size: 52px; line-height: 1.15; white-space: nowrap; }
+  .plan .price small { font-size: 17px; font-family: var(--ph-body); color: var(--ph-ink2); margin-left: 4px; letter-spacing: 0; }
+  .plan .sub { font-size: 13.5px; color: var(--ph-ink2); height: 22px; }
+  .plan ul { list-style: none; margin: 16px 0 0; padding: 0; }
+  .plan li { position: relative; padding: 5px 0 5px 26px; font-size: 14.5px; line-height: 1.55; }
+  .plan li:before { content: ""; position: absolute; left: 2px; top: 11px; width: 11px; height: 6px; border-left: 2px solid var(--ph-accent); border-bottom: 2px solid var(--ph-accent); transform: rotate(-45deg); }
+  .total { position: relative; margin-top: 20px; height: 70px; line-height: 70px; padding: 0 24px; font-size: 16px; }
+  .total .qty { position: absolute; right: 290px; top: 0; font-size: 15px; color: var(--ph-ink2); white-space: nowrap; }
+  .total .qty span { display: inline-block; width: 34px; height: 34px; line-height: 32px; text-align: center; border-radius: 50%; background: var(--ph-surface); box-shadow: inset 0 0 0 1px var(--ph-line); color: var(--ph-ink); cursor: pointer; margin: 0 10px; vertical-align: middle; }
+  .total .qty b { display: inline-block; width: 22px; text-align: center; color: var(--ph-ink); font-size: 17px; }
+  .total .sum { position: absolute; right: 24px; top: 0; font-size: 28px; white-space: nowrap; }
+  .total .sum small { font-size: 14px; font-family: var(--ph-body); color: var(--ph-ink2); margin-left: 6px; letter-spacing: 0; }
+</style>
+</head>
+<body>
+<div class="ph-page">
+  <div class="head">
+    <div class="ph-label ph-rise"><i></i>가격</div>
+    <h1 class="ph-h1 ph-rise ph-d1 ph-mt8">고르기 쉽게 <em>세 가지</em>만 만들었습니다</h1>
+    <div class="ph-seg" id="seg"><span>한 번에</span><span>12개월 나눠서</span></div>
+  </div>
+  <div class="ph-row plans" id="plans"></div>
+  <div class="ph-band total">
+    <span id="picked"></span>
+    <div class="qty ph-noedit">수량<span id="minus" class="ph-hot">−</span><b id="qty">1</b><span id="plus" class="ph-hot">+</span></div>
+    <div class="sum ph-num"><span id="sum"></span><small id="unit"></small></div>
+  </div>
+</div>
+
+<script src="../kit/kit.js"></script>
+<script src="../kit/kit-deck.js"></script>
+<script>
+/* 바꿀 곳: PLANS (이름, 한 번에 내는 값 once, 달마다 내는 값 month, 한 줄 설명, 들어 있는 것, best: true 는 추천 표시).
+   가격은 세 가지를 넘기지 않습니다. 가운데에 가장 권하는 것을 둡니다. */
+var PLANS = [
+  { name: "머그", once: 89000, month: 7900, sub: "컵 하나면 되는 분", items: ["고른 온도를 세 시간 지킴", "빛으로 알려 주는 온도", "충전선 포함"] },
+  { name: "머그 + 받침", once: 119000, month: 10500, sub: "가장 많이 고릅니다", best: true, items: ["머그에 들어 있는 것 모두", "올려 두면 충전되는 받침", "보증 2년"] },
+  { name: "두 개 세트", once: 209000, month: 18400, sub: "집과 회사에 하나씩", items: ["머그 둘, 받침 둘", "색을 따로 고를 수 있음", "보증 2년"] }
+];
+var mode = 0, pick = 1, qty = 1, cards = [];
+
+PH.nav({ brand: "온도", links: [["왜", 1], ["숫자", 2], ["기능", 3], ["가격", 4]], page: 4 });
+PH.ring();
+PH.deck();
+
+PLANS.forEach(function (p, i) {
+  var card = PH.make("div", "ph-card ph-hot plan", null, PH.$("#plans")), price, ul, c = { el: card };
+  if (p.best) { PH.make("span", "ph-badge", "추천", card); }
+  PH.make("h3", "ph-h3", p.name, card);
+  PH.make("div", "sub", p.sub, card);
+  price = PH.make("div", "price ph-num", null, card); c.n = PH.make("span", "", "", price); c.u = PH.make("small", "", "", price);
+  ul = PH.make("ul", "", null, card);
+  p.items.forEach(function (t) { PH.make("li", "", t, ul); });
+  PH.on(card, "click", function () { pick = i; update(); });
+  cards.push(c);
+});
+function update() {
+  var p = PLANS[pick], each = mode ? p.month : p.once;
+  PH.$$("#seg span").forEach(function (s, k) { PH.toggle(s, "is-on", k === mode); });
+  cards.forEach(function (c, i) {
+    PH.toggle(c.el, "is-on", i === pick);
+    c.n.textContent = PH.fmt(mode ? PLANS[i].month : PLANS[i].once); c.u.textContent = mode ? "원 / 월" : "원";
+  });
+  PH.$("#picked").textContent = "고른 구성 · " + p.name;
+  PH.$("#qty").textContent = qty;
+  PH.$("#sum").textContent = PH.fmt(each * qty); PH.$("#unit").textContent = mode ? "원 / 월 · 12개월" : "원";
+}
+PH.$$("#seg span").forEach(function (s, k) { PH.on(s, "click", function () { mode = k; update(); }); });
+PH.on(PH.$("#minus"), "click", function () { qty = PH.clamp(qty - 1, 1, 9); update(); });
+PH.on(PH.$("#plus"), "click", function () { qty = PH.clamp(qty + 1, 1, 9); update(); });
+PH.onShow(function () { mode = 0; pick = 1; qty = 1; update(); });
+</script>
+</body>
+</html>

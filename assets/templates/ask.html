@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>투자 요청</title>
+<link rel="stylesheet" href="../kit/theme-cobalt.css">
+<link rel="stylesheet" href="../kit/kit.css">
+<style>
+  .left .ph-display { margin-top: 10px; white-space: nowrap; }
+  .left .ph-lead { margin-top: 12px; font-size: 16.5px; }
+  .knob { margin-top: 22px; }
+  .knob .ends { position: relative; height: 18px; font-size: 12px; color: var(--ph-ink3); }
+  .knob .ends span { position: absolute; right: 0; top: 0; }
+  .goals { margin-top: 18px; }
+  .goal { position: relative; padding: 11px 0 11px 44px; border-top: 1px solid var(--ph-line); }
+  .goal i { position: absolute; left: 4px; top: 15px; width: 24px; height: 24px; border-radius: 50%; box-shadow: inset 0 0 0 2px var(--ph-line); }
+  .goal i:after { content: ""; position: absolute; left: 7px; top: 8px; width: 9px; height: 5px; border-left: 2px solid var(--ph-accent-ink); border-bottom: 2px solid var(--ph-accent-ink); transform: rotate(-45deg); display: none; }
+  .goal.is-done i { background: var(--ph-accent); box-shadow: none; }
+  .goal.is-done i:after { display: block; }
+  .goal b { display: block; font-size: 16px; line-height: 1.45; color: var(--ph-ink3); }
+  .goal span { display: block; font-size: 13px; color: var(--ph-ink3); }
+  .goal.is-done b { color: var(--ph-ink); } .goal.is-done span { color: var(--ph-ink2); }
+  .use { height: 520px; padding: 28px 30px; }
+  .use .box { position: absolute; left: 30px; right: 30px; top: 84px; bottom: 76px; }
+  .use .foot { position: absolute; left: 30px; right: 30px; bottom: 22px; font-size: 12.5px; line-height: 1.6; color: var(--ph-ink3); }
+</style>
+</head>
+<body>
+<div class="ph-page">
+  <div class="ph-row ph-g40">
+    <div class="ph-w40 left">
+      <div class="ph-label ph-rise"><i></i>투자 요청</div>
+      <h1 class="ph-display ph-num"><em><span id="amt"></span>억 원</em>, <span id="mon"></span>개월</h1>
+      <p class="ph-lead">이 돈으로 아래 세 가지를 차례로 증명합니다. 막대를 움직이면 어디까지 갈 수 있는지 보입니다.</p>
+      <div class="knob"><div id="s"></div><div class="ends">6억<span>20억</span></div></div>
+      <div class="goals" id="goals"></div>
+    </div>
+    <div class="ph-card use">
+      <div class="ph-label"><i></i>어디에 쓰나</div>
+      <div class="box" id="chart" data-zoom></div>
+      <div class="foot">한 달에 쓰는 돈은 평균 6,700만 원으로 잡았습니다. 예시 숫자입니다.</div>
+    </div>
+  </div>
+</div>
+
+<script src="../kit/kit.js"></script>
+<script src="../kit/kit-deck.js"></script>
+<script>
+/* 바꿀 곳: START(처음 금액, 억 원), BURN(한 달에 쓰는 돈, 억 원), USE(쓰임새와 비율 %), GOALS(몇 개월째에 무엇을 증명하는지).
+   요청은 금액 하나, 기간 하나, 증명할 것 세 가지 이하로 말합니다. */
+var START = 12, BURN = 0.67;
+var USE = [["사람 · 개발 넷, 영업 둘", 55], ["제품 · 서버와 자료", 20], ["영업 · 시범 매장 지원", 18], ["예비", 7]];
+var GOALS = [
+  { at: 9, t: "쓰는 빵집 300곳", d: "9개월째 · 수도권 세 개 구" },
+  { at: 14, t: "월 매출 4,500만 원", d: "14개월째 · 빵집 한 곳에 15만 원" },
+  { at: 18, t: "두 번째 도시에서 같은 숫자", d: "18개월째 · 다음 투자를 받을 근거" }
+];
+var amount = START, rows = [], chart, timer = 0;
+
+PH.nav({ brand: "반죽", links: [["문제", 1], ["시장", 2], ["경쟁", 3], ["팀", 4], ["투자", 5]], page: 5 });
+PH.ring();
+PH.deck();
+
+function items() { return USE.map(function (u) { return { label: u[0], value: Math.round(amount * u[1]) / 100 }; }); }
+function paint() {
+  var months = Math.round(amount / BURN);
+  PH.$("#amt").textContent = amount; PH.$("#mon").textContent = months;
+  rows.forEach(function (r, i) { PH.toggle(r, "is-done", months >= GOALS[i].at); });
+}
+GOALS.forEach(function (g) {
+  var row = PH.make("div", "goal", null, PH.$("#goals"));
+  PH.make("i", "", null, row); PH.make("b", "", g.t, row); PH.make("span", "", g.d, row);
+  rows.push(row);
+});
+/* the numbers follow the knob at once; the ring is redrawn when the knob rests */
+var slider = PH.slider(PH.$("#s"), { min: 6, max: 20, step: 1, value: START }, function (v) {
+  amount = v; paint();
+  clearTimeout(timer); timer = setTimeout(function () { chart.update({ items: items() }); }, 160);
+});
+chart = PH.donut(PH.$("#chart"), { items: items(), unit: "억", center: "모두", digits: 1 });
+PH.onShow(function () { amount = START; slider.set(START); paint(); });
+</script>
+</body>
+</html>

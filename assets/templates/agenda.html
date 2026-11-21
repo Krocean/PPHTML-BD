@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>목차</title>
+<link rel="stylesheet" href="../kit/theme-cobalt.css">
+<link rel="stylesheet" href="../kit/kit.css">
+<style>
+  .cards { margin-top: 44px; }
+  .item { height: 316px; padding: 26px 26px 22px; }
+  .item .n { font-size: 15px; font-weight: var(--ph-strong-weight); color: var(--ph-accent-deep); letter-spacing: .5px; }
+  .item h3 { margin-top: 54px; }
+  .item p { margin-top: 10px; font-size: 14.5px; line-height: 1.65; color: var(--ph-ink2); }
+  .item .go { position: absolute; left: 26px; bottom: 22px; font-size: 13.5px; font-weight: var(--ph-strong-weight); color: var(--ph-ink3); }
+  .item:hover .go { color: var(--ph-accent-deep); }
+  .item .bar { position: absolute; left: 26px; top: 62px; width: 34px; height: 3px; border-radius: 2px; background: var(--ph-accent); transition: width .25s ease; }
+  .item:hover .bar { width: 90px; }
+  .tip { margin-top: 26px; }
+</style>
+</head>
+<body>
+<div class="ph-page">
+  <div class="ph-label ph-rise"><i></i>목차</div>
+  <h1 class="ph-h1 ph-rise ph-d1 ph-mt8">오늘 살펴볼 <em>네 가지</em></h1>
+
+  <div class="ph-row cards">
+    <div class="ph-card ph-hot item" data-goto="3"><div class="n">01</div><div class="bar"></div><h3 class="ph-h3">핵심 지표</h3><p>매장, 방문객, 재방문율을 분기별로 봅니다.</p><div class="go">보러 가기 →</div></div>
+    <div class="ph-card ph-hot item" data-goto="4"><div class="n">02</div><div class="bar"></div><h3 class="ph-h3">추이와 원인</h3><p>지표가 왜 움직였는지 항목별로 나눠 봅니다.</p><div class="go">보러 가기 →</div></div>
+    <div class="ph-card ph-hot item" data-goto="5"><div class="n">03</div><div class="bar"></div><h3 class="ph-h3">일정</h3><p>남은 단계와 맡은 사람을 확인합니다.</p><div class="go">보러 가기 →</div></div>
+    <div class="ph-card ph-hot item" data-goto="6"><div class="n">04</div><div class="bar"></div><h3 class="ph-h3">결정할 일</h3><p>오늘 정해야 하는 항목을 정리합니다.</p><div class="go">보러 가기 →</div></div>
+  </div>
+
+  <p class="ph-small ph-faint tip ph-rise ph-d3">카드를 누르면 그 슬라이드로 바로 갑니다. "다음" 단추를 길게 누르면 모든 슬라이드를 한눈에 고를 수 있습니다.</p>
+</div>
+
+<script src="../kit/kit.js"></script>
+<script src="../kit/kit-deck.js"></script>
+<script>
+/* 바꿀 곳: 카드의 data-goto(이동할 슬라이드 번호)와 문구, 머리 메뉴 */
+PH.nav({ brand: "모래내 로스터스", links: [["표지", 1], ["목차", 2], ["지표", 3], ["일정", 4], ["마무리", 5]], page: 2 });
+PH.ring();
+PH.deck();
+</script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>추이</title>
+<link rel="stylesheet" href="../kit/theme-cobalt.css">
+<link rel="stylesheet" href="../kit/kit.css">
+<style>
+  .head { position: relative; height: 74px; }
+  .head .ph-chips { position: absolute; right: 0; top: 24px; }
+  .head .ph-chip { margin: 0 0 0 6px; }
+  .body { margin-top: 18px; }
+  .chart { height: 484px; padding: 20px 24px 18px; }
+  .chart .box { position: absolute; left: 24px; right: 24px; top: 58px; bottom: 18px; }
+  .side { height: 484px; padding: 24px 26px; }
+  .side .big { font-size: 54px; line-height: 1.15; margin-top: 10px; white-space: nowrap; }
+  .side .big small { font-size: 20px; font-family: var(--ph-body); color: var(--ph-ink2); margin-left: 4px; letter-spacing: 0; }
+  .side ul { margin: 22px 0 0; padding: 0; list-style: none; }
+  .side li { position: relative; padding: 12px 0 12px 22px; border-top: 1px solid var(--ph-line); font-size: 14.5px; line-height: 1.6; color: var(--ph-ink2); }
+  .side li:before { content: ""; position: absolute; left: 2px; top: 21px; width: 7px; height: 7px; border-radius: 50%; background: var(--ph-accent); }
+  .side li b { color: var(--ph-ink); }
+</style>
+</head>
+<body>
+<div class="ph-page">
+  <div class="head">
+    <div class="ph-label ph-rise"><i></i>추이와 원인</div>
+    <h1 class="ph-h2 ph-rise ph-d1 ph-mt8">지표를 골라 <em>흐름</em>을 확인합니다</h1>
+    <div class="ph-chips" id="chips"></div>
+  </div>
+  <div class="ph-row body">
+    <div class="ph-card chart" data-zoom><h3 class="ph-h3" id="title"></h3><div class="box" id="chart"></div></div>
+    <div class="ph-card side ph-w33">
+      <div class="ph-label"><i></i>이번 달</div>
+      <div class="big ph-num"><span id="now"></span><small id="unit"></small></div>
+      <div class="ph-small ph-mt8" id="delta"></div>
+      <ul id="notes"></ul>
+    </div>
+  </div>
+</div>
+
+<script src="../kit/kit.js"></script>
+<script src="../kit/kit-deck.js"></script>
+<script>
+/* 바꿀 곳: LABELS(가로축)와 METRICS(지표마다 이름, 단위, 선 1~3개, 읽는 법 세 줄). 숫자는 가상의 예시입니다. */
+var LABELS = ["4월", "5월", "6월", "7월", "8월", "9월"];
+var METRICS = [
+  { name: "월 방문객", unit: "명", digits: 0, series: [{ name: "올해", values: [26500, 29200, 31400, 33900, 36100, 38250] }, { name: "작년", values: [18900, 19800, 21000, 21600, 22900, 23800] }],
+    notes: ["<b>여섯 달 연속</b> 늘었습니다. 한 달 평균 2,350명씩입니다.", "7월에 새 매장 한 곳이 문을 열며 기울기가 커졌습니다.", "작년 같은 달보다 <b>61%</b> 많습니다."] },
+  { name: "재방문율", unit: "%", digits: 1, series: [{ name: "앱 회원", values: [58.2, 60.9, 66.0, 68.4, 70.1, 72.4] }, { name: "비회원", values: [34.0, 35.5, 37.2, 38.8, 39.3, 40.6] }],
+    notes: ["앱 회원의 재방문율이 <b>70%</b>를 넘었습니다.", "비회원은 완만하게 따라오고 있습니다.", "다음 과제는 <b>첫 방문 뒤 앱 가입</b>입니다."] },
+  { name: "평균 대기", unit: "분", digits: 1, series: [{ name: "평균", values: [6.4, 6.1, 5.6, 5.4, 5.1, 4.9] }],
+    notes: ["대기 시간이 <b>4.9분</b>까지 줄었습니다.", "미리 주문을 받기 시작한 5월부터 내려갔습니다.", "목표는 연말 <b>4.5분</b>입니다."] }
+];
+var chart;
+
+PH.nav({ brand: "모래내 로스터스", links: [["표지", 1], ["목차", 2], ["지표", 3], ["일정", 4], ["마무리", 5]], page: 3 });
+PH.ring();
+PH.deck();
+
+function pick(i) {
+  var m = METRICS[i], v = m.series[0].values, last = v[v.length - 1], prev = v[v.length - 2], diff = last - prev;
+  PH.$$("#chips .ph-chip").forEach(function (c, k) { PH.toggle(c, "is-on", k === i); });
+  PH.$("#title").textContent = m.name + " (" + m.unit + ")";
+  PH.countUp(PH.$("#now"), last, m.digits);
+  PH.$("#unit").textContent = m.unit;
+  PH.$("#delta").innerHTML = "전월 대비 <b>" + (diff >= 0 ? "+" : "") + PH.fmt(diff, m.digits) + m.unit + "</b>";
+  PH.$("#notes").innerHTML = m.notes.map(function (n) { return "<li>" + n + "</li>"; }).join("");
+  if (chart) { chart.update({ series: m.series, unit: m.unit, digits: m.digits }); }
+}
+METRICS.forEach(function (m, i) { PH.on(PH.make("span", "ph-chip", m.name, PH.$("#chips")), "click", function () { pick(i); }); });
+chart = PH.lines(PH.$("#chart"), { labels: LABELS, series: METRICS[0].series, unit: METRICS[0].unit, digits: 0 });
+PH.onShow(function () { pick(0); });
+</script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>문제</title>
+<link rel="stylesheet" href="../kit/theme-cobalt.css">
+<link rel="stylesheet" href="../kit/kit.css">
+<style>
+  .head { position: relative; height: 100px; }
+  .head .ph-seg { position: absolute; right: 0; top: 40px; }
+  .pains { margin-top: 20px; }
+  .pain { height: 322px; padding: 26px 26px; }
+  .pain .big { margin-top: 16px; font-size: 68px; line-height: 1.1; white-space: nowrap; }
+  .pain .big small { font-size: 22px; font-family: var(--ph-body); color: var(--ph-ink2); margin-left: 4px; letter-spacing: 0; }
+  .pain h3 { margin-top: 12px; }
+  .pain p { margin-top: 8px; font-size: 14.5px; line-height: 1.7; color: var(--ph-ink2); }
+  body.is-after .pain .big { color: var(--ph-accent); }
+  .sum { margin-top: 20px; font-size: 16px; }
+</style>
+</head>
+<body>
+<div class="ph-page">
+  <div class="head">
+    <div class="ph-label ph-rise"><i></i>문제와 해법</div>
+    <h1 class="ph-h1 ph-rise ph-d1 ph-mt8" id="head"></h1>
+    <div class="ph-seg" id="seg"><span>지금</span><span>반죽을 쓰면</span></div>
+  </div>
+  <div class="ph-row pains" id="pains"></div>
+  <div class="ph-band sum" id="sum"></div>
+</div>
+
+<script src="../kit/kit.js"></script>
+<script src="../kit/kit-deck.js"></script>
+<script>
+/* 바꿀 곳: VIEWS (첫째가 "지금", 둘째가 "쓰고 난 뒤"). 카드 세 장의 꼬리표, 숫자, 단위, 제목, 설명을 같은 순서로 씁니다.
+   여기 숫자는 모두 지어낸 예시입니다. 내 숫자에는 어디서 나온 것인지 한 줄을 꼭 붙이세요. */
+var VIEWS = [
+  { head: "빵집은 내일 얼마나 구울지 <em>감으로</em> 정합니다",
+    sum: "남으면 버리고, 모자라면 못 팝니다. 둘 다 사장님 주머니에서 나갑니다.",
+    cards: [
+      { tag: "버리는 빵", n: 14, u: "%", title: "구운 빵 일곱 개 중 하나", text: "저녁에 남은 빵은 반값에 팔거나 버립니다. 재료비와 새벽 인건비가 함께 사라집니다." },
+      { tag: "못 판 빵", n: 23, u: "번", title: "한 달에 스물세 번 품절", text: "잘 팔리는 빵은 오후 세 시면 떨어집니다. 헛걸음한 손님은 다음에 오지 않습니다." },
+      { tag: "정하는 시간", n: 40, u: "분", title: "매일 밤 40분", text: "마감 뒤에 장부와 날씨를 보며 내일 구울 양을 손으로 적습니다." }
+    ] },
+  { head: "반죽은 내일 구울 양을 <em>전날 밤에</em> 알려 줍니다",
+    sum: "덜 버리고, 더 팝니다. 시범 매장 서른 곳의 석 달 평균입니다.",
+    cards: [
+      { tag: "버리는 빵", n: 6, u: "%", title: "절반 아래로", text: "요일, 날씨, 동네 행사를 보고 빵마다 구울 개수를 정해 줍니다." },
+      { tag: "못 판 빵", n: 7, u: "번", title: "품절이 3분의 1로", text: "오후에 떨어질 빵은 점심 전에 한 판 더 굽도록 알려 줍니다." },
+      { tag: "정하는 시간", n: 2, u: "분", title: "확인만 하면 끝", text: "마감하면 내일 표가 바로 나옵니다. 고칠 곳만 고칩니다." }
+    ] }
+];
+var cards = [];
+
+PH.nav({ brand: "반죽", links: [["문제", 1], ["시장", 2], ["경쟁", 3], ["팀", 4], ["투자", 5]], page: 1 });
+PH.ring();
+PH.deck();
+
+VIEWS[0].cards.forEach(function () {
+  var card = PH.make("div", "ph-card pain", null, PH.$("#pains")), c = { tag: PH.make("span", "ph-badge", "", card) }, big = PH.make("div", "big ph-num", null, card);
+  c.n = PH.make("span", "", "", big); c.u = PH.make("small", "", "", big);
+  c.title = PH.make("h3", "ph-h3", "", card); c.text = PH.make("p", "", "", card);
+  cards.push(c);
+});
+function show(i) {
+  var v = VIEWS[i];
+  PH.$$("#seg span").forEach(function (s, k) { PH.toggle(s, "is-on", k === i); });
+  PH.toggle(document.body, "is-after", i === 1);
+  PH.$("#head").innerHTML = v.head; PH.$("#sum").textContent = v.sum;
+  v.cards.forEach(function (d, k) {
+    var c = cards[k];
+    c.tag.textContent = d.tag; c.u.textContent = d.u; c.title.textContent = d.title; c.text.textContent = d.text;
+    PH.countUp(c.n, d.n, 0, 400);
+  });
+}
+PH.$$("#seg span").forEach(function (s, k) { PH.on(s, "click", function () { show(k); }); });
+PH.onShow(function () { show(0); });
+</script>
+</body>
+</html>

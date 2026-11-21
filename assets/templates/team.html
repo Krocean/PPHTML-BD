@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>팀</title>
+<link rel="stylesheet" href="../kit/theme-cobalt.css">
+<link rel="stylesheet" href="../kit/kit.css">
+<style>
+  .people { margin-top: 22px; }
+  .person { height: 216px; padding: 24px 24px; cursor: pointer; }
+  .person.is-on { box-shadow: 0 0 0 2px var(--ph-accent); }
+  .person .face { width: 64px; height: 64px; line-height: 64px; border-radius: 50%; text-align: center; font-size: 24px; font-weight: var(--ph-strong-weight); background: var(--ph-accent-soft); color: var(--ph-accent-deep); }
+  .person.is-on .face { background: var(--ph-accent); color: var(--ph-accent-ink); }
+  .person h3 { margin-top: 16px; }
+  .person .role { font-size: 13.5px; color: var(--ph-ink2); margin-top: 2px; }
+  .why { margin-top: 20px; height: 214px; padding: 24px 28px; }
+  .why .line { position: relative; padding: 9px 0 9px 22px; font-size: 16px; line-height: 1.55; }
+  .why .line:before { content: ""; position: absolute; left: 2px; top: 19px; width: 7px; height: 7px; border-radius: 50%; background: var(--ph-accent); }
+  .why .side { position: absolute; right: 28px; top: 24px; text-align: right; }
+  .why .side b { display: block; font-size: 44px; line-height: 1.15; }
+  .why .side span { font-size: 13px; color: var(--ph-ink2); }
+  .why .lines { margin-top: 10px; width: 800px; }
+</style>
+</head>
+<body>
+<div class="ph-page">
+  <div class="ph-label ph-rise"><i></i>팀</div>
+  <h1 class="ph-h1 ph-rise ph-d1 ph-mt8">왜 <em>이 사람들</em>이어야 하나</h1>
+  <div class="ph-row people" id="people"></div>
+  <div class="ph-card why">
+    <div class="ph-label" id="whose"></div>
+    <div class="lines" id="lines"></div>
+    <div class="side"><b class="ph-num" id="years"></b><span>이 일을 한 햇수</span></div>
+  </div>
+</div>
+
+<script src="../kit/kit.js"></script>
+<script src="../kit/kit-deck.js"></script>
+<script>
+/* 바꿀 곳: TEAM (이름, 맡은 일, 이 일을 한 햇수, 이 사람이어야 하는 이유 세 줄). 사람은 네 명까지가 한눈에 들어옵니다.
+   학교와 회사 이름을 늘어놓기보다 "이 문제를 풀어 본 적이 있다"는 사실을 한 줄씩 적습니다. 여기 사람들은 지어낸 예시입니다. */
+var TEAM = [
+  { name: "윤가람", role: "대표 · 제품", years: 12, facts: ["빵집 둘째 딸입니다. 새벽 반죽을 열두 해 지켜봤습니다", "배달 앱 회사에서 주문량 예측 팀을 이끌었습니다", "시범 매장 서른 곳을 직접 찾아가 설치했습니다"] },
+  { name: "서도윤", role: "기술", years: 9, facts: ["편의점 본사에서 도시락 발주량 예측을 만들었습니다", "버려지는 도시락을 한 해 만에 3분의 1 줄였습니다", "계산대 프로그램 여섯 종과 이미 연결해 두었습니다"] },
+  { name: "임하늘", role: "영업", years: 7, facts: ["밀가루 도매상에서 빵집 400곳을 맡았습니다", "사장님들이 언제 전화를 받는지 압니다", "첫 달에 쓰는 빵집 스무 곳을 소개로만 모았습니다"] },
+  { name: "권이안", role: "운영 · 고객", years: 6, facts: ["프랜차이즈 본사에서 가맹점 교육을 했습니다", "설치 15분, 설명 10분짜리 안내를 만들었습니다", "석 달 동안 그만둔 빵집이 한 곳도 없습니다"] }
+];
+var cards = [];
+
+PH.nav({ brand: "반죽", links: [["문제", 1], ["시장", 2], ["경쟁", 3], ["팀", 4], ["투자", 5]], page: 4 });
+PH.ring();
+PH.deck();
+
+function show(i) {
+  var p = TEAM[i], box = PH.$("#lines");
+  cards.forEach(function (c, k) { PH.toggle(c, "is-on", k === i); });
+  PH.$("#whose").textContent = p.name + " · " + p.role;
+  box.textContent = "";
+  p.facts.forEach(function (f) { PH.make("div", "line", f, box); });
+  PH.countUp(PH.$("#years"), p.years, 0, 360);
+}
+TEAM.forEach(function (p, i) {
+  var card = PH.make("div", "ph-card ph-hot person", null, PH.$("#people"));
+  PH.make("div", "face", p.name.charAt(0), card);
+  PH.make("h3", "ph-h3", p.name, card);
+  PH.make("div", "role", p.role, card);
+  PH.on(card, "click", function () { show(i); });
+  cards.push(card);
+});
+PH.onShow(function () { show(0); });
+</script>
+</body>
+</html>

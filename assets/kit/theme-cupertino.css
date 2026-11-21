@@ -1,0 +1,46 @@
+/* ppt-html design kit - theme "cupertino": keynote look in the manner of Apple's product pages: big tight type, grey tiles, pill buttons; Pretendard.
+   Values: hand-written approximation (the original typeface is not open; Pretendard stands in). Unofficial; product and company names belong to their owners.
+   Link ONE theme file before kit.css. To match a company style, copy this file and change the values
+   (keep every name; each is defined exactly once, here). */
+:root {
+  --ph-bg: #FFFFFF;
+  --ph-bg2: #F5F5F7;
+  --ph-surface: #F5F5F7;
+  --ph-ink: #1D1D1F;
+  --ph-ink2: #6E6E73;
+  --ph-ink3: #86868B;
+  --ph-line: #D2D2D7;
+  --ph-accent: #0071E3;
+  --ph-accent-ink: #FFFFFF;
+  --ph-accent-soft: #E8F2FF;
+  --ph-accent-deep: #0066CC;
+  --ph-good: #248A3D;
+  --ph-good-soft: #E3F5E7;
+  --ph-bad: #D70015;
+  --ph-bad-soft: #FFE9EA;
+  --ph-warn: #B25000;
+  --ph-warn-soft: #FFF1E0;
+  --ph-c1: #0071E3;
+  --ph-c2: #34C759;
+  --ph-c3: #FF9500;
+  --ph-c4: #AF52DE;
+  --ph-c5: #FF2D55;
+  --ph-c6: #8E8E93;
+  --ph-hover: rgba(29,29,31,0.05);
+  --ph-hover2: rgba(29,29,31,0.08);
+  --ph-press: #0071E3;
+  --ph-press-ink: #FFFFFF;
+  --ph-display: "Pretendard", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --ph-display-weight: 700;
+  --ph-display-tracking: -0.03em;
+  --ph-body: "Pretendard", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --ph-strong-weight: 600;
+  --ph-label-tracking: 0.04em;
+  --ph-label-case: none;
+  --ph-radius: 22px;
+  --ph-radius-s: 999px;
+  --ph-radius-btn: 999px;
+  --ph-card-border: 0 solid transparent;
+  --ph-shadow: 0 0 0 0 transparent;
+  --ph-shadow-pop: 0 0 0 1px rgba(29,29,31,0.08), 0 12px 28px -8px rgba(29,29,31,0.28);
+}

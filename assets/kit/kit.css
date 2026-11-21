@@ -1,0 +1,242 @@
+/* ppt-html design kit - styles.
+   Works in the slide show engine (IE11) as written: no grid, no gap; flexbox with explicit margins.
+   Colours, fonts, corner shapes and shadows come from ONE theme file (theme-*.css) linked BEFORE this file;
+   the build writes the variables out as plain values. Do not define --ph-* anywhere else.
+   Sizes are in px for a 1280 x 720 canvas (a full 16:9 slide).
+
+   Smooth motion (measured in a 4K slide show): the engine repaints every pixel of whatever moves, so only
+   SMALL things move here. Cards never fade or slide in; their text does. No large blurred shadows. */
+
+html, body { margin: 0; padding: 0; }
+/* the fixed page frame of the kit. A free page (<html class="ph-free">) is left alone: it sizes, scrolls and colours itself. */
+html:not(.ph-free), html:not(.ph-free) body { width: 100%; height: 100%; overflow: hidden; background: var(--ph-bg); }
+body { color: var(--ph-ink); font-family: var(--ph-body); font-size: 16px; line-height: 1.6; }
+html:not(.ph-free) body { word-break: keep-all; -ms-user-select: none; user-select: none; cursor: default; }
+* { box-sizing: border-box; }
+b, strong { font-weight: var(--ph-strong-weight); }
+h1, h2, h3, p { margin: 0; }
+svg { overflow: visible; }
+
+/* ---------- page frame ---------- */
+.ph-page { position: absolute; left: 0; top: 0; right: 0; bottom: 0; padding: 96px 64px 48px; }
+.ph-page.ph-plain { padding-top: 56px; }                 /* a page without the site header */
+.ph-colflex { display: flex; flex-direction: column; }
+.ph-fill { flex: 1 1 auto; min-height: 0; position: relative; }
+.ph-row { display: flex; }
+.ph-row > * { flex: 1 1 0%; min-width: 0; margin-left: 20px; }
+.ph-row > *:first-child { margin-left: 0; }
+.ph-row.ph-g12 > * { margin-left: 12px; } .ph-row.ph-g28 > * { margin-left: 28px; } .ph-row.ph-g40 > * { margin-left: 40px; }
+.ph-row.ph-g12 > *:first-child, .ph-row.ph-g28 > *:first-child, .ph-row.ph-g40 > *:first-child { margin-left: 0; }
+.ph-row.ph-mid { align-items: center; } .ph-row.ph-end { align-items: flex-end; } .ph-row.ph-stretch { align-items: stretch; }
+.ph-row > .ph-auto { flex: 0 0 auto; }
+.ph-row > .ph-w25 { flex: 0 0 25%; } .ph-row > .ph-w33 { flex: 0 0 33.33%; } .ph-row > .ph-w40 { flex: 0 0 40%; } .ph-row > .ph-w50 { flex: 0 0 50%; } .ph-row > .ph-w60 { flex: 0 0 60%; }
+.ph-stack > * { margin-top: 16px; } .ph-stack > *:first-child { margin-top: 0; }
+.ph-stack.ph-s8 > * { margin-top: 8px; } .ph-stack.ph-s24 > * { margin-top: 24px; } .ph-stack.ph-s32 > * { margin-top: 32px; }
+.ph-stack.ph-s8 > *:first-child, .ph-stack.ph-s24 > *:first-child, .ph-stack.ph-s32 > *:first-child { margin-top: 0; }
+.ph-mt8 { margin-top: 8px; } .ph-mt16 { margin-top: 16px; } .ph-mt24 { margin-top: 24px; } .ph-mt32 { margin-top: 32px; } .ph-mt48 { margin-top: 48px; }
+.ph-right { text-align: right; } .ph-center { text-align: center; }
+
+/* ---------- site header (built by PH.nav) ---------- */
+.ph-nav { position: absolute; left: 0; top: 0; right: 0; height: 76px; z-index: 50; }
+.ph-brand { position: absolute; left: 64px; top: 21px; height: 34px; line-height: 34px; font-family: var(--ph-display); font-weight: var(--ph-strong-weight); font-size: 20px; letter-spacing: -0.3px; cursor: pointer; white-space: nowrap; }
+.ph-brand i { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: var(--ph-accent); margin-right: 10px; vertical-align: 1px; }
+.ph-links { position: absolute; left: 260px; right: 260px; top: 22px; text-align: center; font-size: 13.5px; line-height: 32px; white-space: nowrap; }
+.ph-links span { display: inline-block; height: 32px; padding: 0 14px; margin: 0 1px; border-radius: var(--ph-radius-s); color: var(--ph-ink2); cursor: pointer; transition: color .15s ease, background-color .15s ease; }
+.ph-links.ph-many { left: 230px; right: 190px; font-size: 12.5px; }
+.ph-links.ph-many span { padding: 0 9px; margin: 0; }
+.ph-links.ph-lots { left: 205px; right: 160px; font-size: 11.5px; }
+.ph-links.ph-lots span { padding: 0 5px; margin: 0; }
+.ph-links span:hover { color: var(--ph-ink); background: var(--ph-hover); }
+.ph-links span.is-on { color: var(--ph-ink); background: var(--ph-hover2); font-weight: var(--ph-strong-weight); }
+.ph-cta { position: absolute; right: 64px; top: 20px; height: 36px; line-height: 35px; padding: 0 18px; border-radius: var(--ph-radius-btn); background: var(--ph-press); color: var(--ph-press-ink); font-size: 13.5px; font-weight: var(--ph-strong-weight); cursor: pointer; transition: background-color .15s ease; white-space: nowrap; }
+.ph-cta:hover { background: var(--ph-accent); color: var(--ph-accent-ink); }
+.ph-cta i { font-style: normal; margin-left: 7px; }
+.ph-foot { position: absolute; left: 64px; right: 64px; bottom: 18px; font-size: 12px; color: var(--ph-ink3); }
+
+/* ---------- type ---------- */
+.ph-label { font-size: 13px; font-weight: var(--ph-strong-weight); letter-spacing: var(--ph-label-tracking); text-transform: var(--ph-label-case); color: var(--ph-accent-deep); white-space: nowrap; }
+.ph-label i { display: inline-block; width: 22px; height: 2px; background: var(--ph-accent); vertical-align: 4px; margin-right: 11px; }
+.ph-display { font-family: var(--ph-display); font-weight: var(--ph-display-weight); font-size: 58px; line-height: 1.2; letter-spacing: var(--ph-display-tracking); }
+.ph-mega { font-family: var(--ph-display); font-weight: var(--ph-display-weight); font-size: 92px; line-height: 1.08; letter-spacing: var(--ph-display-tracking); }
+.ph-h1 { font-family: var(--ph-display); font-weight: var(--ph-display-weight); font-size: 40px; line-height: 1.28; letter-spacing: var(--ph-display-tracking); }
+.ph-h2 { font-family: var(--ph-display); font-weight: var(--ph-display-weight); font-size: 27px; line-height: 1.35; letter-spacing: var(--ph-display-tracking); }
+.ph-h3 { font-size: 18px; font-weight: var(--ph-strong-weight); line-height: 1.45; letter-spacing: -0.2px; }
+.ph-display em, .ph-mega em, .ph-h1 em, .ph-h2 em { font-style: normal; color: var(--ph-accent); }
+.ph-lead { font-size: 19px; line-height: 1.7; color: var(--ph-ink2); }
+.ph-small { font-size: 13.5px; line-height: 1.6; }
+.ph-muted { color: var(--ph-ink2); } .ph-faint { color: var(--ph-ink3); }
+.ph-num { font-family: var(--ph-display); font-weight: var(--ph-display-weight); letter-spacing: var(--ph-display-tracking); }
+.ph-good { color: var(--ph-good); } .ph-bad { color: var(--ph-bad); } .ph-warn { color: var(--ph-warn); } .ph-accent { color: var(--ph-accent); }
+
+/* ---------- surfaces ---------- */
+.ph-card { position: relative; background: var(--ph-surface); border: var(--ph-card-border); border-radius: var(--ph-radius); box-shadow: var(--ph-shadow); padding: 22px 24px; }
+.ph-card.ph-flat { box-shadow: none; border: 1px solid var(--ph-line); }
+.ph-card.ph-tint { background: var(--ph-accent-soft); box-shadow: none; border: 0; }
+.ph-card.ph-hot { cursor: pointer; }
+.ph-card.ph-hot:hover { background: var(--ph-bg2); }
+.ph-card.is-on { box-shadow: 0 0 0 2px var(--ph-accent); }
+.ph-rule { height: 1px; background: var(--ph-line); border: 0; margin: 0; }
+.ph-band { background: var(--ph-bg2); border-radius: var(--ph-radius); padding: 18px 22px; }
+
+/* ---------- buttons, chips, tabs ---------- */
+.ph-btn { display: inline-block; height: 44px; line-height: 43px; padding: 0 22px; border-radius: var(--ph-radius-btn); background: var(--ph-press); color: var(--ph-press-ink); font-size: 15px; font-weight: var(--ph-strong-weight); cursor: pointer; white-space: nowrap; transition: background-color .15s ease; }
+.ph-btn:hover { background: var(--ph-accent); color: var(--ph-accent-ink); }
+.ph-btn.ph-ghost { background: transparent; color: var(--ph-ink); box-shadow: inset 0 0 0 1px var(--ph-line); }
+.ph-btn.ph-ghost:hover { background: var(--ph-hover); color: var(--ph-ink); }
+.ph-btn i { font-style: normal; margin-left: 8px; }
+.ph-chips { white-space: nowrap; }
+.ph-chip { display: inline-block; height: 34px; line-height: 33px; padding: 0 15px; margin-right: 6px; border-radius: var(--ph-radius-s); font-size: 13.5px; color: var(--ph-ink2); box-shadow: inset 0 0 0 1px var(--ph-line); cursor: pointer; transition: color .15s ease, background-color .15s ease; }
+.ph-chip:hover { color: var(--ph-ink); background: var(--ph-hover); }
+.ph-chip.is-on { background: var(--ph-press); color: var(--ph-press-ink); box-shadow: none; font-weight: var(--ph-strong-weight); }
+.ph-seg { display: inline-block; padding: 4px; border-radius: var(--ph-radius-s); background: var(--ph-hover2); white-space: nowrap; }
+.ph-seg span { display: inline-block; height: 34px; line-height: 34px; padding: 0 17px; border-radius: var(--ph-radius-s); font-size: 13.5px; color: var(--ph-ink2); cursor: pointer; transition: color .15s ease, background-color .15s ease; }
+.ph-seg span.is-on { background: var(--ph-surface); color: var(--ph-ink); font-weight: var(--ph-strong-weight); box-shadow: 0 1px 2px rgba(0,0,0,.14); }
+.ph-panel { display: none; } .ph-panel.is-on { display: block; }
+.ph-badge { display: inline-block; height: 24px; line-height: 24px; padding: 0 10px; border-radius: var(--ph-radius-s); font-size: 12px; font-weight: var(--ph-strong-weight); background: var(--ph-accent-soft); color: var(--ph-accent-deep); white-space: nowrap; }
+.ph-badge.ph-good { background: var(--ph-good-soft); color: var(--ph-good); } .ph-badge.ph-bad { background: var(--ph-bad-soft); color: var(--ph-bad); } .ph-badge.ph-warn { background: var(--ph-warn-soft); color: var(--ph-warn); }
+.ph-badge.ph-plain { background: var(--ph-hover2); color: var(--ph-ink2); }
+
+/* ---------- numbers ---------- */
+.ph-kpi .ph-kpi-label { font-size: 13.5px; color: var(--ph-ink2); }
+.ph-kpi .ph-kpi-value { font-family: var(--ph-display); font-weight: var(--ph-display-weight); font-size: 44px; line-height: 1.2; letter-spacing: var(--ph-display-tracking); margin-top: 6px; white-space: nowrap; }
+.ph-kpi .ph-kpi-value small { font-size: 20px; letter-spacing: 0; margin-left: 3px; font-family: var(--ph-body); font-weight: var(--ph-strong-weight); color: var(--ph-ink2); }
+.ph-kpi .ph-kpi-delta { font-size: 13.5px; font-weight: var(--ph-strong-weight); margin-top: 6px; }
+.ph-meter { height: 8px; border-radius: 4px; background: var(--ph-hover2); overflow: hidden; }
+.ph-meter i { display: block; height: 100%; width: 0; border-radius: 4px; background: var(--ph-accent); transition: width .6s cubic-bezier(.2,.7,.2,1); }
+
+/* ---------- table ---------- */
+.ph-table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+.ph-table th { text-align: left; font-size: 12.5px; font-weight: var(--ph-strong-weight); letter-spacing: .3px; color: var(--ph-ink2); padding: 0 14px 10px; border-bottom: 1px solid var(--ph-line); white-space: nowrap; }
+.ph-table th.is-sortable { cursor: pointer; } .ph-table th.is-sortable:hover { color: var(--ph-ink); }
+.ph-table th i { font-style: normal; display: inline-block; width: 14px; color: var(--ph-accent); }
+.ph-table td { padding: 12px 14px; border-bottom: 1px solid var(--ph-line); white-space: nowrap; }
+.ph-table tr.ph-tr { cursor: pointer; }
+.ph-table tr.ph-tr:hover td { background: var(--ph-hover); }
+.ph-table tr.is-on td { background: var(--ph-accent-soft); }
+.ph-table .ph-r { text-align: right; }
+.ph-table td .ph-bar { display: inline-block; height: 6px; border-radius: 3px; background: var(--ph-accent); vertical-align: 2px; margin-right: 8px; }
+
+/* ---------- lists: steps, timeline, accordion ---------- */
+.ph-step { position: relative; padding: 14px 16px 14px 56px; border-radius: var(--ph-radius); cursor: pointer; }
+.ph-step:hover { background: var(--ph-hover); }
+.ph-step.is-on { background: var(--ph-surface); box-shadow: var(--ph-shadow); }
+.ph-step .ph-step-n { position: absolute; left: 14px; top: 14px; width: 30px; height: 30px; line-height: 30px; border-radius: 50%; text-align: center; font-size: 13.5px; font-weight: var(--ph-strong-weight); color: var(--ph-ink2); box-shadow: inset 0 0 0 1.5px var(--ph-line); }
+.ph-step.is-on .ph-step-n, .ph-step.is-done .ph-step-n { background: var(--ph-accent); color: var(--ph-accent-ink); box-shadow: none; }
+.ph-step .ph-step-t { font-size: 16px; font-weight: var(--ph-strong-weight); line-height: 30px; }
+.ph-step .ph-step-d { font-size: 13.5px; color: var(--ph-ink2); display: none; }
+.ph-step.is-on .ph-step-d { display: block; }
+.ph-acc { border-bottom: 1px solid var(--ph-line); }
+.ph-acc-q { position: relative; padding: 17px 44px 17px 2px; font-size: 17px; font-weight: var(--ph-strong-weight); cursor: pointer; transition: color .15s ease; }
+.ph-acc-q:hover { color: var(--ph-accent-deep); }
+.ph-acc-q:after { content: "+"; position: absolute; right: 6px; top: 13px; font-size: 24px; font-weight: 400; color: var(--ph-ink3); transition: transform .2s ease; }
+.ph-acc.is-on .ph-acc-q:after { transform: rotate(45deg); color: var(--ph-accent); }
+.ph-acc-a { display: none; color: var(--ph-ink2); font-size: 15px; line-height: 1.75; }
+.ph-acc.is-on .ph-acc-a { display: block; }
+.ph-acc-a div { padding: 0 44px 18px 2px; }
+.ph-tl { position: relative; height: 150px; }
+.ph-tl-line { position: absolute; left: 0; right: 0; top: 46px; height: 2px; background: var(--ph-line); }
+.ph-tl-fill { position: absolute; left: 0; top: 46px; height: 2px; width: 0; background: var(--ph-accent); transition: width .5s cubic-bezier(.2,.7,.2,1); }
+.ph-tl-pt { position: absolute; top: 0; width: 160px; margin-left: -80px; text-align: center; cursor: pointer; }
+.ph-tl-pt b { display: block; font-size: 13px; font-weight: var(--ph-strong-weight); color: var(--ph-ink2); height: 26px; line-height: 26px; }
+.ph-tl-pt i { display: block; width: 16px; height: 16px; margin: 13px auto 0; border-radius: 50%; background: var(--ph-bg); box-shadow: inset 0 0 0 2px var(--ph-line); transition: transform .2s ease; }
+.ph-tl-pt span { display: block; margin-top: 12px; font-size: 14px; line-height: 1.45; color: var(--ph-ink2); }
+.ph-tl-pt.is-done i { background: var(--ph-accent); box-shadow: none; }
+.ph-tl-pt.is-on i { background: var(--ph-accent); box-shadow: 0 0 0 5px var(--ph-accent-soft); transform: scale(1.25); }
+.ph-tl-pt.is-on b, .ph-tl-pt:hover b { color: var(--ph-accent-deep); } .ph-tl-pt.is-on span { color: var(--ph-ink); font-weight: var(--ph-strong-weight); }
+
+/* ---------- switch, slider ---------- */
+.ph-switch { position: relative; display: inline-block; width: 46px; height: 26px; border-radius: 13px; background: var(--ph-line); cursor: pointer; transition: background-color .2s ease; vertical-align: middle; }
+.ph-switch i { position: absolute; left: 3px; top: 3px; width: 20px; height: 20px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 1px 3px rgba(0,0,0,.25); transition: left .2s cubic-bezier(.2,.7,.2,1); }
+.ph-switch.is-on { background: var(--ph-accent); } .ph-switch.is-on i { left: 23px; }
+.ph-slider { position: relative; height: 32px; cursor: pointer; }
+.ph-slider-track { position: absolute; left: 0; right: 0; top: 14px; height: 4px; border-radius: 2px; background: var(--ph-line); }
+.ph-slider-fill { position: absolute; left: 0; top: 14px; height: 4px; border-radius: 2px; background: var(--ph-accent); }
+.ph-slider-knob { position: absolute; top: 5px; width: 22px; height: 22px; margin-left: -11px; border-radius: 50%; background: var(--ph-surface); box-shadow: 0 0 0 2px var(--ph-accent), 0 2px 5px rgba(0,0,0,.18); }
+
+/* ---------- charts (drawn by kit.js) ---------- */
+/* the element you hand to PH.bars / PH.lines / PH.donut / PH.spark must have a size of its own (width and height) */
+.ph-chart svg { position: absolute; left: 0; top: 0; }
+.ph-chart text { font-family: var(--ph-body); font-size: 12px; fill: var(--ph-ink3); }
+.ph-chart .ph-axis { stroke: var(--ph-line); stroke-width: 1; }
+.ph-chart .ph-val { fill: var(--ph-ink); font-weight: var(--ph-strong-weight); font-size: 12.5px; }
+.ph-chart .ph-col { position: absolute; }
+.ph-chart .ph-colbar { position: absolute; bottom: 0; border-radius: 5px 5px 0 0; transform: scaleY(0); transform-origin: 50% 100%; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+.ph-chart.is-in .ph-colbar { transform: scaleY(1); }
+.ph-chart .ph-col.is-dim .ph-colbar { opacity: .4; }
+.ph-chart .ph-wipe { position: absolute; top: 0; bottom: 0; right: 0; left: 0; background: var(--ph-surface); transform-origin: 100% 50%; transition: transform .8s cubic-bezier(.3,0,.2,1); }
+.ph-chart.is-in .ph-wipe { transform: scaleX(0); }
+.ph-tip { position: absolute; z-index: 60; padding: 7px 11px; border-radius: 9px; background: var(--ph-press); color: var(--ph-press-ink); font-size: 12.5px; line-height: 1.5; white-space: nowrap; pointer-events: none; display: none; }
+.ph-tip.is-on { display: block; }
+.ph-tip b { font-size: 14px; }
+.ph-legend { font-size: 13px; color: var(--ph-ink2); white-space: nowrap; }
+.ph-legend span { display: inline-block; margin-right: 16px; cursor: pointer; }
+.ph-legend span.is-off { opacity: .35; }
+.ph-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 7px; vertical-align: -1px; }
+.ph-c1 { color: var(--ph-c1); } .ph-c2 { color: var(--ph-c2); } .ph-c3 { color: var(--ph-c3); } .ph-c4 { color: var(--ph-c4); } .ph-c5 { color: var(--ph-c5); } .ph-c6 { color: var(--ph-c6); }
+.ph-cline { color: var(--ph-line); } .ph-cink { color: var(--ph-ink); } .ph-cink3 { color: var(--ph-ink3); } .ph-csurface { color: var(--ph-surface); } .ph-cbg { color: var(--ph-bg); } .ph-caccent { color: var(--ph-accent); }
+
+/* ---------- motion: small things only ---------- */
+.ph-rise { opacity: 0; transform: translateY(10px); transition: opacity .4s ease, transform .4s cubic-bezier(.2,.7,.2,1); }
+body.ph-in .ph-rise { opacity: 1; transform: none; }
+.ph-rise.ph-still { opacity: 1; transform: none; transition: none; }           /* set by kit.js on anything large */
+.ph-d1 { transition-delay: .05s; } .ph-d2 { transition-delay: .1s; } .ph-d3 { transition-delay: .15s; } .ph-d4 { transition-delay: .2s; } .ph-d5 { transition-delay: .25s; } .ph-d6 { transition-delay: .3s; }
+.ph-frag { opacity: 0; transform: translateY(8px); transition: opacity .3s ease, transform .3s ease; }
+.ph-frag.is-on { opacity: 1; transform: none; }
+.ph-caret { display: inline-block; width: 2px; height: 1.05em; background: var(--ph-accent); vertical-align: -0.16em; margin-left: 2px; animation: ph-blink 1s steps(1) infinite; }
+@keyframes ph-blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
+.ph-ring { position: absolute; left: -100px; top: -100px; width: 30px; height: 30px; margin: -15px 0 0 -15px; border-radius: 50%; border: 1.5px solid var(--ph-accent); pointer-events: none; z-index: 99; }
+.ph-ring.is-big { width: 46px; height: 46px; margin: -23px 0 0 -23px; background: var(--ph-accent-soft); opacity: .7; }
+/* when the PC cannot keep up (measured by kit.js while the page appears), everything simply appears */
+html.ph-lite .ph-rise, html.ph-lite .ph-frag.is-on { opacity: 1; transform: none; }
+html.ph-lite * { transition-duration: 0s !important; transition-delay: 0s !important; animation: none !important; }
+
+/* ---------- deck tools (kit-deck.js): dock, slide picker, editing, pen, zoom, hints ---------- */
+.ph-dock { position: absolute; right: 64px; bottom: 7px; height: 34px; padding: 0 6px; border-radius: 17px; background: var(--ph-surface); box-shadow: var(--ph-shadow-pop); z-index: 77; white-space: nowrap; font-size: 12.5px; color: var(--ph-ink2); opacity: 0; visibility: hidden; transition: opacity .15s ease; }
+/* out of sight until it can be used: kit-deck.js shows it while the pointer is in the bottom right corner or a tool is on */
+.ph-dock.is-open { opacity: 1; visibility: visible; }
+.ph-dock span { display: inline-block; height: 34px; line-height: 34px; min-width: 30px; padding: 0 6px; text-align: center; cursor: pointer; vertical-align: top; border-radius: 15px; }
+.ph-dock span:hover { color: var(--ph-ink); background: var(--ph-hover); }
+.ph-dock span.is-on { color: var(--ph-accent-ink); background: var(--ph-accent); }
+.ph-dock span.ph-dock-n { min-width: 54px; font-weight: var(--ph-strong-weight); }
+.ph-dock i { display: inline-block; width: 1px; height: 16px; background: var(--ph-line); vertical-align: -3px; margin: 0 4px; }
+.ph-dock svg { position: static; vertical-align: -3px; }
+.ph-progress { position: absolute; left: 0; bottom: 0; height: 3px; background: var(--ph-accent); z-index: 69; }
+.ph-shade { position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: rgba(0,0,0,.45); z-index: 78; }
+.ph-picker { position: absolute; left: 50%; top: 92px; max-height: 566px; z-index: 80; background: var(--ph-surface); border-radius: var(--ph-radius); box-shadow: var(--ph-shadow-pop); padding: 22px 12px 10px 26px; overflow: hidden; }
+.ph-picker h3 { font-size: 15px; font-weight: var(--ph-strong-weight); margin-bottom: 14px; }
+.ph-picker h3 small { font-weight: 400; color: var(--ph-ink2); margin-left: 10px; font-size: 13px; }
+.ph-pick { float: left; width: 196px; margin: 0 14px 14px 0; cursor: pointer; }
+.ph-pick .ph-pick-img { display: block; width: 196px; height: 110px; border-radius: 8px; background: var(--ph-bg2) no-repeat 50% 50%; background-size: cover; box-shadow: 0 0 0 1px var(--ph-line); position: relative; }
+.ph-pick .ph-pick-img b { position: absolute; left: 12px; top: 10px; font-size: 26px; color: var(--ph-ink3); }
+.ph-pick span { display: block; margin-top: 6px; font-size: 12.5px; line-height: 1.4; height: 18px; overflow: hidden; color: var(--ph-ink2); white-space: nowrap; text-overflow: ellipsis; }
+.ph-pick:hover .ph-pick-img, .ph-pick.is-hot .ph-pick-img { box-shadow: 0 0 0 3px var(--ph-accent); }
+.ph-pick.is-cur .ph-pick-img { box-shadow: 0 0 0 2px var(--ph-ink); }
+.ph-pick.is-cur span { color: var(--ph-ink); font-weight: var(--ph-strong-weight); }
+.ph-picker.ph-small .ph-pick { width: 150px; margin: 0 10px 10px 0; } .ph-picker.ph-small .ph-pick .ph-pick-img { width: 150px; height: 84px; }
+.ph-editbar { position: absolute; left: 50%; top: 14px; width: 700px; margin-left: -350px; height: 44px; padding: 7px 10px; border-radius: 22px; background: var(--ph-press); color: var(--ph-press-ink); z-index: 77; font-size: 13px; line-height: 30px; white-space: nowrap; text-align: left; }
+.ph-editbar span { display: inline-block; height: 30px; line-height: 30px; margin: 0 2px; padding: 0 13px; border-radius: 15px; cursor: pointer; vertical-align: top; }
+.ph-editbar span:hover { box-shadow: inset 0 0 0 1px var(--ph-ink3); }
+.ph-editbar span.is-on { background: var(--ph-press-ink); color: var(--ph-press); font-weight: var(--ph-strong-weight); box-shadow: none; }
+.ph-editbar span.ph-eb-done { box-shadow: inset 0 0 0 1.5px var(--ph-press-ink); font-weight: var(--ph-strong-weight); }
+.ph-editbar i { display: inline-block; width: 1px; height: 16px; background: var(--ph-ink3); vertical-align: top; margin: 7px 6px 0; }
+.ph-editbar em { font-style: normal; font-size: 12.5px; margin-left: 12px; opacity: .75; }
+body.ph-editing [data-ph-t] { cursor: text; outline: 1px dashed var(--ph-ink3); outline-offset: 3px; }
+body.ph-editing [data-ph-t]:hover { outline: 2px dashed var(--ph-accent); }
+body.ph-editing [data-ph-t].is-edit { outline: 2px solid var(--ph-accent); -ms-user-select: text; user-select: text; }
+body.ph-moving [data-ph-t], body.ph-moving .ph-card, body.ph-moving .ph-band, body.ph-moving .ph-chart, body.ph-moving img, body.ph-moving [data-move] { cursor: move; }
+body.ph-moving .ph-card:hover, body.ph-moving .ph-band:hover { outline: 2px dashed var(--ph-accent); outline-offset: 2px; }
+body.ph-editing .is-move { outline: 2px solid var(--ph-accent); outline-offset: 2px; }
+.ph-pen { position: absolute; left: 0; top: 0; z-index: 74; cursor: crosshair; }
+[data-zoom] { cursor: pointer; }
+.ph-hint { position: absolute; z-index: 85; max-width: 320px; padding: 9px 13px; border-radius: 10px; background: var(--ph-press); color: var(--ph-press-ink); font-size: 13px; line-height: 1.55; pointer-events: none; display: none; white-space: normal; }
+.ph-hint.is-on { display: block; }
+[data-tip] { border-bottom: 1px dashed var(--ph-ink3); cursor: help; }
+.ph-timer { font-family: var(--ph-display); font-weight: var(--ph-display-weight); letter-spacing: var(--ph-display-tracking); cursor: pointer; }
+.ph-timer.is-over { color: var(--ph-bad); }
+
+/* ---------- free pages: <html class="ph-free"> ----------
+   A page that brings its own layout, written like any page for a current browser. The kit then only supplies the
+   theme variables, the deck tools and whatever parts the page chooses to use: nothing of the fixed page frame
+   applies (see the top of this file), the page may be longer than the slide and scroll, and its text can be selected. */
+/* the deck tools stay in view when the page scrolls */
+html.ph-free .ph-dock, html.ph-free .ph-progress, html.ph-free .ph-shade, html.ph-free .ph-picker, html.ph-free .ph-editbar, html.ph-free .ph-pen, html.ph-free .ph-hint, html.ph-free .ph-ring { position: fixed; }

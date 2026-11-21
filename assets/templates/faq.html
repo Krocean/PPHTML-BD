@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>질문</title>
+<link rel="stylesheet" href="../kit/theme-cobalt.css">
+<link rel="stylesheet" href="../kit/kit.css">
+<style>
+  .body { margin-top: 22px; }
+  .qa { border-top: 1px solid var(--ph-line); }
+  .help { height: 400px; padding: 28px 28px; }
+  .help p { margin-top: 12px; font-size: 15px; line-height: 1.75; color: var(--ph-ink2); }
+  .help .kv { position: relative; height: 46px; line-height: 46px; border-top: 1px solid var(--ph-line); font-size: 14.5px; color: var(--ph-ink2); }
+  .help .kv b { position: absolute; right: 0; top: 0; color: var(--ph-ink); }
+  .help .ph-btn { position: absolute; left: 28px; bottom: 28px; }
+</style>
+</head>
+<body>
+<div class="ph-page">
+  <div class="ph-label ph-rise"><i></i>자주 묻는 질문</div>
+  <h1 class="ph-h1 ph-rise ph-d1 ph-mt8">질문을 누르면 <em>답이 열립니다</em></h1>
+
+  <div class="ph-row ph-g40 body">
+    <div class="ph-w60 qa" data-single>
+      <div class="ph-acc is-on"><div class="ph-acc-q">원두는 볶은 지 얼마나 된 것을 쓰나요?</div><div class="ph-acc-a"><div>볶은 지 사흘에서 2주 사이의 원두만 씁니다. 봉투마다 볶은 날짜를 적어 둡니다.</div></div></div>
+      <div class="ph-acc"><div class="ph-acc-q">미리 주문은 얼마나 전에 해야 하나요?</div><div class="ph-acc-a"><div>도착 5분 전이면 충분합니다. 앱이 매장의 대기 상황을 보고 준비 시간을 알려 줍니다.</div></div></div>
+      <div class="ph-acc"><div class="ph-acc-q">디카페인 원두도 있나요?</div><div class="ph-acc-a"><div>물로만 카페인을 뺀 원두 한 가지를 늘 준비해 둡니다. <span data-tip="화학 용매를 쓰지 않고 물과 온도, 시간으로 카페인을 빼는 방식">물 처리 방식</span>이라 맛이 덜 깎입니다.</div></div></div>
+      <div class="ph-acc"><div class="ph-acc-q">원두만 정기적으로 받을 수 있나요?</div><div class="ph-acc-a"><div>2주 또는 4주마다 보내 드립니다. 한 번 건너뛰거나 원두를 바꾸는 것은 앱에서 바로 됩니다.</div></div></div>
+      <div class="ph-acc"><div class="ph-acc-q">매장에서 로스팅을 볼 수 있나요?</div><div class="ph-acc-a"><div>서촌점에서 매달 둘째 토요일에 체험을 엽니다. 한 번에 여덟 분까지 받습니다.</div></div></div>
+    </div>
+    <div class="ph-card help">
+      <div class="ph-label"><i></i>더 궁금하다면</div>
+      <h3 class="ph-h2 ph-mt8">손님 창구</h3>
+      <p>여기에 없는 질문은 발표가 끝난 뒤 바로 받겠습니다.</p>
+      <div class="kv ph-mt16">여는 시간<b>매일 9시 ~ 18시</b></div>
+      <div class="kv">평균 답변<b>반나절</b></div>
+      <span class="ph-btn" data-next>다음으로<i>→</i></span>
+    </div>
+  </div>
+</div>
+
+<script src="../kit/kit.js"></script>
+<script src="../kit/kit-deck.js"></script>
+<script>
+/* 바꿀 곳: 질문과 답은 위 HTML 을 그대로 고칩니다(ph-acc 한 덩어리가 질문 하나). data-single 을 지우면 여러 개를 함께 열 수 있습니다.
+   낱말에 data-tip="설명" 을 붙이면 마우스를 올렸을 때 설명이 뜹니다. */
+PH.nav({ brand: "모래내 로스터스", links: [["표지", 1], ["목차", 2], ["지표", 3], ["일정", 4], ["마무리", 5]], page: 5 });
+PH.ring();
+PH.deck();
+</script>
+</body>
+</html>

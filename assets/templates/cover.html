@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>표지</title>
+<link rel="stylesheet" href="../kit/theme-cobalt.css">
+<link rel="stylesheet" href="../kit/kit.css">
+<style>
+  .hero { position: absolute; left: 64px; top: 188px; width: 600px; }
+  .hero .ph-lead { margin-top: 22px; width: 520px; }
+  .hero .acts { margin-top: 36px; }
+  .hero .acts .ph-btn { margin-right: 10px; }
+  .shape { position: absolute; border-radius: 50%; }
+  .shape.a { left: 800px; top: 140px; width: 420px; height: 420px; background: var(--ph-accent-soft); }
+  .shape.b { left: 1070px; top: 450px; width: 150px; height: 150px; background: var(--ph-bg2); }
+  .glance { position: absolute; left: 740px; top: 210px; width: 440px; padding: 26px 28px 22px; }
+  .glance .row { position: relative; height: 74px; border-bottom: 1px solid var(--ph-line); }
+  .glance .row.last { border-bottom: 0; }
+  .glance .row .k { position: absolute; left: 0; top: 14px; font-size: 13.5px; color: var(--ph-ink2); }
+  .glance .row .v { position: absolute; left: 0; top: 32px; font-size: 26px; line-height: 34px; white-space: nowrap; }
+  .glance .row .v small { font-size: 14px; color: var(--ph-ink2); margin-left: 3px; font-family: var(--ph-body); letter-spacing: 0; }
+  .glance .row .s { position: absolute; right: 0; top: 20px; width: 150px; height: 40px; }
+  .glance .cap { margin-top: 14px; font-size: 12.5px; color: var(--ph-ink3); }
+</style>
+</head>
+<body>
+<div class="shape a"></div><div class="shape b"></div>
+
+<div class="hero">
+  <div class="ph-label ph-rise"><i></i>2026년 3분기 보고</div>
+  <h1 class="ph-display ph-rise ph-d1 ph-mt16">숫자로 보는<br><em>모래내 로스터스</em></h1>
+  <p class="ph-lead ph-rise ph-d2">이 발표는 화면을 직접 눌러 보며 진행합니다. 지표, 일정, 비교 화면이 모두 슬라이드 안에서 움직입니다.</p>
+  <div class="acts ph-rise ph-d3">
+    <span class="ph-btn" data-next>시작하기<i>→</i></span>
+    <span class="ph-btn ph-ghost" data-goto="2">목차 보기</span>
+  </div>
+</div>
+
+<div class="ph-card glance">
+  <div class="ph-label"><i></i>한눈에 보기</div>
+  <div class="row"><span class="k">매장</span><span class="v ph-num"><span data-count="9"></span><small>곳</small></span><div class="s" id="s1"></div></div>
+  <div class="row"><span class="k">월 방문객</span><span class="v ph-num"><span data-count="38250"></span><small>명</small></span><div class="s" id="s2"></div></div>
+  <div class="row last"><span class="k">재방문율</span><span class="v ph-num"><span data-count="62.4" data-digits="1"></span><small>%</small></span><div class="s" id="s3"></div></div>
+  <div class="cap">2026년 9월 말 기준 · 가상의 회사와 숫자입니다</div>
+</div>
+
+<script src="../kit/kit.js"></script>
+<script src="../kit/kit-deck.js"></script>
+<script>
+/* 바꿀 곳: 머리 메뉴(이름, 슬라이드 번호), 위 문구, 아래 추이 숫자 */
+PH.nav({ brand: "모래내 로스터스", links: [["표지", 1], ["목차", 2], ["지표", 3], ["일정", 4], ["마무리", 5]], page: 1 });
+PH.ring();
+PH.deck();
+PH.spark(PH.$("#s1"), [4, 5, 5, 6, 8, 8, 9], "c1");
+PH.spark(PH.$("#s2"), [21, 24, 23, 28, 31, 35, 38], "c2");
+PH.spark(PH.$("#s3"), [41, 44, 48, 52, 55, 59, 62], "c3");
+</script>
+</body>
+</html>

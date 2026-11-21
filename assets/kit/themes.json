@@ -1,0 +1,87 @@
+[
+  {
+    "id": "cobalt",
+    "note": "clean white and blue, sans headlines (business reports) - the default",
+    "dark": false
+  },
+  {
+    "id": "paper",
+    "note": "warm paper, serif headlines, clay accent (editorial)",
+    "dark": false
+  },
+  {
+    "id": "ink",
+    "note": "dark, serif headlines, clay accent (keynote)",
+    "dark": true
+  },
+  {
+    "id": "forest",
+    "note": "soft green, serif headlines (public sector, sustainability)",
+    "dark": false
+  },
+  {
+    "id": "snow",
+    "note": "pure white, black type, one signal colour (minimal)",
+    "dark": false
+  },
+  {
+    "id": "material",
+    "note": "Material 3 baseline (Google): tonal surfaces, Roboto + Noto Sans KR",
+    "dark": false
+  },
+  {
+    "id": "fluent",
+    "note": "Fluent 2 (Microsoft): neutral greys, brand blue, soft small shadows; Segoe UI + Noto Sans KR",
+    "dark": false
+  },
+  {
+    "id": "carbon",
+    "note": "Carbon (IBM), white theme: square corners, flat layers, IBM Plex Sans KR",
+    "dark": false
+  },
+  {
+    "id": "carbon-dark",
+    "note": "Carbon (IBM), gray 100 theme: the dark counterpart",
+    "dark": true
+  },
+  {
+    "id": "cloudscape",
+    "note": "Cloudscape (AWS): white containers, rounded, bold headings; Open Sans + Noto Sans KR",
+    "dark": false
+  },
+  {
+    "id": "primer",
+    "note": "Primer (GitHub), light: white canvas, hairline borders, small radius; Segoe UI + Pretendard",
+    "dark": false
+  },
+  {
+    "id": "primer-dark",
+    "note": "Primer (GitHub), dark",
+    "dark": true
+  },
+  {
+    "id": "cupertino",
+    "note": "keynote look in the manner of Apple's product pages: big tight type, grey tiles, pill buttons; Pretendard",
+    "dark": false
+  },
+  {
+    "id": "geist",
+    "note": "developer-tool look in the manner of Vercel: black on white, hairlines, very tight headlines; Geist + Pretendard",
+    "dark": false
+  },
+  {
+    "id": "indigo",
+    "note": "fintech look in the manner of Stripe: cool grey page, navy type, indigo accent; Inter + Pretendard",
+    "dark": false
+  },
+  {
+    "id": "midnight",
+    "note": "dark product look in the manner of Linear: near-black, hairline cards, soft indigo; Inter + Pretendard",
+    "dark": true
+  },
+  {
+    "id": "seoul",
+    "note": "Korean consumer-app look (large rounded cards on a grey page, vivid blue); Pretendard",
+    "dark": false
+  }
+]

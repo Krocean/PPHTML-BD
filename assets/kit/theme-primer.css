@@ -1,0 +1,46 @@
+/* ppt-html design kit - theme "primer": Primer (GitHub), light: white canvas, hairline borders, small radius; Segoe UI + Pretendard.
+   Values: @primer/primitives (MIT), functional theme 'light'. Unofficial; product and company names belong to their owners.
+   Link ONE theme file before kit.css. To match a company style, copy this file and change the values
+   (keep every name; each is defined exactly once, here). */
+:root {
+  --ph-bg: #F6F8FA;
+  --ph-bg2: #818B981F;
+  --ph-surface: #FFFFFF;
+  --ph-ink: #1F2328;
+  --ph-ink2: #59636E;
+  --ph-ink3: #818B98;
+  --ph-line: #D1D9E0;
+  --ph-accent: #0969DA;
+  --ph-accent-ink: #FFFFFF;
+  --ph-accent-soft: #DDF4FF;
+  --ph-accent-deep: #0550AE;
+  --ph-good: #1A7F37;
+  --ph-good-soft: #DAFBE1;
+  --ph-bad: #D1242F;
+  --ph-bad-soft: #FFEBE9;
+  --ph-warn: #9A6700;
+  --ph-warn-soft: #FFF8C5;
+  --ph-c1: #0969DA;
+  --ph-c2: #1A7F37;
+  --ph-c3: #8250DF;
+  --ph-c4: #BF3989;
+  --ph-c5: #BC4C00;
+  --ph-c6: #818B98;
+  --ph-hover: rgba(31,35,40,0.05);
+  --ph-hover2: rgba(31,35,40,0.08);
+  --ph-press: #1F883D;
+  --ph-press-ink: #FFFFFF;
+  --ph-display: "Segoe UI", "Pretendard", "Noto Sans KR", sans-serif;
+  --ph-display-weight: 600;
+  --ph-display-tracking: -0.015em;
+  --ph-body: "Segoe UI", "Pretendard", "Noto Sans KR", sans-serif;
+  --ph-strong-weight: 600;
+  --ph-label-tracking: 0.04em;
+  --ph-label-case: none;
+  --ph-radius: 6px;
+  --ph-radius-s: 999px;
+  --ph-radius-btn: 6px;
+  --ph-card-border: 1px solid #D1D9E0;
+  --ph-shadow: 0 1px 0 rgba(31,35,40,.04);
+  --ph-shadow-pop: 0 0 0 1px #D1D9E0, 0 8px 24px rgba(140,149,159,.2);
+}

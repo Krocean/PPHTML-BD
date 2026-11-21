@@ -1,0 +1,46 @@
+/* ppt-html design kit - theme "midnight": dark product look in the manner of Linear: near-black, hairline cards, soft indigo; Inter + Pretendard.
+   Values: hand-written approximation; Inter typeface (SIL OFL). Unofficial; product and company names belong to their owners.
+   Link ONE theme file before kit.css. To match a company style, copy this file and change the values
+   (keep every name; each is defined exactly once, here). */
+:root {
+  --ph-bg: #08090A;
+  --ph-bg2: #101113;
+  --ph-surface: #141516;
+  --ph-ink: #F7F8F8;
+  --ph-ink2: #8A8F98;
+  --ph-ink3: #62666D;
+  --ph-line: #23252A;
+  --ph-accent: #6E79E6;
+  --ph-accent-ink: #FFFFFF;
+  --ph-accent-soft: #1B1D3A;
+  --ph-accent-deep: #A4ABFF;
+  --ph-good: #4CB782;
+  --ph-good-soft: #12261C;
+  --ph-bad: #EB5757;
+  --ph-bad-soft: #2C1616;
+  --ph-warn: #F2C94C;
+  --ph-warn-soft: #2B2610;
+  --ph-c1: #7C86F0;
+  --ph-c2: #4CB782;
+  --ph-c3: #F2C94C;
+  --ph-c4: #26B5CE;
+  --ph-c5: #EB5757;
+  --ph-c6: #62666D;
+  --ph-hover: rgba(247,248,248,0.07);
+  --ph-hover2: rgba(247,248,248,0.11);
+  --ph-press: #F7F8F8;
+  --ph-press-ink: #08090A;
+  --ph-display: "Inter", "Pretendard", "Noto Sans KR", sans-serif;
+  --ph-display-weight: 600;
+  --ph-display-tracking: -0.03em;
+  --ph-body: "Inter", "Pretendard", "Noto Sans KR", sans-serif;
+  --ph-strong-weight: 600;
+  --ph-label-tracking: 0.04em;
+  --ph-label-case: none;
+  --ph-radius: 12px;
+  --ph-radius-s: 999px;
+  --ph-radius-btn: 8px;
+  --ph-card-border: 1px solid #23252A;
+  --ph-shadow: 0 0 0 0 transparent;
+  --ph-shadow-pop: 0 0 0 1px rgba(247,248,248,0.14), 0 12px 28px -8px rgba(0,0,0,0.7);
+}

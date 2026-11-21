@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>가정 바꿔 보기</title>
+<link rel="stylesheet" href="../kit/theme-cobalt.css">
+<link rel="stylesheet" href="../kit/kit.css">
+<style>
+  .body { margin-top: 26px; }
+  .knobs { height: 452px; padding: 28px 28px; }
+  .knob { margin-top: 26px; }
+  .knob .top { position: relative; height: 26px; font-size: 14.5px; color: var(--ph-ink2); }
+  .knob .top b { position: absolute; right: 0; top: -4px; font-size: 20px; color: var(--ph-ink); }
+  .knob .ends { position: relative; height: 18px; font-size: 12px; color: var(--ph-ink3); }
+  .knob .ends span { position: absolute; right: 0; top: 0; }
+  .out { height: 452px; padding: 26px 28px; }
+  .out .nums { margin-top: 14px; }
+  .out .num b { display: block; font-size: 38px; line-height: 1.2; white-space: nowrap; }
+  .out .num b small { font-size: 16px; font-family: var(--ph-body); color: var(--ph-ink2); margin-left: 3px; letter-spacing: 0; }
+  .out .num > span { font-size: 13px; color: var(--ph-ink2); }
+  .out .box { position: absolute; left: 28px; right: 28px; top: 176px; bottom: 56px; }
+  .out .foot { position: absolute; left: 28px; right: 28px; bottom: 20px; font-size: 12.5px; color: var(--ph-ink3); }
+  .reset { position: absolute; left: 28px; bottom: 26px; }
+</style>
+</head>
+<body>
+<div class="ph-page">
+  <div class="ph-label ph-rise"><i></i>가정 바꿔 보기</div>
+  <h1 class="ph-h1 ph-rise ph-d1 ph-mt8">막대를 움직이면 <em>내년 숫자</em>가 바뀝니다</h1>
+
+  <div class="ph-row body">
+    <div class="ph-card knobs ph-w40">
+      <div class="ph-label"><i></i>가정</div>
+      <div class="knob"><div class="top">새로 여는 매장<b id="v1"></b></div><div id="s1"></div><div class="ends">0곳<span>12곳</span></div></div>
+      <div class="knob"><div class="top">매장당 하루 손님<b id="v2"></b></div><div id="s2"></div><div class="ends">50명<span>400명</span></div></div>
+      <div class="knob"><div class="top">한 사람이 쓰는 돈<b id="v3"></b></div><div id="s3"></div><div class="ends">4,000원<span>12,000원</span></div></div>
+      <span class="ph-btn ph-ghost reset" id="reset">처음 값으로</span>
+    </div>
+    <div class="ph-card out">
+      <div class="ph-label"><i></i>결과</div>
+      <div class="ph-row nums">
+        <div class="num"><b class="ph-num"><span id="r1"></span><small>억 원</small></b><span>내년 매출</span></div>
+        <div class="num"><b class="ph-num"><span id="r2"></span><small>%</small></b><span>올해 대비</span></div>
+        <div class="num"><b class="ph-num"><span id="r3"></span><small>명</small></b><span>하루 손님 합계</span></div>
+      </div>
+      <div class="box" id="chart"></div>
+      <div class="foot">매출 = (지금 매장 + 새 매장) × 하루 손님 × 쓰는 돈 × 360일 · 새 매장은 분기마다 고르게 엽니다</div>
+    </div>
+  </div>
+</div>
+
+<script src="../kit/kit.js"></script>
+<script src="../kit/kit-deck.js"></script>
+<script>
+/* 바꿀 곳: NOW(지금 값), START(막대 처음 위치), calc()의 계산식. 막대 범위는 PH.slider 의 min / max / step. */
+var NOW = { shops: 9, sales: 52.3 }, START = { open: 3, guests: 180, spend: 7500 }, state = { open: START.open, guests: START.guests, spend: START.spend }, sliders = {}, chart, timer = 0;
+
+PH.nav({ brand: "모래내 로스터스", links: [["표지", 1], ["목차", 2], ["지표", 3], ["일정", 4], ["마무리", 5]], page: 4 });
+PH.ring();
+PH.deck();
+
+function calc() {
+  var q = [], i, shops, year = 0, perShopQuarter = state.guests * state.spend * 90 / 100000000;
+  for (i = 1; i <= 4; i++) { shops = NOW.shops + state.open * i / 4; q.push(Math.round(shops * perShopQuarter * 10) / 10); year += shops * perShopQuarter; }
+  return { year: year, growth: (year / NOW.sales - 1) * 100, guests: Math.round((NOW.shops + state.open) * state.guests), quarters: q };
+}
+function paint() {
+  var r = calc();
+  PH.$("#v1").textContent = state.open + "곳"; PH.$("#v2").textContent = PH.fmt(state.guests) + "명"; PH.$("#v3").textContent = PH.fmt(state.spend) + "원";
+  PH.$("#r1").textContent = PH.fmt(r.year, 1); PH.$("#r2").textContent = (r.growth >= 0 ? "+" : "") + PH.fmt(r.growth, 0); PH.$("#r3").textContent = PH.fmt(r.guests);
+}
+/* the numbers follow the knob at once; the chart is redrawn when the knob rests (a redraw per mouse move would stutter) */
+function changed() { paint(); clearTimeout(timer); timer = setTimeout(function () { chart.update({ values: calc().quarters }); }, 160); }
+sliders.open = PH.slider(PH.$("#s1"), { min: 0, max: 12, step: 1, value: START.open }, function (v) { state.open = v; changed(); });
+sliders.guests = PH.slider(PH.$("#s2"), { min: 50, max: 400, step: 10, value: START.guests }, function (v) { state.guests = v; changed(); });
+sliders.spend = PH.slider(PH.$("#s3"), { min: 4000, max: 12000, step: 500, value: START.spend }, function (v) { state.spend = v; changed(); });
+chart = PH.bars(PH.$("#chart"), { labels: ["1분기", "2분기", "3분기", "4분기"], values: calc().quarters, unit: "억", digits: 1, max: 100 });
+PH.on(PH.$("#reset"), "click", function () { sliders.open.set(START.open); sliders.guests.set(START.guests); sliders.spend.set(START.spend); });
+PH.onShow(paint);
+</script>
+</body>
+</html>

@@ -1,0 +1,227 @@
+{
+  "note": "Templates of the ppt-html design kit. Each is a complete page for a full 16:9 slide (1280 x 720). Copy with scripts/new-deck.ps1 (-Recipe or -Pages), then change the text and the data block at the bottom of each page. The example content is made up (a coffee roaster, a mug, a bakery app).",
+  "recipes": [
+    {
+      "id": "review",
+      "title": "분기·월간 보고",
+      "theme": "cobalt",
+      "pages": "cover,agenda,kpi,trend,table,timeline,compare,closing",
+      "what": "결론부터 말하는 보고: 숫자, 추이, 상세, 일정, 정할 일"
+    },
+    {
+      "id": "pitch",
+      "title": "투자 유치",
+      "theme": "indigo",
+      "pages": "statement,problem,market,features,matrix,trend,team,ask,faq",
+      "what": "한 문장, 문제와 해법, 시장, 제품, 경쟁, 성장, 팀, 요청 순서"
+    },
+    {
+      "id": "keynote",
+      "title": "제품 발표",
+      "theme": "cupertino",
+      "pages": "cover,statement,bignumber,features,quote,pricing,end",
+      "what": "한 장에 한 가지: 큰 문장, 큰 숫자, 기능, 후기, 가격"
+    },
+    {
+      "id": "report",
+      "title": "업무 보고",
+      "theme": "fluent",
+      "pages": "cover,agenda,kpi,table,process,faq,closing",
+      "what": "현황과 절차를 설명하고 질문을 받는 보고"
+    },
+    {
+      "id": "workshop",
+      "title": "회의·워크숍",
+      "theme": "seoul",
+      "pages": "cover,agenda,poll,compare,whatif,closing",
+      "what": "같이 눌러 보며 정하는 회의: 투표, 방안 비교, 가정 바꿔 보기"
+    }
+  ],
+  "themes": [
+    {
+      "id": "cobalt",
+      "what": "흰 바탕에 파랑, 고딕 제목. 어디에나 무난합니다(기본)."
+    },
+    {
+      "id": "paper",
+      "what": "따뜻한 종이색에 명조 제목, 주황 강조. 읽는 글 느낌."
+    },
+    {
+      "id": "ink",
+      "what": "어두운 바탕에 명조 제목. 큰 화면 발표용."
+    },
+    {
+      "id": "forest",
+      "what": "연한 초록에 명조 제목. 환경, 지역, 공익 주제."
+    },
+    {
+      "id": "snow",
+      "what": "순백에 검정 글자, 주황 한 색. 가장 단순합니다."
+    },
+    {
+      "id": "material",
+      "what": "구글 Material 3: 은은한 보라 톤 면, 둥근 모서리. Roboto + Noto Sans KR."
+    },
+    {
+      "id": "fluent",
+      "what": "마이크로소프트 Fluent 2: 회색 바탕, 파랑 강조, 얇은 그림자. Segoe UI + Noto Sans KR."
+    },
+    {
+      "id": "carbon",
+      "what": "IBM Carbon(밝은): 각진 모서리, 평평한 면. IBM Plex Sans KR."
+    },
+    {
+      "id": "carbon-dark",
+      "what": "IBM Carbon(어두운): Gray 100 테마."
+    },
+    {
+      "id": "cloudscape",
+      "what": "AWS Cloudscape: 흰 상자, 굵은 제목. Open Sans + Noto Sans KR."
+    },
+    {
+      "id": "primer",
+      "what": "깃허브 Primer(밝은): 가는 테두리, 작은 모서리. Pretendard."
+    },
+    {
+      "id": "primer-dark",
+      "what": "깃허브 Primer(어두운)."
+    },
+    {
+      "id": "cupertino",
+      "what": "애플 제품 소개 느낌: 크고 촘촘한 제목, 회색 타일, 알약 단추. Pretendard."
+    },
+    {
+      "id": "geist",
+      "what": "버셀 느낌의 개발 도구 화면: 흑백, 가는 선, 아주 촘촘한 제목. Geist + Pretendard."
+    },
+    {
+      "id": "indigo",
+      "what": "스트라이프 느낌의 핀테크: 서늘한 회색 바탕, 남색 글자, 인디고 강조. Inter + Pretendard."
+    },
+    {
+      "id": "midnight",
+      "what": "리니어 느낌의 어두운 제품 화면: 검정에 가까운 바탕, 가는 테두리 카드. Inter + Pretendard."
+    },
+    {
+      "id": "seoul",
+      "what": "한국 소비자 앱 느낌: 회색 바탕에 크고 둥근 카드, 선명한 파랑. Pretendard."
+    }
+  ],
+  "templates": [
+    {
+      "id": "cover",
+      "title": "표지",
+      "what": "큰 제목과 시작 단추, 오른쪽에 핵심 숫자 셋(추이 선 포함)"
+    },
+    {
+      "id": "agenda",
+      "title": "목차",
+      "what": "누르면 해당 슬라이드로 가는 카드 네 장"
+    },
+    {
+      "id": "statement",
+      "title": "한 문장",
+      "what": "화면 가득 한 문장, '다음'을 누를 때마다 하나씩 나오는 숫자 셋"
+    },
+    {
+      "id": "bignumber",
+      "title": "큰 숫자",
+      "what": "숫자 하나를 아주 크게, 칩으로 다른 숫자로 바꾸기"
+    },
+    {
+      "id": "problem",
+      "title": "문제",
+      "what": "'지금'과 '쓰고 난 뒤'를 단추로 오가는 문제 세 가지"
+    },
+    {
+      "id": "market",
+      "title": "시장",
+      "what": "겹친 원 셋(전체, 닿을 수 있는, 잡을 시장)을 누르면 숫자와 셈법이 바뀜"
+    },
+    {
+      "id": "matrix",
+      "title": "경쟁",
+      "what": "두 축 위의 점을 누르면 설명이 바뀌는 자리 비교"
+    },
+    {
+      "id": "features",
+      "title": "기능",
+      "what": "왼쪽 기능 목록, 오른쪽에 상태를 바꿔 볼 수 있는 제품 그림"
+    },
+    {
+      "id": "pricing",
+      "title": "가격",
+      "what": "결제 방식 전환, 구성 세 가지 고르기, 수량에 따른 합계"
+    },
+    {
+      "id": "kpi",
+      "title": "지표",
+      "what": "분기 단추로 바뀌는 지표 카드 넷 + 막대 차트 + 도넛 차트"
+    },
+    {
+      "id": "trend",
+      "title": "추이",
+      "what": "지표를 고르면 바뀌는 선 차트와 읽는 법 세 줄"
+    },
+    {
+      "id": "table",
+      "title": "표",
+      "what": "제목을 눌러 정렬, 줄을 눌러 상세를 보는 표와 상태 거르기"
+    },
+    {
+      "id": "timeline",
+      "title": "일정",
+      "what": "단계를 누르면 내용이 바뀌는 일정선과 진행률"
+    },
+    {
+      "id": "process",
+      "title": "절차",
+      "what": "왼쪽 단계 목록과 오른쪽 설명(몇 초마다 자동으로 넘어감)"
+    },
+    {
+      "id": "compare",
+      "title": "비교",
+      "what": "우선순위를 고르면 점수와 추천이 바뀌는 방안 세 가지"
+    },
+    {
+      "id": "whatif",
+      "title": "가정",
+      "what": "막대 셋을 끌면 결과 숫자와 차트가 바로 바뀌는 계산기"
+    },
+    {
+      "id": "team",
+      "title": "팀",
+      "what": "사람을 누르면 '왜 이 사람인가' 세 줄이 바뀜"
+    },
+    {
+      "id": "quote",
+      "title": "후기",
+      "what": "큰 인용문, 얼굴 단추로 바꾸거나 몇 초마다 자동으로 넘어감"
+    },
+    {
+      "id": "ask",
+      "title": "투자",
+      "what": "금액 막대를 끌면 버티는 기간, 달성할 목표, 쓰임새 도넛이 바뀜"
+    },
+    {
+      "id": "poll",
+      "title": "투표",
+      "what": "누를 때마다 한 표, 결과가 발표 자료 안에 남는 현장 투표"
+    },
+    {
+      "id": "faq",
+      "title": "질문",
+      "what": "누르면 답이 열리는 질문 목록과 안내 카드"
+    },
+    {
+      "id": "closing",
+      "title": "마무리",
+      "what": "스위치로 하나씩 정리하는 결정 목록(상태가 자료 안에 남음)"
+    },
+    {
+      "id": "end",
+      "title": "끝",
+      "what": "처음의 한 문장을 다시, 다음에 할 일 세 가지, 질문 시간 타이머"
+    }
+  ]
+}

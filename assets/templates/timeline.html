@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>일정</title>
+<link rel="stylesheet" href="../kit/theme-cobalt.css">
+<link rel="stylesheet" href="../kit/kit.css">
+<style>
+  .line { margin-top: 56px; }
+  .detail { margin-top: 4px; height: 262px; padding: 28px 32px; }
+  .detail .left { position: absolute; left: 32px; top: 28px; width: 640px; }
+  .detail .left p { margin-top: 12px; font-size: 16px; line-height: 1.75; color: var(--ph-ink2); }
+  .detail .right { position: absolute; right: 32px; top: 28px; width: 360px; }
+  .detail .kv { position: relative; height: 46px; line-height: 46px; border-bottom: 1px solid var(--ph-line); font-size: 14.5px; color: var(--ph-ink2); }
+  .detail .kv b { position: absolute; right: 0; top: 0; color: var(--ph-ink); }
+  .detail .prog { margin-top: 20px; }
+  .detail .prog span { display: block; font-size: 13px; color: var(--ph-ink2); margin-bottom: 8px; }
+</style>
+</head>
+<body>
+<div class="ph-page">
+  <div class="ph-label ph-rise"><i></i>일정</div>
+  <h1 class="ph-h1 ph-rise ph-d1 ph-mt8">단계를 눌러 <em>무엇이 남았는지</em> 봅니다</h1>
+
+  <div class="line" id="tl"></div>
+
+  <div class="ph-card detail">
+    <div class="left">
+      <span class="ph-badge" id="state"></span>
+      <h3 class="ph-h2 ph-mt8" id="title"></h3>
+      <p id="text"></p>
+    </div>
+    <div class="right">
+      <div class="kv">맡은 사람<b id="owner"></b></div>
+      <div class="kv">기한<b id="due"></b></div>
+      <div class="prog"><span id="pct"></span><div class="ph-meter"><i id="bar"></i></div></div>
+    </div>
+  </div>
+</div>
+
+<script src="../kit/kit.js"></script>
+<script src="../kit/kit-deck.js"></script>
+<script>
+/* 바꿀 곳: STEPS (when 시기, what 짧은 이름, 나머지는 아래 카드에 나옵니다). NOW 는 지금 진행 중인 단계 번호(0부터). */
+var STEPS = [
+  { when: "3월", what: "새 원두 고르기", title: "산지 세 곳의 원두를 맛봤습니다", text: "스물네 가지를 맛보고 여섯 가지로 좁혔습니다. 가을 메뉴의 바탕이 됩니다.", owner: "로스팅팀", due: "3월 31일", pct: 100 },
+  { when: "5월", what: "미리 주문", title: "앱으로 미리 주문을 받기 시작했습니다", text: "두 매장에서 먼저 열고, 한 달 뒤 모든 매장으로 넓혔습니다.", owner: "운영팀", due: "5월 30일", pct: 100 },
+  { when: "8월", what: "전주점 개점", title: "아홉 번째 매장이 문을 열었습니다", text: "한옥을 고친 매장입니다. 첫 달 방문객은 2,300명이었습니다.", owner: "매장개발팀", due: "8월 29일", pct: 100 },
+  { when: "11월", what: "가을 메뉴", title: "가을 메뉴 여섯 가지를 준비하고 있습니다", text: "네 가지는 레시피를 확정했고, 두 가지는 매장 시음을 기다리는 중입니다.", owner: "메뉴팀", due: "11월 28일", pct: 60 },
+  { when: "12월", what: "한 해 정리", title: "한 해 결과를 정리합니다", text: "매장별 숫자와 손님 설문을 묶어 내년 계획과 함께 내놓습니다.", owner: "기획팀", due: "12월 19일", pct: 10 }
+];
+var NOW = 3;
+
+PH.nav({ brand: "모래내 로스터스", links: [["표지", 1], ["목차", 2], ["지표", 3], ["일정", 4], ["마무리", 5]], page: 4 });
+PH.ring();
+PH.deck();
+PH.timeline(PH.$("#tl"), STEPS, function (i, s) {
+  var badge = PH.$("#state"), txt = s.pct >= 100 ? "완료" : (i === NOW ? "진행 중" : "예정");
+  badge.textContent = txt; badge.className = "ph-badge " + (s.pct >= 100 ? "ph-good" : (i === NOW ? "" : "ph-plain"));
+  PH.$("#title").textContent = s.title; PH.$("#text").textContent = s.text;
+  PH.$("#owner").textContent = s.owner; PH.$("#due").textContent = s.due;
+  PH.$("#pct").textContent = "진행률 " + s.pct + "%"; PH.$("#bar").style.width = s.pct + "%";
+}, NOW);
+</script>
+</body>
+</html>

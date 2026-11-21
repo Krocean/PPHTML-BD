@@ -1,0 +1,52 @@
+The font files in this folder are subsets (fewer characters, otherwise unchanged) of openly licensed fonts.
+Copyright and licence statements carried by the original fonts:
+
+NotoSansKR-VF.subset.ttf  (Noto Sans KR)
+  © 2014-2021 Adobe (http://www.adobe.com/), with Reserved Font Name 'Source'.
+  This Font Software is licensed under the SIL Open Font License, Version 1.1. This Font Software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the SIL Open Font License for the specific language, permissions and limitations governing your use of this Font Software.
+  http://scripts.sil.org/OFL
+
+NotoSerifKR-VF.subset.ttf  (Noto Serif KR)
+  © 2017-2023 Adobe (http://www.adobe.com/).
+  This Font Software is licensed under the SIL Open Font License, Version 1.1. This Font Software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the SIL Open Font License for the specific language, permissions and limitations governing your use of this Font Software.
+  http://scripts.sil.org/OFL
+
+Pretendard-VF.subset.ttf  (Pretendard Variable)
+  Copyright © 2023 Kil Hyung-jin
+  This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL
+  http://scripts.sil.org/OFL
+
+Inter-VF.subset.ttf  (Inter)
+  Copyright 2016 The Inter Project Authors (https://github.com/rsms/inter)
+  https://openfontlicense.org
+
+Roboto-VF.subset.ttf  (Roboto)
+  Copyright 2011 The Roboto Project Authors (https://github.com/googlefonts/roboto-classic)
+  https://openfontlicense.org
+
+OpenSans-VF.subset.ttf  (Open Sans)
+  Copyright 2020 The Open Sans Project Authors (https://github.com/googlefonts/opensans)
+  http://scripts.sil.org/OFL
+
+Geist-VF.subset.ttf  (Geist)
+  Copyright 2024 The Geist Project Authors (https://github.com/vercel/geist-font)
+  https://openfontlicense.org
+
+IBMPlexSansKR-Light.subset.ttf  (IBM Plex Sans KR)
+  Copyright 2018 IBM Corp. All rights reserved.
+  This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL
+  http://scripts.sil.org/OFL
+
+IBMPlexSansKR-Regular.subset.ttf  (IBM Plex Sans KR)
+  Copyright 2018 IBM Corp. All rights reserved.
+  This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL
+  http://scripts.sil.org/OFL
+
+IBMPlexSansKR-SemiBold.subset.ttf  (IBM Plex Sans KR)
+  Copyright 2018 IBM Corp. All rights reserved.
+  This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL
+  http://scripts.sil.org/OFL
+
+They are licensed under the SIL Open Font License, Version 1.1 (https://openfontlicense.org) unless a statement above says
+otherwise. The licence permits use, modification, embedding and redistribution, provided the fonts are not sold by
+themselves and derivative fonts keep the licence.

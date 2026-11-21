@@ -1,0 +1,45 @@
+/* ppt-html design kit - theme "cobalt": clean white and blue, sans headlines (business reports) - the default.
+   Link ONE theme file before kit.css. To match a company style, copy this file and change the values
+   (keep every name; each is defined exactly once, here). */
+:root {
+  --ph-bg: #F4F6FA;
+  --ph-bg2: #E9EDF4;
+  --ph-surface: #FFFFFF;
+  --ph-ink: #0F1B2D;
+  --ph-ink2: #5B6B82;
+  --ph-ink3: #8E9BAE;
+  --ph-line: #DCE2EC;
+  --ph-accent: #2F6BFF;
+  --ph-accent-ink: #FFFFFF;
+  --ph-accent-soft: #E3ECFF;
+  --ph-accent-deep: #1E4FD0;
+  --ph-good: #12905F;
+  --ph-good-soft: #DBF1E7;
+  --ph-bad: #D64545;
+  --ph-bad-soft: #FADEDE;
+  --ph-warn: #B7791F;
+  --ph-warn-soft: #F7EBD0;
+  --ph-c1: #2F6BFF;
+  --ph-c2: #14B8A6;
+  --ph-c3: #F59E0B;
+  --ph-c4: #8B5CF6;
+  --ph-c5: #EF6A6A;
+  --ph-c6: #94A3B8;
+  --ph-hover: rgba(15,27,45,0.05);
+  --ph-hover2: rgba(15,27,45,0.08);
+  --ph-press: #0F1B2D;
+  --ph-press-ink: #FFFFFF;
+  --ph-display: "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --ph-display-weight: 700;
+  --ph-display-tracking: -0.02em;
+  --ph-body: "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --ph-strong-weight: 700;
+  --ph-label-tracking: 0.04em;
+  --ph-label-case: none;
+  --ph-radius: 14px;
+  --ph-radius-s: 999px;
+  --ph-radius-btn: 999px;
+  --ph-card-border: 0 solid transparent;
+  --ph-shadow: 0 0 0 1px rgba(15,27,45,0.07), 0 2px 6px -2px rgba(15,27,45,0.12);
+  --ph-shadow-pop: 0 0 0 1px rgba(15,27,45,0.08), 0 12px 28px -8px rgba(15,27,45,0.28);
+}

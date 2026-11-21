@@ -1,0 +1,46 @@
+/* ppt-html design kit - theme "cloudscape": Cloudscape (AWS): white containers, rounded, bold headings; Open Sans + Noto Sans KR.
+   Values: @cloudscape-design/design-tokens (Apache-2.0), visual refresh, light. Unofficial; product and company names belong to their owners.
+   Link ONE theme file before kit.css. To match a company style, copy this file and change the values
+   (keep every name; each is defined exactly once, here). */
+:root {
+  --ph-bg: #F6F6F9;
+  --ph-bg2: #EBEBF0;
+  --ph-surface: #FFFFFF;
+  --ph-ink: #0F141A;
+  --ph-ink2: #424650;
+  --ph-ink3: #656871;
+  --ph-line: #C6C6CD;
+  --ph-accent: #006CE0;
+  --ph-accent-ink: #FFFFFF;
+  --ph-accent-soft: #F0FBFF;
+  --ph-accent-deep: #004A9E;
+  --ph-good: #00802F;
+  --ph-good-soft: #EFFFF1;
+  --ph-bad: #DB0000;
+  --ph-bad-soft: #FFF5F5;
+  --ph-warn: #855900;
+  --ph-warn-soft: #FFFEF0;
+  --ph-c1: #688AE8;
+  --ph-c2: #C33D69;
+  --ph-c3: #2EA597;
+  --ph-c4: #8456CE;
+  --ph-c5: #E07941;
+  --ph-c6: #656871;
+  --ph-hover: rgba(15,20,26,0.05);
+  --ph-hover2: rgba(15,20,26,0.08);
+  --ph-press: #006CE0;
+  --ph-press-ink: #FFFFFF;
+  --ph-display: "Open Sans", "Noto Sans KR", sans-serif;
+  --ph-display-weight: 700;
+  --ph-display-tracking: -0.02em;
+  --ph-body: "Open Sans", "Noto Sans KR", sans-serif;
+  --ph-strong-weight: 700;
+  --ph-label-tracking: 0.04em;
+  --ph-label-case: none;
+  --ph-radius: 16px;
+  --ph-radius-s: 8px;
+  --ph-radius-btn: 20px;
+  --ph-card-border: 0 solid transparent;
+  --ph-shadow: 0 0 0 1px #C6C6CD;
+  --ph-shadow-pop: 0 4px 20px 1px rgba(0,7,22,.1);
+}

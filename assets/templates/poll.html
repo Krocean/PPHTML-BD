@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>투표</title>
+<link rel="stylesheet" href="../kit/theme-cobalt.css">
+<link rel="stylesheet" href="../kit/kit.css">
+<style>
+  .head { position: relative; height: 100px; }
+  .head .all { position: absolute; right: 0; top: 34px; text-align: right; font-size: 13.5px; color: var(--ph-ink2); }
+  .head .all b { display: block; font-size: 40px; line-height: 1.1; color: var(--ph-ink); }
+  .opts { margin-top: 18px; padding: 6px 28px; }
+  .opt { position: relative; padding: 19px 0 20px; border-bottom: 1px solid var(--ph-line); cursor: pointer; }
+  .opt.last { border-bottom: 0; }
+  .opt b { font-size: 18px; }
+  .opt .sub { margin-left: 12px; font-size: 13.5px; color: var(--ph-ink2); }
+  .opt .cnt { position: absolute; right: 0; top: 18px; font-size: 15px; color: var(--ph-ink2); }
+  .opt .cnt strong { font-size: 22px; color: var(--ph-ink); margin-right: 6px; }
+  .opt .ph-meter { margin-top: 12px; }
+  .opt .ph-meter i { transition: width .25s ease; }
+  .opt.is-top b { color: var(--ph-accent-deep); }
+  .tools { position: relative; margin-top: 18px; height: 44px; line-height: 44px; font-size: 13.5px; color: var(--ph-ink2); }
+  .tools .ph-btn { position: absolute; right: 0; top: 0; }
+</style>
+</head>
+<body>
+<div class="ph-page">
+  <div class="head">
+    <div class="ph-label ph-rise"><i></i>현장 투표</div>
+    <h1 class="ph-h1 ph-rise ph-d1 ph-mt8">내년 봄, <em>무엇부터</em> 할까요</h1>
+    <div class="all"><b class="ph-num" id="all">0</b>지금까지 모인 표</div>
+  </div>
+  <div class="ph-card opts" id="opts"></div>
+  <div class="tools">손을 든 수만큼 눌러 주세요. 결과는 이 발표 자료 안에 남습니다.<span class="ph-btn ph-ghost" id="clear">처음부터 다시 세기</span></div>
+</div>
+
+<script src="../kit/kit.js"></script>
+<script src="../kit/kit-deck.js"></script>
+<script>
+/* 바꿀 곳: OPTIONS (고를 것과 한 줄 설명). 줄을 누를 때마다 한 표가 오릅니다.
+   표는 PH.keep 으로 발표 자료 안에 보관됩니다(PowerPoint 를 닫을 때 저장하면 다음에 열어도 그대로입니다). */
+var OPTIONS = [
+  ["열 번째 매장 열기", "주택가 골목 후보지"],
+  ["원두 정기 배송 넓히기", "지금은 수도권만 보냅니다"],
+  ["매장 좌석 고치기", "오래된 세 곳부터"],
+  ["직원 교육 과정 만들기", "로스팅과 손님 응대"]
+];
+var votes = [], rows = [];
+
+PH.nav({ brand: "모래내 로스터스", links: [["표지", 1], ["목차", 2], ["지표", 3], ["일정", 4], ["마무리", 5]], page: 5 });
+PH.ring();
+PH.deck();
+
+function paint() {
+  var all = 0, top = 0;
+  votes.forEach(function (v, i) { all += v; if (v > votes[top]) { top = i; } });
+  PH.$("#all").textContent = all;
+  rows.forEach(function (r, i) {
+    r.n.textContent = votes[i]; r.p.textContent = "표 · " + (all ? Math.round(votes[i] / all * 100) : 0) + "%";
+    r.bar.style.width = (all ? votes[i] / all * 100 : 0) + "%";
+    PH.toggle(r.el, "is-top", all > 0 && i === top);
+  });
+}
+OPTIONS.forEach(function (o, i) {
+  var row = PH.make("div", "opt ph-hot" + (i === OPTIONS.length - 1 ? " last" : ""), null, PH.$("#opts")), cnt, r = { el: row };
+  PH.make("b", "", o[0], row); PH.make("span", "sub", o[1], row);
+  cnt = PH.make("span", "cnt ph-noedit", null, row); r.n = PH.make("strong", "ph-num", "0", cnt); r.p = PH.make("span", "", "", cnt);
+  r.bar = PH.make("i", "", null, PH.make("div", "ph-meter", null, row));
+  PH.on(row, "click", function () { votes[i]++; PH.keep("votes", votes); paint(); });
+  rows.push(r);
+});
+PH.on(PH.$("#clear"), "click", function () { votes = OPTIONS.map(function () { return 0; }); PH.keep("votes", null); paint(); });
+PH.onShow(function () {
+  var kept = PH.kept("votes", null);
+  votes = (kept && kept.length === OPTIONS.length) ? kept.slice() : OPTIONS.map(function () { return 0; });
+  paint();
+});
+</script>
+</body>
+</html>

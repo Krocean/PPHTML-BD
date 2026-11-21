@@ -1,0 +1,45 @@
+/* ppt-html design kit - theme "ink": dark, serif headlines, clay accent (keynote).
+   Link ONE theme file before kit.css. To match a company style, copy this file and change the values
+   (keep every name; each is defined exactly once, here). */
+:root {
+  --ph-bg: #131311;
+  --ph-bg2: #1C1B18;
+  --ph-surface: #211F1B;
+  --ph-ink: #F3EFE7;
+  --ph-ink2: #A8A296;
+  --ph-ink3: #7A756A;
+  --ph-line: #37342D;
+  --ph-accent: #E08D6F;
+  --ph-accent-ink: #131311;
+  --ph-accent-soft: #3A2A22;
+  --ph-accent-deep: #EBA58B;
+  --ph-good: #6CC79B;
+  --ph-good-soft: #1F3329;
+  --ph-bad: #EE8272;
+  --ph-bad-soft: #3B2420;
+  --ph-warn: #E2B552;
+  --ph-warn-soft: #3A3018;
+  --ph-c1: #E08D6F;
+  --ph-c2: #7FB0D6;
+  --ph-c3: #A6C98A;
+  --ph-c4: #E2C16B;
+  --ph-c5: #B79AD1;
+  --ph-c6: #8E897E;
+  --ph-hover: rgba(243,239,231,0.07);
+  --ph-hover2: rgba(243,239,231,0.11);
+  --ph-press: #F3EFE7;
+  --ph-press-ink: #131311;
+  --ph-display: "Noto Serif KR", "Batang", serif;
+  --ph-display-weight: 600;
+  --ph-display-tracking: -0.025em;
+  --ph-body: "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --ph-strong-weight: 700;
+  --ph-label-tracking: 0.04em;
+  --ph-label-case: none;
+  --ph-radius: 18px;
+  --ph-radius-s: 999px;
+  --ph-radius-btn: 999px;
+  --ph-card-border: 0 solid transparent;
+  --ph-shadow: 0 0 0 1px rgba(243,239,231,0.1), 0 2px 6px -2px rgba(0,0,0,0.5);
+  --ph-shadow-pop: 0 0 0 1px rgba(243,239,231,0.14), 0 12px 28px -8px rgba(0,0,0,0.7);
+}

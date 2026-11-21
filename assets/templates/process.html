@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>절차</title>
+<link rel="stylesheet" href="../kit/theme-cobalt.css">
+<link rel="stylesheet" href="../kit/kit.css">
+<style>
+  .body { margin-top: 26px; }
+  .steps { padding-right: 6px; }
+  .steps .ph-step { margin-top: 6px; }
+  .panel { height: 432px; padding: 34px 36px; overflow: hidden; }
+  .panel .n { font-size: 96px; line-height: 1; color: var(--ph-accent-soft); position: absolute; right: 30px; top: 22px; }
+  .panel h3 { margin-top: 14px; width: 520px; }
+  .panel p { margin-top: 14px; width: 540px; font-size: 16.5px; line-height: 1.8; color: var(--ph-ink2); }
+  .panel .facts { position: absolute; left: 36px; right: 36px; bottom: 30px; }
+  .panel .fact { padding: 14px 18px; border-radius: var(--ph-radius); background: var(--ph-bg2); }
+  .panel .fact b { display: block; font-size: 22px; line-height: 1.3; }
+  .panel .fact span { font-size: 13px; color: var(--ph-ink2); }
+</style>
+</head>
+<body>
+<div class="ph-page">
+  <div class="ph-label ph-rise"><i></i>진행 절차</div>
+  <h1 class="ph-h1 ph-rise ph-d1 ph-mt8">생두가 한 잔이 되기까지 <em>네 단계</em></h1>
+
+  <div class="ph-row ph-g28 body">
+    <div class="ph-w40 steps" id="steps">
+      <div class="ph-step"><span class="ph-step-n">1</span><div class="ph-step-t">생두 고르기</div><div class="ph-step-d">산지에서 온 견본을 맛봅니다.</div></div>
+      <div class="ph-step"><span class="ph-step-n">2</span><div class="ph-step-t">볶기</div><div class="ph-step-d">원두마다 불과 시간을 맞춥니다.</div></div>
+      <div class="ph-step"><span class="ph-step-n">3</span><div class="ph-step-t">맛 확인</div><div class="ph-step-d">볶은 다음 날 다 같이 맛봅니다.</div></div>
+      <div class="ph-step"><span class="ph-step-n">4</span><div class="ph-step-t">매장으로</div><div class="ph-step-d">볶은 지 사흘 안에 보냅니다.</div></div>
+    </div>
+    <div class="ph-card panel">
+      <div class="n ph-num" id="num"></div>
+      <div class="ph-label"><i></i><span id="lab"></span></div>
+      <h3 class="ph-h2" id="title"></h3>
+      <p id="text"></p>
+      <div class="ph-row ph-g12 facts"><div class="fact"><b id="f1"></b><span id="f1k"></span></div><div class="fact"><b id="f2"></b><span id="f2k"></span></div><div class="fact"><b id="f3"></b><span id="f3k"></span></div></div>
+    </div>
+  </div>
+</div>
+
+<script src="../kit/kit.js"></script>
+<script src="../kit/kit-deck.js"></script>
+<script>
+/* 바꿀 곳: 왼쪽 단계 문구(HTML)와 아래 DETAIL (단계마다 제목, 설명, 숫자 셋). 마지막 인자 6000 = 6초마다 다음 단계(0 이면 멈춤) */
+var DETAIL = [
+  { lab: "1단계 · 로스팅팀", title: "견본 스물네 가지에서 여섯 가지를 고릅니다", text: "향, 단맛, 뒷맛을 따로 적고 점수를 모읍니다. 세 사람 이상이 같은 점수를 준 것만 남깁니다.", facts: [["24가지", "받은 견본"], ["6가지", "고른 원두"], ["3곳", "산지"]] },
+  { lab: "2단계 · 로스팅팀", title: "원두마다 볶는 곡선이 다릅니다", text: "작은 양으로 다섯 번 볶아 보고 곡선을 정합니다. 정한 곡선은 기계에 저장해 매번 같게 볶습니다.", facts: [["12분", "평균 볶는 시간"], ["5회", "시험 볶기"], ["±2℃", "허용 범위"]] },
+  { lab: "3단계 · 모두", title: "볶은 다음 날, 이름을 가리고 맛봅니다", text: "어느 원두인지 모르는 채로 맛보고 기준 점수에 못 미치면 다시 볶습니다.", facts: [["85점", "기준 점수"], ["7%", "다시 볶는 비율"], ["매일", "오전 9시"]] },
+  { lab: "4단계 · 물류", title: "볶은 지 사흘 안에 매장에 닿습니다", text: "매장은 받은 날짜를 봉투에 적고, 2주가 지난 원두는 쓰지 않습니다.", facts: [["3일", "매장 도착"], ["14일", "쓰는 기한"], ["9곳", "매장"]] }
+];
+PH.nav({ brand: "모래내 로스터스", links: [["표지", 1], ["목차", 2], ["지표", 3], ["일정", 4], ["마무리", 5]], page: 4 });
+PH.ring();
+PH.deck();
+PH.steps(PH.$("#steps"), function (i) {
+  var d = DETAIL[i];
+  PH.$("#num").textContent = "0" + (i + 1);
+  PH.$("#lab").textContent = d.lab; PH.$("#title").textContent = d.title; PH.$("#text").textContent = d.text;
+  d.facts.forEach(function (f, k) { PH.$("#f" + (k + 1)).textContent = f[0]; PH.$("#f" + (k + 1) + "k").textContent = f[1]; });
+}, 6000);
+</script>
+</body>
+</html>

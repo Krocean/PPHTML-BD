@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>한 문장</title>
+<link rel="stylesheet" href="../kit/theme-cobalt.css">
+<link rel="stylesheet" href="../kit/kit.css">
+<style>
+  .say { position: absolute; left: 64px; right: 64px; top: 150px; text-align: center; }
+  .say .ph-mega { margin-top: 26px; }
+  .say .ph-lead { width: 620px; margin: 28px auto 0; }
+  .facts { position: absolute; left: 140px; right: 140px; bottom: 96px; }
+  .fact { text-align: center; padding: 0 20px; }
+  .fact b { display: block; font-size: 40px; line-height: 1.2; }
+  .fact span { display: block; margin-top: 6px; font-size: 14px; color: var(--ph-ink2); }
+  .more { position: absolute; left: 0; right: 0; bottom: 44px; text-align: center; font-size: 13px; color: var(--ph-ink3); }
+</style>
+</head>
+<body>
+<div class="say">
+  <div class="ph-label ph-rise"><i></i>왜 만들었나</div>
+  <h1 class="ph-mega ph-rise ph-d1">커피는 <em>식습니다.</em></h1>
+  <p class="ph-lead ph-rise ph-d2">첫 모금은 뜨겁고, 회의가 끝나면 미지근합니다. 맛있는 온도는 20분을 넘기지 못합니다.</p>
+</div>
+
+<div class="ph-row facts">
+  <div class="fact ph-frag"><b class="ph-num">62℃</b><span>가장 맛있다고 답한 온도</span></div>
+  <div class="fact ph-frag"><b class="ph-num">18분</b><span>보통 머그가 그 온도를 지키는 시간</span></div>
+  <div class="fact ph-frag"><b class="ph-num">3시간</b><span>우리가 지키려는 시간</span></div>
+</div>
+<div class="more" id="more"></div>
+
+<script src="../kit/kit.js"></script>
+<script src="../kit/kit-deck.js"></script>
+<script>
+/* 바꿀 곳: 큰 문장 하나, 뒷받침 문장, 숫자 셋. 숫자(ph-frag)는 "다음" 단추를 누를 때마다 하나씩 나타나고, 다 나오면 다음 장으로 갑니다.
+   (키보드 → 는 PowerPoint 가 바로 받아 다음 장으로 넘깁니다. 하나씩 보이려면 화면의 "다음" 단추를 누릅니다.) */
+PH.nav({ brand: "온도", links: [["왜", 1], ["숫자", 2], ["기능", 3], ["가격", 4]], page: 1 });
+PH.ring();
+PH.deck();
+PH.onShow(function () { PH.$("#more").textContent = "오른쪽 위 \"다음\"을 누르면 숫자가 하나씩 나옵니다"; });
+</script>
+</body>
+</html>

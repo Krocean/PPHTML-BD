@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>기능</title>
+<link rel="stylesheet" href="../kit/theme-cobalt.css">
+<link rel="stylesheet" href="../kit/kit.css">
+<style>
+  .body { margin-top: 22px; }
+  .list { padding-top: 4px; }
+  .stage { height: 440px; padding: 0; overflow: hidden; }
+  .mug { position: absolute; left: 34px; top: 60px; width: 300px; height: 300px; }
+  .mug .cup { fill: var(--ph-bg2); stroke: var(--ph-ink); stroke-width: 3; }
+  .mug .ear { fill: none; stroke: var(--ph-ink); stroke-width: 12; stroke-linecap: round; }
+  .mug .led { fill: var(--ph-ink3); }
+  .mug .pad { fill: var(--ph-ink3); display: none; }
+  .mug .steam { fill: none; stroke: var(--ph-ink3); stroke-width: 3; stroke-linecap: round; display: none; }
+  .mug.is-hot .steam { display: inline; }
+  .mug.is-pad .pad { display: inline; }
+  .mug.led-warm .led { fill: var(--ph-accent); }
+  .mug.led-hot .led { fill: var(--ph-bad); }
+  .mug.led-cool .led { fill: var(--ph-c2); }
+  .mug.led-full .led { fill: var(--ph-good); }
+  .read { position: absolute; left: 360px; right: 30px; top: 66px; }
+  .read .big { font-size: 96px; line-height: 1.05; white-space: nowrap; margin-top: 6px; }
+  .read .big small { font-size: 30px; margin-left: 4px; color: var(--ph-ink2); letter-spacing: 0; }
+  .read .note { margin-top: 10px; font-size: 15px; line-height: 1.7; color: var(--ph-ink2); height: 78px; }
+  .picks { position: absolute; left: 360px; right: 30px; bottom: 34px; }
+</style>
+</head>
+<body>
+<div class="ph-page">
+  <div class="ph-label ph-rise"><i></i>기능</div>
+  <h1 class="ph-h1 ph-rise ph-d1 ph-mt8">세 가지만 <em>제대로</em> 합니다</h1>
+
+  <div class="ph-row ph-g28 body">
+    <div class="ph-w40 list ph-stack ph-s8" id="list">
+      <div class="ph-step"><span class="ph-step-n">1</span><div class="ph-step-t">식지 않습니다</div><div class="ph-step-d">컵 바닥의 얇은 열판이 온도가 떨어질 때만 켜져, 고른 온도를 세 시간 지킵니다.</div></div>
+      <div class="ph-step"><span class="ph-step-n">2</span><div class="ph-step-t">빛으로 알려 줍니다</div><div class="ph-step-d">바닥의 가는 빛 한 줄이 지금 마셔도 되는지 알려 줍니다. 화면은 없습니다.</div></div>
+      <div class="ph-step"><span class="ph-step-n">3</span><div class="ph-step-t">올려 두면 충전됩니다</div><div class="ph-step-d">받침에 올려 두기만 하면 됩니다. 선을 꽂을 일이 없습니다.</div></div>
+    </div>
+    <div class="ph-card stage" data-zoom>
+      <div class="mug" id="mug">
+        <svg width="300" height="300" viewBox="0 0 300 300">
+          <path class="steam" d="M104 62 q-10 -13 0 -26 q10 -13 0 -26"></path>
+          <path class="steam" d="M136 62 q-10 -13 0 -26 q10 -13 0 -26"></path>
+          <path class="steam" d="M168 62 q-10 -13 0 -26 q10 -13 0 -26"></path>
+          <rect class="pad" x="44" y="252" width="184" height="12" rx="6"></rect>
+          <path class="ear" d="M204 122 h14 a32 32 0 0 1 0 64 h-14"></path>
+          <path class="cup" d="M70 86 h132 v134 a26 26 0 0 1 -26 26 h-80 a26 26 0 0 1 -26 -26 z"></path>
+          <rect class="led" x="88" y="224" width="96" height="6" rx="3"></rect>
+        </svg>
+      </div>
+      <div class="read">
+        <div class="ph-label" id="label"></div>
+        <div class="big ph-num"><span id="n"></span><small id="u"></small></div>
+        <p class="note" id="note"></p>
+      </div>
+      <div class="picks ph-chips ph-noedit" id="picks"></div>
+    </div>
+  </div>
+</div>
+
+<script src="../kit/kit.js"></script>
+<script src="../kit/kit-deck.js"></script>
+<script>
+/* 바꿀 곳: 왼쪽 기능 목록은 위 HTML(ph-step 한 덩어리가 기능 하나), 오른쪽 화면은 FEATURES.
+   기능마다 고를 수 있는 상태(chip)를 두고, 상태마다 숫자 / 단위 / 설명과 그림의 모습(led, hot, pad)을 정합니다.
+   그림은 SVG 로 직접 그린 것이니 내 제품의 화면 그림(img)으로 바꿔도 됩니다. */
+var FEATURES = [
+  { label: "지금 온도", picks: [
+      { chip: "아메리카노", n: 62, u: "℃", note: "가장 많이 고르는 온도입니다. 세 시간 뒤에도 62℃입니다.", led: "warm", hot: true },
+      { chip: "라테", n: 58, u: "℃", note: "우유가 들어간 음료는 조금 낮게 지킵니다.", led: "warm", hot: true },
+      { chip: "차", n: 70, u: "℃", note: "차는 뜨겁게. 70℃까지 올릴 수 있습니다.", led: "warm", hot: true } ] },
+  { label: "빛이 하는 말", picks: [
+      { chip: "딱 좋음", n: 62, u: "℃", note: "고른 온도에 맞으면 빛이 차분하게 켜집니다.", led: "warm", hot: true },
+      { chip: "아직 뜨거움", n: 78, u: "℃", note: "갓 내린 커피는 붉은빛입니다. 조금만 기다리세요.", led: "hot", hot: true },
+      { chip: "식는 중", n: 49, u: "℃", note: "배터리가 다 되어 식기 시작하면 푸른빛으로 바뀝니다.", led: "cool", hot: false } ] },
+  { label: "충전", picks: [
+      { chip: "받침 위", n: 45, u: "분", note: "받침에 올려 두면 45분에 다 찹니다. 올려 둔 동안은 계속 따뜻합니다.", led: "full", hot: true, pad: true },
+      { chip: "받침 없이", n: 3, u: "시간", note: "회의실에 들고 가도 세 시간은 같은 온도입니다.", led: "warm", hot: true } ] }
+];
+var cur = 0;
+
+PH.nav({ brand: "온도", links: [["왜", 1], ["숫자", 2], ["기능", 3], ["가격", 4]], page: 3 });
+PH.ring();
+PH.deck();
+
+function state(k) {
+  var p = FEATURES[cur].picks[k];
+  PH.$$("#picks .ph-chip").forEach(function (c, i) { PH.toggle(c, "is-on", i === k); });
+  PH.$("#mug").className = "mug led-" + p.led + (p.hot ? " is-hot" : "") + (p.pad ? " is-pad" : "");
+  PH.$("#n").textContent = p.n; PH.$("#u").textContent = p.u; PH.$("#note").textContent = p.note;
+}
+PH.steps(PH.$("#list"), function (i) {
+  var box = PH.$("#picks");
+  cur = i; box.textContent = "";
+  PH.$("#label").textContent = FEATURES[i].label;
+  FEATURES[i].picks.forEach(function (p, k) { PH.on(PH.make("span", "ph-chip", p.chip, box), "click", function (e) { e.stopPropagation(); state(k); }); });
+  state(0);
+});
+</script>
+</body>
+</html>

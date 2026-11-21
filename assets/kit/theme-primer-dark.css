@@ -1,0 +1,46 @@
+/* ppt-html design kit - theme "primer-dark": Primer (GitHub), dark.
+   Values: @primer/primitives (MIT), functional theme 'dark'. Unofficial; product and company names belong to their owners.
+   Link ONE theme file before kit.css. To match a company style, copy this file and change the values
+   (keep every name; each is defined exactly once, here). */
+:root {
+  --ph-bg: #0D1117;
+  --ph-bg2: #151B23;
+  --ph-surface: #151B23;
+  --ph-ink: #F0F6FC;
+  --ph-ink2: #9198A1;
+  --ph-ink3: #656C76;
+  --ph-line: #3D444D;
+  --ph-accent: #1F6FEB;
+  --ph-accent-ink: #FFFFFF;
+  --ph-accent-soft: #121D2F;
+  --ph-accent-deep: #4493F8;
+  --ph-good: #3FB950;
+  --ph-good-soft: #12261E;
+  --ph-bad: #F85149;
+  --ph-bad-soft: #25171C;
+  --ph-warn: #D29922;
+  --ph-warn-soft: #272115;
+  --ph-c1: #4493F8;
+  --ph-c2: #3FB950;
+  --ph-c3: #AB7DF8;
+  --ph-c4: #DB61A2;
+  --ph-c5: #DB6D28;
+  --ph-c6: #656C76;
+  --ph-hover: rgba(240,246,252,0.07);
+  --ph-hover2: rgba(240,246,252,0.11);
+  --ph-press: #238636;
+  --ph-press-ink: #FFFFFF;
+  --ph-display: "Segoe UI", "Pretendard", "Noto Sans KR", sans-serif;
+  --ph-display-weight: 600;
+  --ph-display-tracking: -0.015em;
+  --ph-body: "Segoe UI", "Pretendard", "Noto Sans KR", sans-serif;
+  --ph-strong-weight: 600;
+  --ph-label-tracking: 0.04em;
+  --ph-label-case: none;
+  --ph-radius: 6px;
+  --ph-radius-s: 999px;
+  --ph-radius-btn: 6px;
+  --ph-card-border: 1px solid #3D444D;
+  --ph-shadow: 0 0 0 0 transparent;
+  --ph-shadow-pop: 0 0 0 1px #3D444D, 0 8px 24px rgba(1,4,9,.8);
+}

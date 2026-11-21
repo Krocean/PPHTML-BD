@@ -1,0 +1,46 @@
+/* ppt-html design kit - theme "carbon-dark": Carbon (IBM), gray 100 theme: the dark counterpart.
+   Values: @carbon/themes (Apache-2.0), theme 'g100'. Unofficial; product and company names belong to their owners.
+   Link ONE theme file before kit.css. To match a company style, copy this file and change the values
+   (keep every name; each is defined exactly once, here). */
+:root {
+  --ph-bg: #161616;
+  --ph-bg2: #262626;
+  --ph-surface: #262626;
+  --ph-ink: #F4F4F4;
+  --ph-ink2: #C6C6C6;
+  --ph-ink3: #A8A8A8;
+  --ph-line: #525252;
+  --ph-accent: #4589FF;
+  --ph-accent-ink: #FFFFFF;
+  --ph-accent-soft: #001D6C;
+  --ph-accent-deep: #A6C8FF;
+  --ph-good: #42BE65;
+  --ph-good-soft: #022D0D;
+  --ph-bad: #FA4D56;
+  --ph-bad-soft: #2D0709;
+  --ph-warn: #F1C21B;
+  --ph-warn-soft: #302400;
+  --ph-c1: #8A3FFC;
+  --ph-c2: #33B1FF;
+  --ph-c3: #007D79;
+  --ph-c4: #FF7EB6;
+  --ph-c5: #FA4D56;
+  --ph-c6: #6F6F6F;
+  --ph-hover: rgba(244,244,244,0.07);
+  --ph-hover2: rgba(244,244,244,0.11);
+  --ph-press: #4589FF;
+  --ph-press-ink: #FFFFFF;
+  --ph-display: "IBM Plex Sans KR", "IBM Plex Sans", "Noto Sans KR", sans-serif;
+  --ph-display-weight: 300;
+  --ph-display-tracking: 0;
+  --ph-body: "IBM Plex Sans KR", "IBM Plex Sans", "Noto Sans KR", sans-serif;
+  --ph-strong-weight: 600;
+  --ph-label-tracking: 0.02em;
+  --ph-label-case: none;
+  --ph-radius: 0px;
+  --ph-radius-s: 0px;
+  --ph-radius-btn: 0px;
+  --ph-card-border: 0 solid transparent;
+  --ph-shadow: 0 0 0 0 transparent;
+  --ph-shadow-pop: 0 2px 6px rgba(0,0,0,.6);
+}

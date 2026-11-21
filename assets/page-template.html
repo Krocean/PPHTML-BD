@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>페이지 제목</title>
+<!--
+  PowerPoint 슬라이드 위에서 실행될 HTML 페이지의 시작 틀입니다. (엔진: Internet Explorer 11)
+
+  화면 크기(캔버스)
+    이 페이지는 항상 "영역의 pt 크기 x 4/3" px 로 보입니다. 16:9 슬라이드 전체면 1280 x 720 px.
+    발표 화면 해상도가 달라도 이 크기로 자동 확대/축소되므로 px 로 그대로 설계하면 됩니다.
+    가로는 최대 1px 안쪽의 오차가 있을 수 있으니, 꽉 채우는 배경은 width:100% 로 두세요.
+
+  지켜야 할 것 (자세한 내용: references/ie11-rules.md)
+    CSS : 변수(var(--x)), grid, gap, clamp/min/max, position:sticky, object-fit, :is/:has, filter 는 쓰지 않습니다.
+          배치는 position:absolute / float / inline-block / table / (조심해서) flexbox.
+    JS  : var, function(){} 만 씁니다. 화살표 함수, let/const, 백틱 문자열, class, ...펼침, async/await 금지.
+          find/includes/closest/Promise 같은 "함수"는 빌드 때 자동으로 보완되므로 써도 됩니다.
+    자료 : 이미지/CSS/JS 는 상대 경로로 두면 빌드 때 페이지 안으로 합쳐집니다. 인터넷 주소는 발표장에서 안 열릴 수 있습니다.
+-->
+<style>
+html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
+body { background: #FAF9F5; color: #141413; font-family: "Malgun Gothic", "맑은 고딕", sans-serif; cursor: default; }
+
+/* 캔버스 1280 x 720 기준의 절대 배치 */
+h1 { position: absolute; left: 72px; top: 56px; margin: 0; font-size: 48px; line-height: 1.2; }
+.tabs { position: absolute; left: 72px; top: 160px; white-space: nowrap; }
+.tab { display: inline-block; min-width: 150px; height: 56px; line-height: 56px; padding: 0 24px; margin-right: 12px; text-align: center; border: 2px solid #D9D6CB; border-radius: 28px; font-size: 24px; cursor: pointer; -ms-transition: background .15s, border-color .15s; transition: background .15s, border-color .15s; }
+.tab.on { background: #D97757; border-color: #D97757; font-weight: 700; }
+.panel { position: absolute; left: 72px; right: 72px; top: 250px; bottom: 120px; background: #F0EEE6; border-radius: 24px; padding: 40px 48px; box-sizing: border-box; }
+.panel h2 { margin: 0 0 16px; font-size: 36px; }
+.panel p { margin: 0; font-size: 26px; line-height: 1.5; color: #6B6A64; }
+.nav { position: absolute; right: 72px; bottom: 40px; }
+.btn { display: inline-block; height: 48px; line-height: 48px; padding: 0 22px; margin-left: 10px; border-radius: 10px; background: #141413; color: #FAF9F5; font-size: 20px; cursor: pointer; }
+.hint { position: absolute; left: 72px; bottom: 50px; font-size: 20px; color: #B0AEA5; }
+</style>
+</head>
+<body>
+
+<h1>제목을 여기에</h1>
+<div class="tabs" id="tabs"></div>
+<div class="panel">
+  <h2 id="title"></h2>
+  <p id="text"></p>
+</div>
+<div class="hint">탭을 눌러 보세요</div>
+<div class="nav">
+  <span class="btn" id="prev">이전</span><span class="btn" id="next">다음</span>
+</div>
+
+<script>
+// 내용 (ES5 문법만 사용)
+var ITEMS = [
+  { tab: "첫째", title: "첫째 항목", text: "설명 문장을 여기에 씁니다." },
+  { tab: "둘째", title: "둘째 항목", text: "두 번째 설명입니다." },
+  { tab: "셋째", title: "셋째 항목", text: "세 번째 설명입니다." }
+];
+
+var tabs = document.getElementById("tabs");
+
+function select(i) {
+  var k, kids = tabs.children;
+  for (k = 0; k < kids.length; k++) { kids[k].className = (k === i) ? "tab on" : "tab"; }
+  document.getElementById("title").textContent = ITEMS[i].title;
+  document.getElementById("text").textContent = ITEMS[i].text;
+}
+
+function addTab(i) {
+  var el = document.createElement("span");
+  el.className = "tab";
+  el.textContent = ITEMS[i].tab;
+  el.onclick = function () { select(i); };
+  tabs.appendChild(el);
+}
+
+for (var i = 0; i < ITEMS.length; i++) { addTab(i); }
+select(0);
+
+// PowerPoint 와의 연결 (빌드 때 window.pptHtml 이 추가됩니다. 브라우저에서 그냥 열면 없으므로 확인 후 호출)
+//   pptHtml.next() / pptHtml.prev() / pptHtml.gotoSlide(번호) : 슬라이드 이동
+//   window.pptHtmlOnShow = function(){ ... }                  : 이 슬라이드가 화면에 나올 때마다 호출 (애니메이션 다시 시작 등)
+document.getElementById("next").onclick = function () { if (window.pptHtml) { window.pptHtml.next(); } };
+document.getElementById("prev").onclick = function () { if (window.pptHtml) { window.pptHtml.prev(); } };
+window.pptHtmlOnShow = function () { select(0); };
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+/* ppt-html design kit - theme "geist": developer-tool look in the manner of Vercel: black on white, hairlines, very tight headlines; Geist + Pretendard.
+   Values: hand-written approximation; Geist typeface (SIL OFL). Unofficial; product and company names belong to their owners.
+   Link ONE theme file before kit.css. To match a company style, copy this file and change the values
+   (keep every name; each is defined exactly once, here). */
+:root {
+  --ph-bg: #FAFAFA;
+  --ph-bg2: #F2F2F2;
+  --ph-surface: #FFFFFF;
+  --ph-ink: #171717;
+  --ph-ink2: #666666;
+  --ph-ink3: #8F8F8F;
+  --ph-line: #EAEAEA;
+  --ph-accent: #0070F3;
+  --ph-accent-ink: #FFFFFF;
+  --ph-accent-soft: #EBF5FF;
+  --ph-accent-deep: #0060DF;
+  --ph-good: #297A3A;
+  --ph-good-soft: #EBFAEB;
+  --ph-bad: #CB2A2F;
+  --ph-bad-soft: #FFEBEB;
+  --ph-warn: #A35200;
+  --ph-warn-soft: #FFF4D5;
+  --ph-c1: #171717;
+  --ph-c2: #0070F3;
+  --ph-c3: #7928CA;
+  --ph-c4: #FF0080;
+  --ph-c5: #F5A623;
+  --ph-c6: #8F8F8F;
+  --ph-hover: rgba(23,23,23,0.05);
+  --ph-hover2: rgba(23,23,23,0.08);
+  --ph-press: #171717;
+  --ph-press-ink: #FAFAFA;
+  --ph-display: "Geist", "Pretendard", "Noto Sans KR", sans-serif;
+  --ph-display-weight: 600;
+  --ph-display-tracking: -0.045em;
+  --ph-body: "Geist", "Pretendard", "Noto Sans KR", sans-serif;
+  --ph-strong-weight: 600;
+  --ph-label-tracking: 0.04em;
+  --ph-label-case: none;
+  --ph-radius: 8px;
+  --ph-radius-s: 999px;
+  --ph-radius-btn: 6px;
+  --ph-card-border: 1px solid #EAEAEA;
+  --ph-shadow: 0 0 0 0 transparent;
+  --ph-shadow-pop: 0 0 0 1px rgba(23,23,23,0.08), 0 12px 28px -8px rgba(23,23,23,0.28);
+}

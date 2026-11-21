@@ -1,0 +1,46 @@
+/* ppt-html design kit - theme "indigo": fintech look in the manner of Stripe: cool grey page, navy type, indigo accent; Inter + Pretendard.
+   Values: hand-written approximation; Inter typeface (SIL OFL). Unofficial; product and company names belong to their owners.
+   Link ONE theme file before kit.css. To match a company style, copy this file and change the values
+   (keep every name; each is defined exactly once, here). */
+:root {
+  --ph-bg: #F6F9FC;
+  --ph-bg2: #E9EFF6;
+  --ph-surface: #FFFFFF;
+  --ph-ink: #0A2540;
+  --ph-ink2: #425466;
+  --ph-ink3: #8898AA;
+  --ph-line: #E3E8EE;
+  --ph-accent: #635BFF;
+  --ph-accent-ink: #FFFFFF;
+  --ph-accent-soft: #EFEEFF;
+  --ph-accent-deep: #4B45C6;
+  --ph-good: #0E6245;
+  --ph-good-soft: #CBF4C9;
+  --ph-bad: #DF1B41;
+  --ph-bad-soft: #FFE7EC;
+  --ph-warn: #B13600;
+  --ph-warn-soft: #FCEDB9;
+  --ph-c1: #635BFF;
+  --ph-c2: #00B4D8;
+  --ph-c3: #FFB020;
+  --ph-c4: #FF80B5;
+  --ph-c5: #0A2540;
+  --ph-c6: #8898AA;
+  --ph-hover: rgba(10,37,64,0.05);
+  --ph-hover2: rgba(10,37,64,0.08);
+  --ph-press: #635BFF;
+  --ph-press-ink: #FFFFFF;
+  --ph-display: "Inter", "Pretendard", "Noto Sans KR", sans-serif;
+  --ph-display-weight: 700;
+  --ph-display-tracking: -0.03em;
+  --ph-body: "Inter", "Pretendard", "Noto Sans KR", sans-serif;
+  --ph-strong-weight: 600;
+  --ph-label-tracking: 0.04em;
+  --ph-label-case: none;
+  --ph-radius: 12px;
+  --ph-radius-s: 999px;
+  --ph-radius-btn: 999px;
+  --ph-card-border: 0 solid transparent;
+  --ph-shadow: 0 0 0 1px rgba(10,37,64,.06), 0 2px 5px -1px rgba(50,50,93,.2);
+  --ph-shadow-pop: 0 0 0 1px rgba(10,37,64,0.08), 0 12px 28px -8px rgba(10,37,64,0.28);
+}

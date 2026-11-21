@@ -1,0 +1,6 @@
+dev/node_modules/
+dev/out/
+*.bak
+*.tmp
+*.log
+Thumbs.db

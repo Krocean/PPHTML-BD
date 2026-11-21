@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>표</title>
+<link rel="stylesheet" href="../kit/theme-cobalt.css">
+<link rel="stylesheet" href="../kit/kit.css">
+<style>
+  .head { position: relative; height: 74px; }
+  .head .ph-chips { position: absolute; right: 0; top: 24px; }
+  .head .ph-chip { margin: 0 0 0 6px; }
+  .body { margin-top: 18px; }
+  .list { height: 484px; padding: 22px 12px 10px; overflow: hidden; }
+  .detail { height: 484px; padding: 26px 26px; }
+  .detail .name { margin-top: 10px; }
+  .detail .big { font-size: 46px; line-height: 1.2; margin-top: 18px; white-space: nowrap; }
+  .detail .big small { font-size: 18px; font-family: var(--ph-body); color: var(--ph-ink2); margin-left: 4px; letter-spacing: 0; }
+  .detail .line { position: relative; height: 44px; line-height: 44px; border-top: 1px solid var(--ph-line); font-size: 14.5px; color: var(--ph-ink2); }
+  .detail .line b { position: absolute; right: 0; top: 0; color: var(--ph-ink); }
+  .detail .memo { margin-top: 14px; font-size: 14px; line-height: 1.7; color: var(--ph-ink2); }
+</style>
+</head>
+<body>
+<div class="ph-page">
+  <div class="head">
+    <div class="ph-label ph-rise"><i></i>매장별 현황</div>
+    <h1 class="ph-h2 ph-rise ph-d1 ph-mt8">제목을 누르면 <em>정렬</em>, 줄을 누르면 <em>상세</em></h1>
+    <div class="ph-chips" id="chips"></div>
+  </div>
+  <div class="ph-row body">
+    <div class="ph-card list" id="list"></div>
+    <div class="ph-card detail ph-w33">
+      <div class="ph-label"><i></i>고른 매장</div>
+      <h3 class="ph-h2 name" id="dName"></h3>
+      <div><span class="ph-badge" id="dState"></span></div>
+      <div class="big ph-num"><span id="dRate"></span><small>% 재방문</small></div>
+      <div class="ph-meter ph-mt8"><i id="dBar"></i></div>
+      <div class="line ph-mt24">좌석<b id="dSeats"></b></div>
+      <div class="line">월 방문객<b id="dVisits"></b></div>
+      <p class="memo" id="dMemo"></p>
+    </div>
+  </div>
+</div>
+
+<script src="../kit/kit.js"></script>
+<script src="../kit/kit-deck.js"></script>
+<script>
+/* 바꿀 곳: ROWS (한 줄이 한 항목). 엑셀 표를 그대로 옮겨 적으면 됩니다. 숫자는 가상의 예시입니다. */
+var ROWS = [
+  { name: "연남점", seats: 42, visits: 6650, rate: 71.9, state: "정상", memo: "평일 오전 손님이 가장 많습니다. 원두 판매 비중도 가장 높습니다." },
+  { name: "성수점", seats: 58, visits: 7210, rate: 66.5, state: "정상", memo: "주말 대기가 길어 미리 주문을 먼저 시작했습니다." },
+  { name: "망원점", seats: 24, visits: 3610, rate: 63.5, state: "주의", memo: "좌석이 적어 포장 주문 동선을 다시 짜고 있습니다." },
+  { name: "서촌점", seats: 36, visits: 4380, rate: 70.0, state: "정상", memo: "9월에 로스팅 체험을 열어 단골이 늘었습니다." },
+  { name: "판교점", seats: 64, visits: 5820, rate: 47.7, state: "지연", memo: "점심 시간 인력이 모자라 대기가 길었습니다. 채용 중입니다." },
+  { name: "해운대점", seats: 72, visits: 6120, rate: 52.8, state: "정상", memo: "여행객 비중이 높아 재방문율은 낮지만 객단가가 높습니다." },
+  { name: "전주점", seats: 30, visits: 2300, rate: 46.9, state: "주의", memo: "문을 연 지 석 달째입니다. 동네 손님을 늘리는 중입니다." }
+];
+var FILTERS = ["전체", "정상", "주의", "지연"], table;
+
+PH.nav({ brand: "모래내 로스터스", links: [["표지", 1], ["목차", 2], ["지표", 3], ["일정", 4], ["마무리", 5]], page: 3 });
+PH.ring();
+PH.deck();
+
+function show(r) {
+  var badge = PH.$("#dState");
+  PH.$("#dName").textContent = r.name;
+  badge.textContent = r.state; badge.className = "ph-badge " + (r.state === "정상" ? "ph-good" : (r.state === "지연" ? "ph-bad" : "ph-warn"));
+  PH.countUp(PH.$("#dRate"), r.rate, 1);
+  PH.$("#dBar").style.width = r.rate + "%";
+  PH.$("#dSeats").textContent = PH.fmt(r.seats) + "석";
+  PH.$("#dVisits").textContent = PH.fmt(r.visits) + "명";
+  PH.$("#dMemo").textContent = r.memo;
+}
+table = PH.table(PH.$("#list"), {
+  cols: [{ key: "name", label: "매장" }, { key: "seats", label: "좌석", num: true }, { key: "visits", label: "월 방문객", num: true, bar: true },
+         { key: "rate", label: "재방문율", num: true, digits: 1, unit: "%" }, { key: "state", label: "상태", badge: { "정상": "ph-good", "주의": "ph-warn", "지연": "ph-bad" } }],
+  rows: ROWS, sort: "visits", desc: true
+}, show);
+FILTERS.forEach(function (f, i) {
+  PH.on(PH.make("span", "ph-chip" + (i ? "" : " is-on"), f, PH.$("#chips")), "click", function () {
+    var list = ROWS.filter(function (r) { return f === "전체" || r.state === f; });
+    PH.$$("#chips .ph-chip").forEach(function (c, k) { PH.toggle(c, "is-on", k === i); });
+    table.update(list);
+    if (list.length) { table.pick(list[0]); }
+  });
+});
+PH.onShow(function () { table.pick(ROWS[0]); });
+</script>
+</body>
+</html>

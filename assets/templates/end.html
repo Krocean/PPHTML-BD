@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>끝</title>
+<link rel="stylesheet" href="../kit/theme-cobalt.css">
+<link rel="stylesheet" href="../kit/kit.css">
+<style>
+  .say { position: absolute; left: 64px; right: 64px; top: 138px; }
+  .say .ph-mega { margin-top: 20px; }
+  .say .ph-lead { margin-top: 20px; width: 640px; }
+  .next { position: absolute; left: 64px; right: 64px; top: 452px; }
+  .step { height: 150px; padding: 22px 24px; }
+  .step b { display: block; font-size: 30px; line-height: 1.2; margin-top: 8px; }
+  .step span { display: block; margin-top: 8px; font-size: 14.5px; line-height: 1.6; color: var(--ph-ink2); }
+  .qa { position: absolute; left: 64px; bottom: 44px; font-size: 14px; color: var(--ph-ink2); }
+  .qa .clock { font-size: 22px; color: var(--ph-ink); margin: 0 10px 0 8px; vertical-align: -2px; }
+</style>
+</head>
+<body>
+<div class="say">
+  <div class="ph-label ph-rise"><i></i>정리</div>
+  <h1 class="ph-mega ph-rise ph-d1">따뜻한 채로, <em>끝까지.</em></h1>
+  <p class="ph-lead ph-rise ph-d2">커피는 식습니다. 온도는 그 시간을 18분에서 세 시간으로 늘렸습니다.</p>
+</div>
+
+<div class="ph-row next">
+  <div class="ph-card step"><div class="ph-label"><i></i>오늘</div><b class="ph-num">예약 시작</b><span>누리집에서 색과 구성을 고릅니다.</span></div>
+  <div class="ph-card step"><div class="ph-label"><i></i>12월 5일</div><b class="ph-num">첫 배송</b><span>예약한 순서대로 보내 드립니다.</span></div>
+  <div class="ph-card step"><div class="ph-label"><i></i>받고 30일</div><b class="ph-num">써 보고 결정</b><span>마음에 들지 않으면 그대로 돌려보내세요.</span></div>
+</div>
+
+<div class="qa">질문 시간<span class="clock" id="clock"></span>숫자를 누르면 시작하고, 다시 누르면 멈춥니다</div>
+
+<script src="../kit/kit.js"></script>
+<script src="../kit/kit-deck.js"></script>
+<script>
+/* 바꿀 곳: 처음에 한 문장을 다시 쓰고(큰 글자), 듣는 사람이 다음에 할 일 세 가지를 카드에 적습니다. 모두 위 HTML 에서 고칩니다.
+   마지막 장은 "감사합니다"가 아니라 다음 행동입니다. PH.timer 의 숫자는 질문 시간(초)입니다. */
+PH.nav({ brand: "온도", links: [["왜", 1], ["숫자", 2], ["기능", 3], ["가격", 4]], page: 4 });
+PH.ring();
+PH.deck();
+PH.timer(PH.$("#clock"), 300);
+</script>
+</body>
+</html>

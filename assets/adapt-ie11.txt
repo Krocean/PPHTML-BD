@@ -1,0 +1,324 @@
+/* ppt-html layout adapter (runs only in the IE11 engine of the PowerPoint host).
+   The build step moves what IE11 cannot express into a table (window.__ihAdapt: selector -> properties) and this
+   script lays those elements out with what IE11 does have: its own grid (-ms-grid, items placed here), margins
+   for flex gaps, explicit sizes for aspect-ratio, background images for object-fit. ES5 only. */
+(function () {
+  var T = window.__ihAdapt;
+  if (!T || !document.documentMode) { return; }
+  var KEY = "__ihv", SAVE = "__ihs", gen = 0, dirty = [], busy = false, timer = 0, observer = null;
+  var BLANK = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+  function each(list, fn) { for (var i = 0; i < list.length; i++) { fn(list[i], i); } }
+  function cur(el) { return el.currentStyle || window.getComputedStyle(el); }
+  function num(v) { var n = parseFloat(v); return isNaN(n) ? 0 : n; }
+  function kidsOf(el) {
+    var out = [], n = el.firstChild;
+    while (n) {
+      if (n.nodeType === 1 && n.tagName !== "SCRIPT" && n.tagName !== "STYLE") {
+        var s = cur(n);
+        if (s.display !== "none" && s.position !== "absolute" && s.position !== "fixed") { out.push(n); }
+      }
+      n = n.nextSibling;
+    }
+    return out;
+  }
+  function setStyle(el, prop, value) {
+    var s = el[SAVE];
+    if (!s) { s = el[SAVE] = {}; dirty.push(el); }
+    if (!(prop in s)) { s[prop] = el.style[prop]; }
+    try { el.style[prop] = value; } catch (e) { }
+  }
+  function resetAll() {
+    each(dirty, function (el) {
+      var s = el[SAVE];
+      for (var k in s) { if (s.hasOwnProperty(k)) { try { el.style[k] = s[k]; } catch (e) { } } }
+      el[SAVE] = null;
+    });
+    dirty = [];
+  }
+  function toPx(len, el) {
+    if (!len) { return 0; }
+    if (/^-?[\d.]+px$/.test(len)) { return parseFloat(len); }
+    if (/^-?[\d.]+$/.test(len)) { return parseFloat(len); }
+    var probe = document.createElement("div");
+    probe.style.cssText = "position:absolute;visibility:hidden;height:0;padding:0;border:0;margin:0;width:" + len;
+    el.appendChild(probe); var w = probe.offsetWidth; el.removeChild(probe);
+    return w;
+  }
+  function innerWidth(el) { var c = window.getComputedStyle(el); return el.clientWidth - num(c.paddingLeft) - num(c.paddingRight); }
+
+  /* cascade of the table */
+  function collect() {
+    gen++;
+    each(T, function (r) {
+      var els;
+      try { els = document.querySelectorAll(r.s); } catch (e) { return; }
+      each(els, function (el) {
+        var v = el[KEY];
+        if (!v || v.gen !== gen) { v = el[KEY] = { gen: gen, p: {} }; }
+        for (var k in r.p) { if (r.p.hasOwnProperty(k)) { v.p[k] = r.p[k]; } }
+      });
+    });
+    each(document.querySelectorAll("[data-ih-v]"), function (el) {
+      var p = null; try { p = JSON.parse(el.getAttribute("data-ih-v")); } catch (e) { }
+      if (!p) { return; }
+      var v = el[KEY];
+      if (!v || v.gen !== gen) { v = el[KEY] = { gen: gen, p: {} }; }
+      for (var k in p) { if (p.hasOwnProperty(k)) { v.p[k] = p[k]; } }
+    });
+  }
+  function props(el) { var v = el[KEY]; return v && v.gen === gen ? v.p : null; }
+
+  /* grid */
+  function expand(spec, el, gapPx, count) {
+    var out = [];
+    if (!spec || !spec.t) { return out; }
+    each(spec.t, function (t) {
+      if (typeof t === "string") { out.push(t); return; }
+      var w = innerWidth(el), min = t.min > 0 ? t.min : 1;
+      var n = Math.max(1, Math.floor((w + gapPx) / (min + gapPx)));
+      if (t.auto === "fit" && count > 0) { n = Math.min(n, Math.max(1, Math.ceil(count / Math.max(1, t.t.length)))); }
+      for (var i = 0; i < n; i++) { each(t.t, function (x) { out.push(x); }); }
+    });
+    return out;
+  }
+  function line(v, explicit) { return typeof v === "number" ? (v < 0 ? explicit + 2 + v : v) : 0; }
+  function span(start, end, explicit) {
+    var s = line(start, explicit), e = line(end, explicit);
+    var ss = start && start.span ? start.span : 0, es = end && end.span ? end.span : 0;
+    if (s > 0 && e > 0) { return s === e ? [s, 1] : [Math.min(s, e), Math.abs(e - s)]; }
+    if (s > 0) { return [s, es || 1]; }
+    if (e > 0) { var n = ss || 1; return [Math.max(1, e - n), n]; }
+    return [0, ss || es || 1];
+  }
+  function alignWord(v) {
+    v = String(v || "").toLowerCase();
+    if (/center/.test(v)) { return "center"; }
+    if (/^(end|flex-end|right|self-end)$/.test(v)) { return "end"; }
+    if (/^(start|flex-start|left|self-start|baseline|first baseline)$/.test(v)) { return "start"; }
+    return "stretch";
+  }
+  function layoutGrid(el, P) {
+    var kids = kidsOf(el), cgPx = toPx(P.cg, el), rgPx = toPx(P.rg, el);
+    if (!kids.length) {
+      /* only text inside (the "display: grid; place-items: center" idiom): IE's grid cannot align bare text, flexbox can */
+      if (/\S/.test(el.textContent || "")) {
+        var jw = alignWord(P.ji);
+        setStyle(el, "display", String(cur(el).display) === "-ms-inline-grid" ? "inline-flex" : "flex");
+        setStyle(el, "justifyContent", jw === "center" ? "center" : (jw === "end" ? "flex-end" : "flex-start"));
+      }
+      return;
+    }
+    var need = 0;
+    each(kids, function (k) { var q = props(k) || {}, n = 1; if (q.cs && q.cs.span) { n = q.cs.span; } else if (q.ce && q.ce.span) { n = q.ce.span; } need += n; });
+    var cols = expand(P.cols, el, cgPx, need), rows = expand(P.rows, el, rgPx, 0);
+    var areas = P.areas && P.areas.map ? P.areas : null;
+    var nc = Math.max(cols.length, areas ? areas.cols : 0), nr = Math.max(rows.length, areas ? areas.rows : 0);
+    var colFlow = P.flow === "column";
+    if (!colFlow && nc < 1) { nc = 1; }
+    if (colFlow && nr < 1) { nr = 1; }
+    var items = [];
+    each(kids, function (k) {
+      var q = props(k) || {}, r, c;
+      if (q.area && areas && areas.map[q.area]) { var a = areas.map[q.area]; r = [a[0], a[2] - a[0]]; c = [a[1], a[3] - a[1]]; }
+      else { r = span(q.rs, q.re, nr); c = span(q.cs, q.ce, nc); }
+      items.push({ el: k, q: q, r: r[0], rs: r[1], c: c[0], cs: c[1] });
+    });
+    /* auto placement (sparse), written for row flow; column flow swaps the axes before and after */
+    var occ = {};
+    function swap(it) { var t = it.r; it.r = it.c; it.c = t; t = it.rs; it.rs = it.cs; it.cs = t; }
+    if (colFlow) { each(items, swap); nc = nr; }
+    each(items, function (it) { if (it.cs > nc) { nc = it.cs; } if (it.c > 0 && it.c + it.cs - 1 > nc) { nc = it.c + it.cs - 1; } });
+    function free(r, c, rs, cs) { for (var i = 0; i < rs; i++) { for (var j = 0; j < cs; j++) { if (occ[(r + i) + "," + (c + j)]) { return false; } } } return true; }
+    function take(it) { for (var i = 0; i < it.rs; i++) { for (var j = 0; j < it.cs; j++) { occ[(it.r + i) + "," + (it.c + j)] = 1; } } it.done = true; }
+    each(items, function (it) { if (it.r > 0 && it.c > 0) { take(it); } });
+    each(items, function (it) {
+      if (it.done || it.r <= 0) { return; }
+      var c = 1;
+      while (c + it.cs - 1 <= nc && !free(it.r, c, it.rs, it.cs)) { c++; }
+      if (c + it.cs - 1 > nc) { nc = c + it.cs - 1; }
+      it.c = c; take(it);
+    });
+    var cr = 1, cc = 1;
+    each(items, function (it) {
+      if (it.done) { return; }
+      if (it.c > 0) {
+        if (it.c < cc) { cr++; }
+        while (!free(cr, it.c, it.rs, it.cs)) { cr++; }
+        it.r = cr; cc = it.c; take(it);
+      } else {
+        for (var guard = 0; guard < 100000; guard++) {
+          if (cc + it.cs - 1 > nc) { cr++; cc = 1; continue; }
+          if (free(cr, cc, it.rs, it.cs)) { break; }
+          cc++;
+        }
+        it.r = cr; it.c = cc; take(it);
+      }
+    });
+    var maxR = 0, maxC = nc;
+    each(items, function (it) { if (it.r + it.rs - 1 > maxR) { maxR = it.r + it.rs - 1; } if (it.c + it.cs - 1 > maxC) { maxC = it.c + it.cs - 1; } });
+    if (colFlow) { each(items, swap); var t = maxR; maxR = Math.max(maxC, nr); maxC = t; }
+    maxR = Math.max(maxR, rows.length, areas ? areas.rows : 0); maxC = Math.max(maxC, cols.length, 1);
+    /* track lists (explicit, then implicit), gaps as tracks of their own */
+    function tracks(explicit, implicit, n, stretch) {
+      var out = [], hasFr = false, i;
+      for (i = 0; i < n; i++) {
+        var t = i < explicit.length ? explicit[i] : (implicit && implicit.length ? implicit[(i - explicit.length) % implicit.length] : "auto");
+        if (/fr\b/.test(t)) { hasFr = true; }
+        out.push(t);
+      }
+      if (!hasFr && stretch) { for (i = 0; i < out.length; i++) { if (out[i] === "auto") { out[i] = "1fr"; } } }
+      return out;
+    }
+    var cs = cur(el);
+    var contentAlign = String(cs.alignContent || cs.msFlexLinePack || "stretch");
+    var colT = tracks(cols, P.acols, maxC, !/center|flex-end|space/.test(String(cs.justifyContent || ""))), rowT = tracks(rows, P.arows, maxR, false);
+    function shrink(list, isCol) {
+      var t;
+      for (t = 0; t < list.length; t++) {
+        if (!/^[\d.]+fr$/.test(list[t])) { continue; }
+        var any = false, all = true;
+        each(items, function (it) {
+          var pos = isCol ? it.c : it.r, sp = isCol ? it.cs : it.rs, ks, ov;
+          if (pos !== t + 1 || sp !== 1) { return; }
+          any = true; ks = cur(it.el); ov = String(isCol ? ks.overflowX : ks.overflowY);
+          if (!((isCol ? it.q.mw0 : it.q.mh0) || (ov && ov !== "visible"))) { all = false; }
+        });
+        if (any && all) { list[t] = "minmax(0px, " + list[t] + ")"; }
+      }
+    }
+    shrink(colT, true); shrink(rowT, false);
+    var cStep = cgPx > 0 || (P.cg && !/^0(px)?$/.test(P.cg)) ? 2 : 1, rStep = rgPx > 0 || (P.rg && !/^0(px)?$/.test(P.rg)) ? 2 : 1;
+    function joinTracks(list, step, gap) { return step === 1 ? list.join(" ") : list.join(" " + gap + " "); }
+    setStyle(el, "msGridColumns", joinTracks(colT, cStep, P.cg));
+    setStyle(el, "msGridRows", joinTracks(rowT, rStep, P.rg));
+    var ai = cs.alignItems || "stretch";
+    function placeAll() { each(items, function (it) {
+      var k = it.el, ks = cur(k);
+      if (ks.display === "inline" || ks.display === "inline-block") { setStyle(k, "display", "block"); }
+      else if (ks.display === "inline-flex") { setStyle(k, "display", "flex"); }
+      setStyle(k, "msGridColumn", String((it.c - 1) * cStep + 1));
+      setStyle(k, "msGridColumnSpan", String(it.cs * cStep - (cStep - 1)));
+      setStyle(k, "msGridRow", String((it.r - 1) * rStep + 1));
+      setStyle(k, "msGridRowSpan", String(it.rs * rStep - (rStep - 1)));
+      var js = it.q.js && it.q.js !== "auto" ? it.q.js : P.ji;
+      setStyle(k, "msGridColumnAlign", alignWord(js));
+      var as = ks.alignSelf && ks.alignSelf !== "auto" ? ks.alignSelf : ai;
+      setStyle(k, "msGridRowAlign", alignWord(as));
+    }); }
+    placeAll();
+    var hasFr = false, hasAuto = false;
+    each(rowT, function (t) { if (/fr/.test(t)) { hasFr = true; } if (t === "auto") { hasAuto = true; } });
+    if (!hasFr && hasAuto && /stretch|normal/.test(contentAlign) && items.length) {
+      var box = el.getBoundingClientRect(), cst = window.getComputedStyle(el), low = 0;
+      each(items, function (it) { var b = it.el.getBoundingClientRect().bottom + num(window.getComputedStyle(it.el).marginBottom); if (b > low) { low = b; } });
+      var spare = (box.bottom - num(cst.paddingBottom) - num(cst.borderBottomWidth)) - low;
+      if (spare > 2) {
+        for (var ri = 0; ri < rowT.length; ri++) { if (rowT[ri] === "auto") { rowT[ri] = "1fr"; } }
+        setStyle(el, "msGridRows", joinTracks(rowT, rStep, P.rg));
+      }
+    }
+  }
+
+  /* gap of flex containers -> margins */
+  function addMargin(el, prop, len, sign) {
+    var base = 0;
+    if (cur(el)[prop] === "auto") {
+      /* IE reports "auto" both for no margin at all and for a real auto margin (one that pushes the item away):
+         a real one moves the item when it is set to 0, and is left alone */
+      var r0 = el.getBoundingClientRect(), old = el.style[prop];
+      el.style[prop] = "0px";
+      var r1 = el.getBoundingClientRect();
+      el.style[prop] = old;
+      if (Math.abs(r0.left - r1.left) > 0.5 || Math.abs(r0.top - r1.top) > 0.5) { return; }
+    } else { base = num(window.getComputedStyle(el)[prop]); }
+    setStyle(el, prop, "calc(" + base + "px " + (sign < 0 ? "- " : "+ ") + len + ")");
+  }
+  function flexGap(el, P) {
+    var cs = cur(el), dir = String(cs.flexDirection || cs.msFlexDirection || "row"), wrap = String(cs.flexWrap || cs.msFlexWrap || "nowrap");
+    var isCol = /column/.test(dir), rev = /reverse/.test(dir), cg = P.cg || "0px", rg = P.rg || "0px";
+    var main = isCol ? rg : cg, kids = kidsOf(el);
+    if (!kids.length) { return; }
+    if (!/wrap/.test(wrap) || /nowrap/.test(wrap)) {
+      if (/^0(px)?$/.test(main)) { return; }
+      var seq = [], nd = el.firstChild, before = isCol ? (rev ? "marginBottom" : "marginTop") : (rev ? "marginRight" : "marginLeft"), after = isCol ? (rev ? "marginTop" : "marginBottom") : (rev ? "marginLeft" : "marginRight");
+      while (nd) {
+        if (nd.nodeType === 3) { if (/\S/.test(nd.nodeValue)) { seq.push(null); } }
+        else if (kids.indexOf(nd) >= 0) { seq.push(nd); }
+        nd = nd.nextSibling;
+      }
+      each(seq, function (k, i) {
+        if (!k) { return; }
+        if (i > 0) { addMargin(k, before, main, 1); }
+        if (i < seq.length - 1 && !seq[i + 1]) { addMargin(k, after, main, 1); }
+      });
+      return;
+    }
+    var w0 = el.offsetWidth, gapPx = toPx(cg, el), fixedWidth = cs.width && cs.width !== "auto";
+    each(kids, function (k) { if (!/^0(px)?$/.test(cg)) { addMargin(k, "marginLeft", cg, 1); } if (!/^0(px)?$/.test(rg)) { addMargin(k, "marginTop", rg, 1); } });
+    if (!/^0(px)?$/.test(cg)) { addMargin(el, "marginLeft", cg, -1); }
+    if (!/^0(px)?$/.test(rg)) { addMargin(el, "marginTop", rg, -1); }
+    if (gapPx > 0 && (fixedWidth || el.offsetWidth < w0 + gapPx - 1)) {
+      var c = window.getComputedStyle(el), extra = c.boxSizing === "border-box" ? 0 : num(c.paddingLeft) + num(c.paddingRight) + num(c.borderLeftWidth) + num(c.borderRightWidth);
+      setStyle(el, "width", (w0 + gapPx - extra) + "px");
+      setStyle(el, "maxWidth", "none");
+    }
+  }
+
+  /* aspect-ratio, object-fit */
+  function ratio(el, P) {
+    if (!(P.ratio > 0) || /^(IMG|VIDEO|CANVAS|svg)$/i.test(el.tagName)) { return; }
+    var cs = cur(el), c = window.getComputedStyle(el), border = c.boxSizing === "border-box";
+    var padW = num(c.paddingLeft) + num(c.paddingRight) + num(c.borderLeftWidth) + num(c.borderRightWidth), padH = num(c.paddingTop) + num(c.paddingBottom) + num(c.borderTopWidth) + num(c.borderBottomWidth);
+    if (!cs.height || cs.height === "auto") {
+      var w = el.offsetWidth; if (!w) { return; }
+      setStyle(el, "height", (border ? w / P.ratio : (w - padW) / P.ratio) + "px");
+    } else if (!cs.width || cs.width === "auto") {
+      var h = el.offsetHeight; if (!h) { return; }
+      setStyle(el, "width", (border ? h * P.ratio : (h - padH) * P.ratio) + "px");
+    }
+  }
+  function fit(el, P) {
+    if (el.tagName !== "IMG" || !P.fit || P.fit === "fill") { return; }
+    var src = el.getAttribute("src") || "";
+    if (src && src !== BLANK) { el.__ihsrc = src; }
+    if (!el.__ihsrc) { return; }
+    var size = P.fit === "cover" || P.fit === "contain" ? P.fit : "auto";
+    if (P.fit === "scale-down") { size = "contain"; }
+    el.style.backgroundImage = "url(\"" + el.__ihsrc.replace(/"/g, "%22") + "\")";
+    el.style.backgroundRepeat = "no-repeat";
+    el.style.backgroundPosition = P.fpos || "50% 50%";
+    el.style.backgroundSize = size;
+    if (src !== BLANK) { el.setAttribute("src", BLANK); }
+  }
+
+  /* run */
+  function run() {
+    if (busy) { return; }
+    busy = true;
+    try {
+      resetAll();
+      collect();
+      var all = document.body ? document.body.getElementsByTagName("*") : [], list = [], i;
+      for (i = 0; i < all.length; i++) { if (props(all[i])) { list.push(all[i]); } }
+      if (document.body && props(document.body)) { list.unshift(document.body); }
+      each(list, function (el) {
+        var P = props(el), d = String(cur(el).display);
+        if (d === "-ms-grid" || d === "-ms-inline-grid") { try { layoutGrid(el, P); } catch (e) { } }
+        else if (/flex/.test(d) && (P.cg || P.rg)) { try { flexGap(el, P); } catch (e) { } }
+      });
+      each(list, function (el) { var P = props(el); if (P.ratio) { try { ratio(el, P); } catch (e) { } } if (P.fit) { try { fit(el, P); } catch (e) { } } });
+    } finally {
+      if (observer) { try { observer.takeRecords(); } catch (e) { } }
+      busy = false;
+    }
+  }
+  function later() { if (timer) { return; } timer = setTimeout(function () { timer = 0; run(); }, 30); }
+  window.__ihAdaptRun = run;
+  run();
+  window.addEventListener("load", run);
+  window.addEventListener("resize", later);
+  if (window.MutationObserver && document.body) {
+    observer = new MutationObserver(function (records) { if (!busy && records.length) { later(); } });
+    observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["class", "hidden", "src", "data-ih-v"] });
+  }
+}());

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>마무리</title>
+<link rel="stylesheet" href="../kit/theme-cobalt.css">
+<link rel="stylesheet" href="../kit/kit.css">
+<style>
+  .left { position: absolute; left: 64px; top: 150px; width: 500px; }
+  .left .count { margin-top: 30px; font-size: 104px; line-height: 1; }
+  .left .count small { font-size: 22px; font-family: var(--ph-body); color: var(--ph-ink2); margin-left: 10px; letter-spacing: 0; }
+  .left .done { margin-top: 14px; font-size: 16px; color: var(--ph-ink2); height: 28px; }
+  .left .acts { margin-top: 34px; }
+  .list { position: absolute; left: 620px; top: 138px; width: 596px; padding: 10px 28px; }
+  .todo { position: relative; padding: 19px 70px 19px 0; border-bottom: 1px solid var(--ph-line); cursor: pointer; }
+  .todo.last { border-bottom: 0; }
+  .todo b { display: block; font-size: 17px; line-height: 1.45; }
+  .todo span { display: block; font-size: 13.5px; color: var(--ph-ink2); margin-top: 2px; }
+  .todo .ph-switch { position: absolute; right: 0; top: 26px; }
+  .todo.is-done b { color: var(--ph-ink3); text-decoration: line-through; }
+</style>
+</head>
+<body>
+<div class="left">
+  <div class="ph-label ph-rise"><i></i>마무리</div>
+  <h1 class="ph-h1 ph-rise ph-d1 ph-mt8">오늘 <em>정할 일</em></h1>
+  <div class="count ph-num"><span id="left"></span><small>건 남음</small></div>
+  <div class="done" id="msg"></div>
+  <div class="acts ph-rise ph-d2"><span class="ph-btn" data-goto="1">처음으로<i>↺</i></span></div>
+</div>
+
+<div class="ph-card list" id="list"></div>
+
+<script src="../kit/kit.js"></script>
+<script src="../kit/kit-deck.js"></script>
+<script>
+/* 바꿀 곳: TODOS (정할 일과 한 줄 설명). 스위치를 켜면 정한 것으로 표시되고, 그 상태는 발표 자료 안에 남습니다(PH.keep). */
+var TODOS = [
+  ["가을 메뉴 출시를 11월 28일로 확정", "레시피가 끝난 네 가지부터 내놓습니다"],
+  ["열 번째 매장 자리를 B 후보로 결정", "주택가 골목, 임대료가 가장 낮습니다"],
+  ["판교점 점심 인력 두 명 채용", "대기 시간을 5분 아래로 내립니다"],
+  ["재방문율 목표를 70%로 상향", "첫 방문 손님에게 앱 가입을 안내합니다"]
+];
+var rows = [];
+
+PH.nav({ brand: "모래내 로스터스", links: [["표지", 1], ["목차", 2], ["지표", 3], ["일정", 4], ["마무리", 5]], page: 5 });
+PH.ring();
+PH.deck();
+
+function count() {
+  var left = rows.filter(function (r) { return !PH.has(r, "is-done"); }).length;
+  PH.$("#left").textContent = left;
+  PH.$("#msg").textContent = left ? "오른쪽 항목을 하나씩 눌러 정리합니다." : "모두 정했습니다. 수고하셨습니다.";
+}
+TODOS.forEach(function (t, i) {
+  var row = PH.make("div", "todo" + (i === TODOS.length - 1 ? " last" : ""), null, PH.$("#list")), sw;
+  PH.make("b", "", t[0], row); PH.make("span", "", t[1], row);
+  sw = PH.make("span", "ph-switch", null, row); PH.make("i", "", null, sw);
+  PH.on(row, "click", function (e) {
+    var on;
+    if (e.target === sw || e.target.parentNode === sw) { on = !PH.has(sw, "is-on"); }     /* the kit flips the switch itself, right after this */
+    else { on = PH.toggle(sw, "is-on"); }
+    PH.toggle(row, "is-done", on); count();
+    PH.keep("done", rows.map(function (r) { return PH.has(r, "is-done") ? 1 : 0; }));       /* stays in the presentation */
+  });
+  rows.push(row);
+});
+PH.onShow(function () {
+  var kept = PH.kept("done", []);
+  rows.forEach(function (r, i) { PH.toggle(r, "is-done", !!kept[i]); PH.toggle(PH.$(".ph-switch", r), "is-on", !!kept[i]); });
+  count();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>비교</title>
+<link rel="stylesheet" href="../kit/theme-cobalt.css">
+<link rel="stylesheet" href="../kit/kit.css">
+<style>
+  .head { position: relative; height: 74px; }
+  .head .pick { position: absolute; right: 0; top: 4px; text-align: right; }
+  .head .pick .ph-small { display: block; margin-bottom: 8px; }
+  .opts { margin-top: 22px; }
+  .opt { height: 470px; padding: 26px 26px 22px; }
+  .opt.is-best { box-shadow: 0 0 0 2px var(--ph-accent); }
+  .opt .tag { position: absolute; right: 22px; top: 24px; display: none; }
+  .opt.is-best .tag { display: inline-block; }
+  .opt h3 { margin-top: 6px; }
+  .opt .sum { margin-top: 8px; font-size: 14.5px; line-height: 1.65; color: var(--ph-ink2); height: 72px; }
+  .opt .score { margin-top: 6px; font-size: 50px; line-height: 1.15; }
+  .opt .score small { font-size: 16px; font-family: var(--ph-body); color: var(--ph-ink2); margin-left: 4px; letter-spacing: 0; }
+  .opt.is-dim .score { color: var(--ph-ink3); }
+  .crit { position: relative; margin-top: 15px; }
+  .crit span { display: block; font-size: 13px; color: var(--ph-ink2); margin-bottom: 6px; }
+  .crit b { position: absolute; right: 0; top: 0; font-size: 13px; }
+  .crit.is-key span { color: var(--ph-accent-deep); font-weight: var(--ph-strong-weight); }
+</style>
+</head>
+<body>
+<div class="ph-page">
+  <div class="head">
+    <div class="ph-label ph-rise"><i></i>방안 비교</div>
+    <h1 class="ph-h2 ph-rise ph-d1 ph-mt8">무엇을 <em>가장 중요하게</em> 볼지 골라 보세요</h1>
+    <div class="pick"><span class="ph-small ph-muted">우선순위</span><div class="ph-seg" id="seg"></div></div>
+  </div>
+  <div class="ph-row opts" id="opts"></div>
+</div>
+
+<script src="../kit/kit.js"></script>
+<script src="../kit/kit-deck.js"></script>
+<script>
+/* 바꿀 곳: CRITERIA(기준 이름)와 OPTIONS(방안마다 기준별 점수 0~100). 우선순위로 고른 기준은 가중치 3배로 계산합니다. */
+var CRITERIA = ["임대료", "유동 인구", "경쟁", "주차"];
+var OPTIONS = [
+  { name: "A · 역 앞 상가", sum: "지하철 출구 바로 앞입니다. 지나는 사람은 많지만 임대료가 가장 비쌉니다.", scores: [38, 95, 46, 30] },
+  { name: "B · 주택가 골목", sum: "아파트 단지 사이 골목입니다. 조용하고 단골을 만들기 좋습니다.", scores: [88, 52, 81, 66] },
+  { name: "C · 공원 옆 단독 건물", sum: "주말 방문객이 많은 공원 옆입니다. 주차장이 넓습니다.", scores: [64, 70, 68, 92] }
+];
+var cards = [], key = 0;
+
+PH.nav({ brand: "모래내 로스터스", links: [["표지", 1], ["목차", 2], ["지표", 3], ["일정", 4], ["마무리", 5]], page: 4 });
+PH.ring();
+PH.deck();
+
+OPTIONS.forEach(function (o, i) {
+  var card = PH.make("div", "ph-card opt", null, PH.$("#opts")), sc, c = { el: card, bars: [], rows: [] };
+  PH.make("span", "ph-badge tag", "추천", card);
+  PH.make("div", "ph-label", "후보 " + (i + 1), card);
+  PH.make("h3", "ph-h3", o.name, card);
+  PH.make("p", "sum", o.sum, card);
+  sc = PH.make("div", "score ph-num", null, card); c.num = PH.make("span", "", "0", sc); PH.make("small", "", "점", sc);
+  CRITERIA.forEach(function (name, k) {
+    var row = PH.make("div", "crit", null, card), m;
+    PH.make("span", "", name, row); PH.make("b", "", String(o.scores[k]), row);
+    m = PH.make("div", "ph-meter", null, row); c.bars.push(PH.make("i", "", null, m)); c.rows.push(row);
+  });
+  cards.push(c);
+});
+function total(o) { var s = 0, w = 0; o.scores.forEach(function (v, k) { var f = k === key ? 3 : 1; s += v * f; w += f; }); return s / w; }
+function update() {
+  var best = 0, totals = OPTIONS.map(total);
+  totals.forEach(function (t, i) { if (t > totals[best]) { best = i; } });
+  PH.$$("#seg span").forEach(function (s, k) { PH.toggle(s, "is-on", k === key); });
+  cards.forEach(function (c, i) {
+    PH.toggle(c.el, "is-best", i === best); PH.toggle(c.el, "is-dim", i !== best);
+    c.num.textContent = Math.round(totals[i]);
+    c.bars.forEach(function (b, k) { b.style.width = OPTIONS[i].scores[k] + "%"; PH.toggle(c.rows[k], "is-key", k === key); });
+  });
+}
+CRITERIA.forEach(function (name, k) { PH.on(PH.make("span", "", name, PH.$("#seg")), "click", function () { key = k; update(); }); });
+PH.onShow(update);
+</script>
+</body>
+</html>

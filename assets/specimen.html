@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>견본</title>
+<link rel="stylesheet" href="../kit/theme-cobalt.css">
+<link rel="stylesheet" href="../kit/kit.css">
+<style>
+  /* Every part of the design kit on one page: new-theme.ps1 / get-style.ps1 draw it to show what a theme looks like. */
+  .left { position: absolute; left: 64px; top: 104px; width: 520px; }
+  .left .ph-lead { margin-top: 14px; }
+  .row1 { margin-top: 22px; }
+  .row1 .ph-btn { margin-right: 8px; }
+  .row2 { margin-top: 16px; }
+  .row3 { margin-top: 14px; }
+  .row3 .ph-badge { margin-right: 4px; }
+  .sw { margin-top: 24px; white-space: nowrap; }
+  .sw span { display: inline-block; width: 56px; margin-right: 7px; font-size: 11px; color: var(--ph-ink2); text-align: center; }
+  .sw i { display: block; height: 34px; border-radius: var(--ph-radius-s); margin-bottom: 5px; box-shadow: inset 0 0 0 1px var(--ph-line); }
+  .s-bg { background: var(--ph-bg); } .s-surface { background: var(--ph-surface); } .s-ink { background: var(--ph-ink); } .s-accent { background: var(--ph-accent); }
+  .s-c2 { background: var(--ph-c2); } .s-c3 { background: var(--ph-c3); } .s-c4 { background: var(--ph-c4); } .s-c5 { background: var(--ph-c5); }
+  .right { position: absolute; left: 640px; top: 104px; width: 576px; }
+  .kpis .ph-card { height: 140px; }
+  .chart { margin-top: 16px; height: 224px; padding: 18px 20px; }
+  .chart .box { position: absolute; left: 20px; right: 20px; top: 50px; bottom: 14px; }
+  .list { margin-top: 16px; padding: 4px 20px; }
+  .li { position: relative; height: 44px; line-height: 44px; border-bottom: 1px solid var(--ph-line); font-size: 14.5px; }
+  .li.last { border-bottom: 0; }
+  .li b { position: absolute; right: 92px; top: 0; }
+  .li .ph-badge { position: absolute; right: 0; top: 10px; }
+</style>
+</head>
+<body>
+<div class="left">
+  <div class="ph-label"><i></i>작은 머리말</div>
+  <h1 class="ph-display ph-mt8">큰 제목은 <em>이렇게</em> 보입니다</h1>
+  <p class="ph-lead">본문 글자입니다. 숫자 1,234.5 와 English text 도 함께 봅니다. 설명 글은 조금 옅은 색으로 씁니다.</p>
+  <div class="row1"><span class="ph-btn">주 단추<i>→</i></span><span class="ph-btn ph-ghost">보조 단추</span></div>
+  <div class="row2 ph-chips"><span class="ph-chip is-on">고른 칩</span><span class="ph-chip">칩</span><span class="ph-chip">칩</span></div>
+  <div class="row3"><span class="ph-badge">배지</span><span class="ph-badge ph-good">좋음</span><span class="ph-badge ph-warn">주의</span><span class="ph-badge ph-bad">나쁨</span><span class="ph-badge ph-plain">보통</span></div>
+  <div class="sw">
+    <span><i class="s-bg"></i>바탕</span><span><i class="s-surface"></i>면</span><span><i class="s-ink"></i>글자</span><span><i class="s-accent"></i>강조</span><span><i class="s-c2"></i>2</span><span><i class="s-c3"></i>3</span><span><i class="s-c4"></i>4</span><span><i class="s-c5"></i>5</span>
+  </div>
+</div>
+
+<div class="right">
+  <div class="ph-row kpis">
+    <div class="ph-card ph-kpi"><div class="ph-kpi-label">숫자 카드</div><div class="ph-kpi-value"><span data-count="38250"></span><small>명</small></div><div class="ph-kpi-delta ph-good">전보다 +12.4%</div></div>
+    <div class="ph-card ph-kpi"><div class="ph-kpi-label">비율</div><div class="ph-kpi-value"><span data-count="62.4" data-digits="1"></span><small>%</small></div><div class="ph-meter ph-mt8"><i data-w="62"></i></div></div>
+  </div>
+  <div class="ph-card chart"><h3 class="ph-h3">차트 색</h3><div class="box" id="bars"></div></div>
+  <div class="ph-card list">
+    <div class="li">목록의 한 줄<b>1,280</b><span class="ph-badge ph-good">정상</span></div>
+    <div class="li last">또 한 줄<b>720</b><span class="ph-badge ph-plain">대기</span></div>
+  </div>
+</div>
+
+<script src="../kit/kit.js"></script>
+<script src="../kit/kit-deck.js"></script>
+<script>
+PH.nav({ brand: "미리보기", links: [["메뉴", 1], ["고른 메뉴", 2], ["메뉴", 3]], page: 2 });
+PH.bars(PH.$("#bars"), { labels: ["가", "나", "다", "라"], series: [{ name: "첫째", values: [42, 55, 61, 70] }, { name: "둘째", values: [30, 38, 35, 48] }, { name: "셋째", values: [18, 22, 30, 26] }, { name: "넷째", values: [12, 16, 14, 21] }] });
+</script>
+</body>
+</html>

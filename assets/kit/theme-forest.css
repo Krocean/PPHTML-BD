@@ -1,0 +1,45 @@
+/* ppt-html design kit - theme "forest": soft green, serif headlines (public sector, sustainability).
+   Link ONE theme file before kit.css. To match a company style, copy this file and change the values
+   (keep every name; each is defined exactly once, here). */
+:root {
+  --ph-bg: #F1F4EE;
+  --ph-bg2: #E5EBE0;
+  --ph-surface: #FFFFFF;
+  --ph-ink: #14201A;
+  --ph-ink2: #5C6B60;
+  --ph-ink3: #8D9A90;
+  --ph-line: #D5DDD0;
+  --ph-accent: #1F8A5B;
+  --ph-accent-ink: #FFFFFF;
+  --ph-accent-soft: #DCEFE4;
+  --ph-accent-deep: #156B45;
+  --ph-good: #1F8A5B;
+  --ph-good-soft: #DCEFE4;
+  --ph-bad: #C4472F;
+  --ph-bad-soft: #F5DDD6;
+  --ph-warn: #A9740B;
+  --ph-warn-soft: #F3E7C6;
+  --ph-c1: #1F8A5B;
+  --ph-c2: #2C6E91;
+  --ph-c3: #D9A441;
+  --ph-c4: #7C6BB0;
+  --ph-c5: #C9694F;
+  --ph-c6: #93A096;
+  --ph-hover: rgba(20,32,26,0.05);
+  --ph-hover2: rgba(20,32,26,0.08);
+  --ph-press: #14201A;
+  --ph-press-ink: #F1F4EE;
+  --ph-display: "Noto Serif KR", "Batang", serif;
+  --ph-display-weight: 600;
+  --ph-display-tracking: -0.025em;
+  --ph-body: "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --ph-strong-weight: 700;
+  --ph-label-tracking: 0.04em;
+  --ph-label-case: none;
+  --ph-radius: 18px;
+  --ph-radius-s: 999px;
+  --ph-radius-btn: 999px;
+  --ph-card-border: 0 solid transparent;
+  --ph-shadow: 0 0 0 1px rgba(20,32,26,0.07), 0 2px 6px -2px rgba(20,32,26,0.12);
+  --ph-shadow-pop: 0 0 0 1px rgba(20,32,26,0.08), 0 12px 28px -8px rgba(20,32,26,0.28);
+}

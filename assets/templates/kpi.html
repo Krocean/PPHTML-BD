@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>핵심 지표</title>
+<link rel="stylesheet" href="../kit/theme-cobalt.css">
+<link rel="stylesheet" href="../kit/kit.css">
+<style>
+  .top { position: relative; height: 74px; }
+  .top .ph-seg { position: absolute; right: 0; top: 22px; }
+  .kpis { margin-top: 18px; }
+  .kpis .ph-card { padding: 18px 22px 16px; height: 146px; }
+  .charts { margin-top: 20px; }
+  .charts .ph-card { height: 318px; padding: 18px 22px 16px; }
+  .charts h3 { font-size: 15px; }
+  .box { position: absolute; left: 22px; right: 22px; top: 50px; bottom: 16px; }
+</style>
+</head>
+<body>
+<div class="ph-page">
+  <div class="top">
+    <div class="ph-label ph-rise"><i></i>핵심 지표</div>
+    <h1 class="ph-h2 ph-rise ph-d1 ph-mt8">분기를 눌러 <em>숫자를 비교</em>해 보세요</h1>
+    <div class="ph-seg" id="seg"></div>
+  </div>
+
+  <div class="ph-row kpis" id="kpis"></div>
+
+  <div class="ph-row charts">
+    <div class="ph-card ph-w60" data-zoom><h3 class="ph-h3">월별 방문객</h3><div class="box" id="bars"></div></div>
+    <div class="ph-card"><h3 class="ph-h3">주문 경로</h3><div class="box" id="donut"></div></div>
+  </div>
+</div>
+
+<script src="../kit/kit.js"></script>
+<script src="../kit/kit-deck.js"></script>
+<script>
+/* 바꿀 곳: 아래 DATA (분기 이름을 키로, 지표 4개 + 월별 값 + 비중). 숫자는 가상의 예시입니다. */
+var DATA = {
+  "1분기": { kpi: [["매장", 6, "곳", "+1"], ["월 방문객", 24100, "명", "+11%"], ["재방문율", 48.2, "%", "+4.1%p"], ["평균 대기", 6.4, "분", "-0.5분"]], months: ["1월", "2월", "3월"], visits: [21800, 22900, 24100], path: [["매장 주문", 61], ["앱 주문", 27], ["배달", 12]] },
+  "2분기": { kpi: [["매장", 8, "곳", "+2"], ["월 방문객", 31400, "명", "+30%"], ["재방문율", 55.0, "%", "+6.8%p"], ["평균 대기", 5.6, "분", "-0.8분"]], months: ["4월", "5월", "6월"], visits: [26500, 29200, 31400], path: [["매장 주문", 56], ["앱 주문", 31], ["배달", 13]] },
+  "3분기": { kpi: [["매장", 9, "곳", "+1"], ["월 방문객", 38250, "명", "+22%"], ["재방문율", 62.4, "%", "+7.4%p"], ["평균 대기", 4.9, "분", "-0.7분"]], months: ["7월", "8월", "9월"], visits: [33900, 36100, 38250], path: [["매장 주문", 49], ["앱 주문", 38], ["배달", 13]] }
+};
+var NAMES = ["1분기", "2분기", "3분기"], current = NAMES[NAMES.length - 1], bars, donut;
+
+PH.nav({ brand: "모래내 로스터스", links: [["표지", 1], ["목차", 2], ["지표", 3], ["일정", 4], ["마무리", 5]], page: 3 });
+PH.ring();
+PH.deck();
+
+/* the cards are built once; a quarter change only rewrites their numbers (rebuilding four cards would repaint all of them) */
+var cells = [];
+DATA[current].kpi.forEach(function () {
+  var card = PH.make("div", "ph-card ph-kpi", null, PH.$("#kpis")), v, c = {};
+  c.label = PH.make("div", "ph-kpi-label", "", card);
+  v = PH.make("div", "ph-kpi-value", null, card);
+  c.num = PH.make("span", "", "0", v); c.unit = PH.make("small", "", "", v);
+  c.delta = PH.make("div", "ph-kpi-delta", "", card);
+  cells.push(c);
+});
+function drawKpis() {
+  DATA[current].kpi.forEach(function (k, i) {
+    var c = cells[i], good = k[3].charAt(0) === "+" ? i !== 3 : i === 3;
+    c.label.textContent = k[0]; c.unit.textContent = k[2];
+    PH.countUp(c.num, k[1], k[1] % 1 ? 1 : 0);
+    c.delta.textContent = "전 분기 대비 " + k[3]; c.delta.className = "ph-kpi-delta " + (good ? "ph-good" : "ph-bad");
+  });
+}
+function pick(name) {
+  var d = DATA[name];
+  current = name;
+  PH.$$("#seg span").forEach(function (s) { PH.toggle(s, "is-on", s.textContent === name); });
+  drawKpis();
+  if (bars) { bars.update({ labels: d.months, values: d.visits }); }
+  /* one chart per moment: the ring follows a little later, so the two redraws do not land in the same frame */
+  PH.wait(140, function () { if (donut) { donut.update({ items: d.path.map(function (p) { return { label: p[0], value: p[1] }; }) }); } });
+}
+NAMES.forEach(function (n) { PH.on(PH.make("span", n === current ? "is-on" : "", n, PH.$("#seg")), "click", function () { pick(n); }); });
+
+bars = PH.bars(PH.$("#bars"), { labels: DATA[current].months, values: DATA[current].visits, unit: "명", max: 40000 });
+donut = PH.donut(PH.$("#donut"), { items: DATA[current].path.map(function (p) { return { label: p[0], value: p[1] }; }), unit: "%", center: "주문 비중" });
+PH.onShow(drawKpis);
+</script>
+</body>
+</html>

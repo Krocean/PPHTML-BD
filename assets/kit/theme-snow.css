@@ -1,0 +1,45 @@
+/* ppt-html design kit - theme "snow": pure white, black type, one signal colour (minimal).
+   Link ONE theme file before kit.css. To match a company style, copy this file and change the values
+   (keep every name; each is defined exactly once, here). */
+:root {
+  --ph-bg: #FFFFFF;
+  --ph-bg2: #F4F4F2;
+  --ph-surface: #FFFFFF;
+  --ph-ink: #111111;
+  --ph-ink2: #62625E;
+  --ph-ink3: #9B9B96;
+  --ph-line: #E4E4E0;
+  --ph-accent: #F0522B;
+  --ph-accent-ink: #FFFFFF;
+  --ph-accent-soft: #FDE6DF;
+  --ph-accent-deep: #C93C18;
+  --ph-good: #1D8A5A;
+  --ph-good-soft: #DFF1E8;
+  --ph-bad: #D23B2B;
+  --ph-bad-soft: #F9DDD9;
+  --ph-warn: #B07A12;
+  --ph-warn-soft: #F6EACB;
+  --ph-c1: #111111;
+  --ph-c2: #F0522B;
+  --ph-c3: #8D8D88;
+  --ph-c4: #2B6FE0;
+  --ph-c5: #C9C9C4;
+  --ph-c6: #62625E;
+  --ph-hover: rgba(17,17,17,0.05);
+  --ph-hover2: rgba(17,17,17,0.08);
+  --ph-press: #111111;
+  --ph-press-ink: #FFFFFF;
+  --ph-display: "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --ph-display-weight: 700;
+  --ph-display-tracking: -0.02em;
+  --ph-body: "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --ph-strong-weight: 700;
+  --ph-label-tracking: 0.04em;
+  --ph-label-case: none;
+  --ph-radius: 12px;
+  --ph-radius-s: 999px;
+  --ph-radius-btn: 999px;
+  --ph-card-border: 1px solid #E4E4E0;
+  --ph-shadow: 0 0 0 0 transparent;
+  --ph-shadow-pop: 0 0 0 1px rgba(17,17,17,0.08), 0 12px 28px -8px rgba(17,17,17,0.28);
+}

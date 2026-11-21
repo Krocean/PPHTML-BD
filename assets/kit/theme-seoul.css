@@ -1,0 +1,46 @@
+/* ppt-html design kit - theme "seoul": Korean consumer-app look (large rounded cards on a grey page, vivid blue); Pretendard.
+   Values: hand-written approximation. Unofficial; product and company names belong to their owners.
+   Link ONE theme file before kit.css. To match a company style, copy this file and change the values
+   (keep every name; each is defined exactly once, here). */
+:root {
+  --ph-bg: #F2F4F6;
+  --ph-bg2: #E5E8EB;
+  --ph-surface: #FFFFFF;
+  --ph-ink: #191F28;
+  --ph-ink2: #6B7684;
+  --ph-ink3: #8B95A1;
+  --ph-line: #E5E8EB;
+  --ph-accent: #3182F6;
+  --ph-accent-ink: #FFFFFF;
+  --ph-accent-soft: #E8F3FF;
+  --ph-accent-deep: #1B64DA;
+  --ph-good: #03A65A;
+  --ph-good-soft: #E5F8F1;
+  --ph-bad: #F04452;
+  --ph-bad-soft: #FFEBEE;
+  --ph-warn: #D97706;
+  --ph-warn-soft: #FFF3E0;
+  --ph-c1: #3182F6;
+  --ph-c2: #15C47E;
+  --ph-c3: #FFC342;
+  --ph-c4: #A234C7;
+  --ph-c5: #F04452;
+  --ph-c6: #8B95A1;
+  --ph-hover: rgba(25,31,40,0.05);
+  --ph-hover2: rgba(25,31,40,0.08);
+  --ph-press: #3182F6;
+  --ph-press-ink: #FFFFFF;
+  --ph-display: "Pretendard", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --ph-display-weight: 700;
+  --ph-display-tracking: -0.03em;
+  --ph-body: "Pretendard", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --ph-strong-weight: 700;
+  --ph-label-tracking: 0.04em;
+  --ph-label-case: none;
+  --ph-radius: 20px;
+  --ph-radius-s: 999px;
+  --ph-radius-btn: 14px;
+  --ph-card-border: 0 solid transparent;
+  --ph-shadow: 0 0 0 0 transparent;
+  --ph-shadow-pop: 0 0 0 1px rgba(25,31,40,0.08), 0 12px 28px -8px rgba(25,31,40,0.28);
+}
