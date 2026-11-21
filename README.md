@@ -1,5 +1,8 @@
 # PPHTML-BD — PowerPoint 안에서 움직이는 HTML
 
+**지금은 Windows 전용입니다**(Windows 10/11 + PowerPoint 데스크톱 앱). Mac 지원은 추가할 예정입니다.
+만들어진 웹 버전 `.html` 은 Mac·휴대폰 등 어디서나 브라우저로 볼 수 있습니다.
+
 **PowerPoint 슬라이드 위에서, 요즘 웹 페이지가 그대로 돌아가게 만드는 오픈소스입니다.**
 스크롤, 애니메이션, 유리 효과, 3D, 캔버스, 입력 양식, 화면 전환 — 브라우저에서 되는 것이 슬라이드 쇼 안에서도 됩니다.
 AI(Claude 등)에게 "이 내용을 눌러 볼 수 있는 발표 자료로 만들어 줘"라고 말하면, 예쁘고 살아 있는 `.pptm` 이 나옵니다.
@@ -92,4 +95,4 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\html2ppt.ps1 -Job C:
 
 **PPHTML-BD** puts live, modern web pages inside PowerPoint slides. During a slide show, a small macro in the `.pptm` hosts Microsoft Edge WebView2 exactly over the slide area, so anything a current browser can do (scrolling, CSS/JS animation, glass effects, canvas/WebGL, forms, View Transitions) works on the slide. No server, no add-in, no install — one file. Falls back to an IE11 copy, then to a still picture, where WebView2 or macros are unavailable; a single-file web version is built alongside.
 
-It is packaged as a Claude Code skill (`SKILL.md`) but the PowerShell scripts work on their own. Windows + PowerPoint desktop required. Docs are in Korean for now; translations are welcome. MIT licensed.
+It is packaged as a Claude Code skill (`SKILL.md`) but the PowerShell scripts work on their own. Windows only for now (Windows + PowerPoint desktop required); macOS support is planned. Docs are in Korean for now; translations are welcome. MIT licensed.
