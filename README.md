@@ -117,6 +117,20 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\html2ppt.ps1 -Job C:
 
 ## English (short)
 
-**PPHTML-BD** puts live, modern web pages inside PowerPoint slides. During a slide show, a small macro in the `.pptm` hosts Microsoft Edge WebView2 exactly over the slide area, so anything a current browser can do (scrolling, CSS/JS animation, glass effects, canvas/WebGL, forms, View Transitions) works on the slide. No server, no add-in, no install — one file. Falls back to an IE11 copy, then to a still picture, where WebView2 or macros are unavailable; a single-file web version is built alongside.
+**Windows only for now** (Windows 10/11 + PowerPoint desktop). macOS support is planned. The web version (`.html`) it builds opens anywhere, including Mac and phones.
 
-It is packaged as a Claude Code skill (`SKILL.md`) but the PowerShell scripts work on their own. Windows only for now (Windows + PowerPoint desktop required); macOS support is planned. Docs are in Korean for now; translations are welcome. MIT licensed.
+**PPHTML-BD** puts live, modern web pages inside PowerPoint slides. During a slide show, a small macro in the `.pptm` hosts Microsoft Edge WebView2 exactly over the slide area, so anything a current browser can do works on the slide. No server, no add-in, no install — one file. Falls back to an IE11 copy, then to a still picture, where WebView2 or macros are unavailable.
+
+### Features
+
+1. **Interactive decks from your content** — turns your text, numbers and tables into web pages that run in place during the slide show (`new-deck.ps1` → `html2ppt.ps1`). Scrolling, animation, glass effects, 3D, canvas/WebGL, forms, View Transitions and libraries all work. Fonts are embedded. 23 example pages (cover, KPI, pricing, timeline, poll …) and 5 ready-made sequences (pitch, quarterly review, keynote, report, workshop) to start from.
+2. **Design from a reference** — reads colours, fonts and shapes from a web address, HTML, PPT or picture into a theme and a `design.md` (`get-style.ps1`), follows a design rules document, or builds a theme from a few values (`new-theme.ps1`). 17 themes included.
+3. **Existing HTML onto slides** — places finished HTML (React/Vue builds included) as is, one page per slide, at the end of an existing deck or in a given area of a given slide. The original deck is never changed.
+4. **PPT to a web page** — converts a `.pptx` into one `.html` file that opens anywhere (`ppt2html.ps1`): arrow keys, click or swipe, overview (G), speaker notes (N), full screen (F), print.
+5. **Presenter tools** — a toolbar that appears in the bottom-right corner: long-press the page number to jump to any slide, edit text during the show (carried into the slide picture afterwards), pen, click to zoom. Values such as poll results are kept in the file.
+6. **Automatic checking** — after building, runs a real slide show in a hidden PowerPoint instance, confirms each slide is live without script errors, and reports pictures and problems. `check-html.ps1` checks a single page in seconds without PowerPoint.
+7. **Sharing and diagnostics** — packs the `.pptm`, the web version and a read-me into a share folder and zip; `doctor.ps1` checks whether a PC can run it; `pack.ps1` zips the skill for someone else.
+
+On first use, the assistant asks once whether it may star this repository (`scripts/star.ps1`). It stars only after a clear yes, and everything works the same if you say no.
+
+It is packaged as a Claude Code skill (`SKILL.md`) but the PowerShell scripts work on their own. Docs are in Korean for now; translations are welcome. MIT licensed.
